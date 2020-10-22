@@ -1,0 +1,32 @@
+12:44:27.564 [INFO ] [restartedMain] [com.xkf.cashbook.WebtestApplication] - Starting WebtestApplication on YKJ-PC-00008 with PID 3156 (started by xukf01 in C:\Users\xukf01\Desktop\私人\cash_book\simpleWebDemo-master)
+12:44:27.564 [INFO ] [restartedMain] [com.xkf.cashbook.WebtestApplication] - The following profiles are active: dev
+12:44:27.605 [INFO ] [restartedMain] [org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext] - Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@14b61ac: startup date [Sat Oct 10 12:44:27 CST 2020]; root of context hierarchy
+12:44:27.620 [INFO ] [background-preinit] [org.hibernate.validator.internal.util.Version] - HV000001: Hibernate Validator 5.3.5.Final
+12:44:28.008 [WARN ] [restartedMain] [org.mybatis.spring.mapper.ClassPathMapperScanner] - No MyBatis mapper was found in '[com.xkf.cashbook.web.mapper]' package. Please check your configuration.
+12:44:28.087 [WARN ] [restartedMain] [org.mybatis.spring.mapper.ClassPathMapperScanner] - No MyBatis mapper was found in '[com.xkf.cashbook]' package. Please check your configuration.
+12:44:28.683 [INFO ] [restartedMain] [org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer] - Tomcat initialized with port(s): 8888 (http)
+12:44:28.691 [INFO ] [restartedMain] [org.apache.catalina.core.StandardService] - Starting service [Tomcat]
+12:44:28.692 [INFO ] [restartedMain] [org.apache.catalina.core.StandardEngine] - Starting Servlet Engine: Apache Tomcat/8.5.20
+12:44:28.868 [INFO ] [localhost-startStop-1] [org.apache.jasper.servlet.TldScanner] - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+12:44:28.870 [INFO ] [localhost-startStop-1] [org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/]] - Initializing Spring embedded WebApplicationContext
+12:44:28.871 [INFO ] [localhost-startStop-1] [org.springframework.web.context.ContextLoader] - Root WebApplicationContext: initialization completed in 1266 ms
+12:44:28.999 [INFO ] [localhost-startStop-1] [org.springframework.boot.web.servlet.ServletRegistrationBean] - Mapping servlet: 'dispatcherServlet' to [/]
+12:44:29.001 [INFO ] [localhost-startStop-1] [org.springframework.boot.web.servlet.FilterRegistrationBean] - Mapping filter: 'characterEncodingFilter' to: [/*]
+12:44:29.002 [INFO ] [localhost-startStop-1] [org.springframework.boot.web.servlet.FilterRegistrationBean] - Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+12:44:29.002 [INFO ] [localhost-startStop-1] [org.springframework.boot.web.servlet.FilterRegistrationBean] - Mapping filter: 'httpPutFormContentFilter' to: [/*]
+12:44:29.002 [INFO ] [localhost-startStop-1] [org.springframework.boot.web.servlet.FilterRegistrationBean] - Mapping filter: 'requestContextFilter' to: [/*]
+12:44:29.227 [INFO ] [restartedMain] [org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter] - Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@14b61ac: startup date [Sat Oct 10 12:44:27 CST 2020]; root of context hierarchy
+12:44:29.267 [INFO ] [restartedMain] [org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping] - Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+12:44:29.268 [INFO ] [restartedMain] [org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping] - Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+12:44:29.290 [INFO ] [restartedMain] [org.springframework.web.servlet.handler.SimpleUrlHandlerMapping] - Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+12:44:29.290 [INFO ] [restartedMain] [org.springframework.web.servlet.handler.SimpleUrlHandlerMapping] - Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+12:44:29.314 [INFO ] [restartedMain] [org.springframework.web.servlet.handler.SimpleUrlHandlerMapping] - Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+12:44:29.674 [INFO ] [restartedMain] [org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer] - LiveReload server is running on port 35729
+12:44:29.743 [INFO ] [restartedMain] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter] - Registering beans for JMX exposure on startup
+12:44:29.744 [INFO ] [restartedMain] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter] - Bean with name 'dataSource' has been autodetected for JMX exposure
+12:44:29.747 [INFO ] [restartedMain] [org.springframework.jmx.export.annotation.AnnotationMBeanExporter] - Located MBean 'dataSource': registering with JMX server as MBean [com.alibaba.druid.pool:name=dataSource,type=DruidDataSource]
+12:44:29.755 [INFO ] [restartedMain] [org.apache.coyote.http11.Http11NioProtocol] - Initializing ProtocolHandler ["http-nio-8888"]
+12:44:29.761 [INFO ] [restartedMain] [org.apache.coyote.http11.Http11NioProtocol] - Starting ProtocolHandler ["http-nio-8888"]
+12:44:29.769 [INFO ] [restartedMain] [org.apache.tomcat.util.net.NioSelectorPool] - Using a shared selector for servlet write/read
+12:44:29.785 [INFO ] [restartedMain] [org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer] - Tomcat started on port(s): 8888 (http)
+12:44:29.788 [INFO ] [restartedMain] [com.xkf.cashbook.WebtestApplication] - Started WebtestApplication in 2.653 seconds (JVM running for 3.174)

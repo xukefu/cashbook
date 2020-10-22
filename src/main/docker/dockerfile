@@ -1,0 +1,5 @@
+FROM java:8
+VOLUME /tmp/tomcat
+ADD cashbook-0.0.1-SNAPSHOT.jar springboot-docker.jar
+RUN /bin/cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \&& echo 'Asia/Shanghai' >/etc/timezone
+ENTRYPOINT ["java","-jar","/springboot-docker.jar"]

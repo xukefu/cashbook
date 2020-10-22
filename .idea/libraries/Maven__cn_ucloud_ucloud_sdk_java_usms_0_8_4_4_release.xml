@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: cn.ucloud:ucloud-sdk-java-usms:0.8.4.4-release">
+    <CLASSES>
+      <root url="jar://D:/repository/cn/ucloud/ucloud-sdk-java-usms/0.8.4.4-release/ucloud-sdk-java-usms-0.8.4.4-release.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://D:/repository/cn/ucloud/ucloud-sdk-java-usms/0.8.4.4-release/ucloud-sdk-java-usms-0.8.4.4-release-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://D:/repository/cn/ucloud/ucloud-sdk-java-usms/0.8.4.4-release/ucloud-sdk-java-usms-0.8.4.4-release-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
