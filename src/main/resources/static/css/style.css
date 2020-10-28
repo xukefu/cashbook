@@ -185,7 +185,7 @@ body {
 }
 
 .card--register .form-control {
-    color: #66e8dc;
+    /*color: #66e8dc;*/
     border-color: rgba(238, 156, 167, .25);
 }
 
