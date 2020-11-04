@@ -2,6 +2,7 @@ package com.xkf.cashbook.web.task;
 
 
 import cn.hutool.core.date.DateUtil;
+import com.alibaba.druid.filter.config.ConfigTools;
 import com.xkf.cashbook.web.mapper.ConsumeDetailMapper;
 import com.xkf.cashbook.web.service.MailService;
 import com.xkf.cashbook.web.vo.ConsumeDetailVO;
@@ -38,7 +39,7 @@ public class DailyBakDataTask {
     /**
      * 每天备份一份数据
      */
-    @Scheduled(cron = "0 33 22 1/1 * ?")
+    @Scheduled(cron = "0 18 8 1/1 * ?")
     public void bakData() {
         List<String> sql = getConsumeDetailInsert();
         String filePath = writeToFile(sql);
@@ -65,7 +66,7 @@ public class DailyBakDataTask {
         File file = null;
         BufferedWriter bw = null;
         try {
-            file = new File(ResourceUtils.getURL("classpath:").getPath() + "cash_book.sql");
+            file = new File("cash_book.sql");
             FileWriter fw = new FileWriter(file);
             bw = new BufferedWriter(fw);
             bw.write(sql.toString());
@@ -91,6 +92,12 @@ public class DailyBakDataTask {
     public void sendMail(String filePath) {
         String nowDate = LocalDate.now().toString();
         mailService.sendAttachmentsMail(to, nowDate + "_数据备份", "数据备份", filePath);
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        String passwd="xu@18823748161";
+        ConfigTools.main(new String[]{passwd});
     }
 
 

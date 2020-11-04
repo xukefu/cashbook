@@ -8,6 +8,15 @@ server:
 logging:
   level: info
 spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://106.75.168.129:3306/cash_book?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+    username: root
+#    password: F7wkOiVTassfoUPxXBMS+r56ZJfAfDt7bivphK+ZwqhM+V3TV7YJYbN6Fxp+bQOEGdRntEm2q7eqZLZse+AUdg==
+    password: xu@18823748161
+    filters: config
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500;config.decrypt=true;config.decrypt.key=${publickey}
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -22,12 +31,7 @@ spring:
           content:
             enabled: true
             paths: /**
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://106.75.168.129:3306/cash_book?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
-    username: root
-    password: 123456
-    type: com.alibaba.druid.pool.DruidDataSource
+
   mail:
     default-encoding: UTF-8
     host: smtp.163.com
@@ -58,6 +62,4 @@ mail:
   fromMail:
     addr: xukefu_vip@163.com
 
-
-
-
+publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANJB/MUeQRTFn1FT1ILWuZGraAjbnZjLHC9DhmD0IQq05zSVAdQznitFgNYBE3Ug5aeNw9p6chf28CA+6RsUsRECAwEAAQ==
