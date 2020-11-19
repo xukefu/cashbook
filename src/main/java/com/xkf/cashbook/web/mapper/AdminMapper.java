@@ -29,4 +29,5 @@ public interface AdminMapper {
 
     @Select("select sum(consume_amount)amount,consume_date date from c_consume_detail group by consume_date HAVING consume_date >= DATE_ADD(now(),INTERVAL #{days} day)")
     List<LineChartDTO> getEveryDayConsumeAmount(int days);
+
 }

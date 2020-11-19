@@ -42,7 +42,6 @@ public class ResultGenerator {
         Result result = new Result()
                 .setCode(ResultCode.SUCCESS)
                 .setMessage(DEFAULT_SUCCESS_MESSAGE);
-        LOGGER.info("genSuccessResult响应:{}", result);
         return result;
     }
 
@@ -51,7 +50,6 @@ public class ResultGenerator {
                 .setCode(ResultCode.SUCCESS)
                 .setMessage(message)
                 .setData(data);
-        LOGGER.info("genSuccessResult响应:{}", result);
         return  result;
     }
 
@@ -60,7 +58,6 @@ public class ResultGenerator {
                 .setCode(ResultCode.SUCCESS)
                 .setMessage(DEFAULT_SUCCESS_MESSAGE)
                 .setData(data);
-        LOGGER.info("genSuccessResult响应:{}", result);
         return result;
     }
 
@@ -68,7 +65,6 @@ public class ResultGenerator {
         Result result = new Result()
                 .setCode(ResultCode.UNAUTHORIZED)
                 .setMessage(UNAUTHORIZED_MESSAGE);
-        LOGGER.info("genUnAuthorizedResult响应:{}", result);
         return result;
     }
 
@@ -82,7 +78,6 @@ public class ResultGenerator {
         Result result = new Result()
                 .setCode(ResultCode.FAIL)
                 .setMessage(DEFAULT_FAIL_MESSAGE);
-        LOGGER.info("genFailResult响应:{}", result);
         return result;
     }
 
@@ -90,7 +85,6 @@ public class ResultGenerator {
         Result result = new Result()
                 .setCode(ResultCode.FAIL)
                 .setMessage(message);
-        LOGGER.info("genFailResult响应:{}", result);
         return result;
     }
 
@@ -98,7 +92,6 @@ public class ResultGenerator {
         Result result = new Result()
                 .setCode(ResultCode.INVALID_PARAM)
                 .setMessage(message);
-        LOGGER.info("genInvalidParamResult响应:{}", result);
         return result;
     }
 

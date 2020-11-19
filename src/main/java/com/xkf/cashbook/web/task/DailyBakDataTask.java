@@ -9,8 +9,6 @@ import com.xkf.cashbook.web.vo.ConsumeDetailVO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
-
 import javax.annotation.Resource;
 import java.io.*;
 import java.time.LocalDate;
@@ -39,7 +37,7 @@ public class DailyBakDataTask {
     /**
      * 每天备份一份数据
      */
-    @Scheduled(cron = "0 18 8 1/1 * ?")
+    @Scheduled(cron = "0 00 22 1/1 * ?")
     public void bakData() {
         List<String> sql = getConsumeDetailInsert();
         String filePath = writeToFile(sql);

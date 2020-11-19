@@ -98,7 +98,7 @@ body {
 }
 
 .form-control {
-    font-family: 'Handle', cursive;
+    /*font-family: 'Handle', cursive;*/
 }
 
 .form-control::-webkit-input-placeholder {

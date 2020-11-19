@@ -66,7 +66,8 @@
                             <label>消费类别:&nbsp;&nbsp;&nbsp;</label>
                         </div>
                         <div style="float: left;text-align: center">
-                            <select class="form-control" id="consumeCategoryId" style=";width: 130px" required="required">
+                            <select class="form-control" id="consumeCategoryId" style=";width: 130px"
+                                    required="required">
                                 <option value="0">请选择</option>
                             </select>
                         </div>
@@ -75,8 +76,9 @@
                         <div style="float: left">
                             <label>消费金额:&nbsp;&nbsp;&nbsp;</label>
                         </div>
-                        <div style="float: left" >
-                            <input  type="text" id="consumeAmount" readonly class="form-control" style=";width: 130px;"
+                        <div style="float: left">
+                            <input type="text" id="consumeAmount" readonly class="form-control"
+                                   style="background-color: white;width: 130px;"
                                    placeholder="金额"
                             />
                         </div>
@@ -97,15 +99,15 @@
                         </div>
                         <div style="float: left">
                             <div class='input-group date' id='consumeDatetimepicker' style="width: 150px;">
-                                <input type='text' id="consumeDate" class="form-control" />
+                                <input type='text' id="consumeDate" readonly class="form-control"
+                                       style="background-color: white;"/>
                                 <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-calendar"></span>
                              </span>
                             </div>
                         </div>
                     </div>
-
-                    <button onclick="addConsumeDetail()" class="btn btn-lg">记一笔</button>
+                    <button onclick="addConsumeDetail()" class="btn btn-lg" >记一笔</button>
                 </form>
             </div>
             <button class="btn btn-back js-btn" data-target="welcome"><i class="fas fa-angle-left"></i></button>
@@ -178,15 +180,13 @@
 <script type="text/javascript">
     $(function () {
 
-        $("consumeAmount").focus(function(){
-            document.activeElement.blur();
-        });
         //计算器初始化
         $('#consumeAmount').calculator();
 
         $('#consumeDatetimepicker').datetimepicker({
             format: 'YYYY-MM-DD',
             locale: moment.locale('zh-cn'),
+            ignoreReadonly: true
         });
         $('#incomeDatetimepicker').datetimepicker({
             format: 'YYYY-MM-DD',
@@ -196,8 +196,12 @@
         initincomeCategory();
 
         let now = new Date();
-        let month = Number(now.getMonth()) + 1
-        let nowDate = now.getFullYear() + "-" + month + "-" + now.getDate();
+        let month = Number(now.getMonth()) + 1;
+        let date = now.getDate();
+        if (date < 10) {
+            date = "0" + date
+        }
+        let nowDate = now.getFullYear() + "-" + month + "-" + date;
         $("#consumeDate").val(nowDate)
         $("#incomeDate").val(nowDate)
 
