@@ -6,7 +6,7 @@ public class IncomeDetailVO {
 
     private Long id;
 
-    private String incomeBy;
+    private Integer incomeBy;
 
     private Double incomeAmount;
 
@@ -26,11 +26,11 @@ public class IncomeDetailVO {
         this.id = id;
     }
 
-    public String getIncomeBy() {
+    public Integer getIncomeBy() {
         return incomeBy;
     }
 
-    public void setIncomeBy(String incomeBy) {
+    public void setIncomeBy(Integer incomeBy) {
         this.incomeBy = incomeBy;
     }
 

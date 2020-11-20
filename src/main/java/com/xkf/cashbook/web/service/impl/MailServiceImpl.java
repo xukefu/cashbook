@@ -46,7 +46,7 @@ public class MailServiceImpl implements MailService {
             // 发送附件
             File file = new File(filePath);
             file = ResourceUtils.getFile(file.getAbsolutePath());
-            helper.addAttachment("cash_book.sql", file);
+            helper.addAttachment("cash_book.zip", file);
             mailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();

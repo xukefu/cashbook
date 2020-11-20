@@ -19,11 +19,11 @@ public class IncomeDetailServiceImpl implements IIncomeDetailService {
     @Override
     @Transactional
     public Result add(IncomeDetailVO incomeDetailVO) {
-        incomeDetailVO.setRecordBy(incomeDetailVO.getIncomeBy());
+        incomeDetailVO.setRecordBy(incomeDetailVO.getIncomeBy().toString());
         incomeDetailVO.setRecordDate(new Date());
         int add = incomeDetailMapper.add(incomeDetailVO);
         if (add == 1) {
-            return ResultGenerator.genSuccessResult("记录成功!",null);
+            return ResultGenerator.genSuccessResult("记录成功!", null);
         }
         return ResultGenerator.genFailResult();
     }
