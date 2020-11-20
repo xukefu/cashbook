@@ -79,10 +79,9 @@ public class DailyBakDataTask {
      * sql写入到sql文件
      *
      * @param sql sql语句
-     * @return
      */
     private void writeToFile(String sql) {
-        File file = null;
+        File file;
         BufferedWriter bw = null;
         try {
             file = new File(BAK_SQL_FILE_NAME);
@@ -107,7 +106,7 @@ public class DailyBakDataTask {
     /**
      * 压缩文件
      *
-     * @return
+     * @return 压缩路径
      */
     private String fileToZip() {
         InputStream input = null;
@@ -120,7 +119,7 @@ public class DailyBakDataTask {
             zipOut = new ZipOutputStream(new FileOutputStream(zipFile));
             zipOut.putNextEntry(new ZipEntry(file.getName()));
             zipOut.setComment("www.cashbook.top");
-            int temp = 0;
+            int temp;
             while ((temp = input.read()) != -1) {
                 zipOut.write(temp);
             }
@@ -128,8 +127,12 @@ public class DailyBakDataTask {
             e.printStackTrace();
         } finally {
             try {
-                input.close();
-                zipOut.close();
+                if (input != null) {
+                    input.close();
+                }
+                if (zipOut != null) {
+                    zipOut.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
