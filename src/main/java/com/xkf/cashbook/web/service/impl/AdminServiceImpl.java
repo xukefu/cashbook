@@ -1,6 +1,5 @@
 package com.xkf.cashbook.web.service.impl;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.NumberUtil;
 import com.xkf.cashbook.common.Result;
 import com.xkf.cashbook.common.ResultGenerator;
@@ -47,7 +46,7 @@ public class AdminServiceImpl implements AdminService {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
-        String consumeDate = year + "-" + month + "-" + "01";
+        String consumeDate = year + "-" + String.format("%02d", month) + "-" + "01";
         Double amount = adminMapper.getConsumeAmountByDate(consumeDate);
         return ResultGenerator.genSuccessResult(null, amount);
     }
@@ -72,7 +71,7 @@ public class AdminServiceImpl implements AdminService {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
-        String consumeDate = year + "-" + month + "-" + "01";
+        String consumeDate = year + "-" + String.format("%02d", month) + "-" + "01";
         Double amount = adminMapper.getIncomeAmountByDate(consumeDate);
         return ResultGenerator.genSuccessResult(null, amount);
     }
@@ -82,7 +81,7 @@ public class AdminServiceImpl implements AdminService {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
-        String consumeDate = year + "-" + month + "-" + "01";
+        String consumeDate = year + "-" + String.format("%02d", month) + "-" + "01";
         List<ConsumeProportionDTO> consumeProportionDTOS = adminMapper.getMonthlyConsumeProportion(consumeDate);
         //月度总金额
         Double monthlyAmount = adminMapper.getConsumeAmountByDate(consumeDate);
