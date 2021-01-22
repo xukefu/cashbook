@@ -13,190 +13,125 @@
     <link rel="stylesheet" href="../static/css/page/form.css"/>
     <link rel="stylesheet" href="../static/css/component.css"/>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
 </head>
 <body>
-<!-- Begin page -->
 <header class="am-topbar am-topbar-fixed-top">
-    <div class="am-topbar-left am-hide-sm-only">
-        <a href="admin.html" class="logo"><span>Admin<span>to</span></span><i class="zmdi zmdi-layers"></i></a>
+    <!-- <div class="am-topbar-left am-hide-sm-only">
+         <a href="admin.html" class="logo"><span>Admin<span>to</span></span><i class="zmdi zmdi-layers"></i></a>
+     </div>-->
+
+    <div class="page-title" style="float: left">
+        <a href="/">
+            <img src="../static/img/back.png" style="width: 30px;height: 30px"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </a>
     </div>
-
-    <div class="contain">
-        <ul class="am-nav am-navbar-nav am-navbar-left">
-
-            <li><h4 class="page-title"><a href="/index">返回首页</a></h4></li>
-<!--            <button class="btn btn-back js-btn" value="111"><i class="fas fa-angle-left">2222</i></button>-->
-        </ul>
-
-        <ul class="am-nav am-navbar-nav am-navbar-right">
-            <li class="inform">
-                <i class="am-icon-bell-o"
-                   aria-hidden="true"></i></li>
-            <li class="hidden-xs am-hide-sm-only">
-                <form role="search" class="app-search">
-                    <input type="text" placeholder="Search..." class="form-control">
-                    <a href=""><img src="../static/img/search.png"></a>
-                </form>
+    <br>
+    <div class="container">
+        <h4>&nbsp;&nbsp;</h4>
+        <ul class="nav nav-pills" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="pill" href="#consumeDetailTable2"><strong>消费详情</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#incomeAndExpenditure" onclick="getIncomeAndExpenditure()"><strong>收支汇总</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#chart" onclick="getChat()"><strong>图表</strong></a>
             </li>
         </ul>
-    </div>
-</header>
-<!-- end page -->
 
-
-<div class="admin">
-    <!--<div class="am-g">-->
-    <!-- ========== Left Sidebar Start ========== -->
-    <!--<div class="left side-menu am-hide-sm-only am-u-md-1 am-padding-0">
-        <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 548px;">
-            <div class="sidebar-inner slimscrollleft" style="overflow: hidden; width: auto; height: 548px;">-->
-    <!-- sidebar start -->
-<!--    <div class="admin-sidebar am-offcanvas  am-padding-0" id="admin-offcanvas">-->
-<!--        <div class="am-offcanvas-bar admin-offcanvas-bar">-->
-<!--            &lt;!&ndash; User &ndash;&gt;-->
-<!--            <div class="user-box am-hide-sm-only">-->
-<!--                <div class="user-img">-->
-<!--                    <img src="../static/img/avatar-1.jpg" alt="user-img" title="Mat Helme"-->
-<!--                         class="img-circle img-thumbnail img-responsive">-->
-<!--                    <div class="user-status offline"><i class="am-icon-dot-circle-o" aria-hidden="true"></i></div>-->
-<!--                </div>-->
-<!--                <h5><a href="#">Mat Helme</a></h5>-->
-<!--                <ul class="list-inline">-->
-<!--                    <li>-->
-<!--                        <a href="#">-->
-<!--                            <i class="fa fa-cog" aria-hidden="true"></i>-->
-<!--                        </a>-->
-<!--                    </li>-->
-
-<!--                    <li>-->
-<!--                        <a href="#" class="text-custom">-->
-<!--                            <i class="fa fa-cog" aria-hidden="true"></i>-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--            &lt;!&ndash; End User &ndash;&gt;-->
-
-<!--&lt;!&ndash;            <ul class="am-list admin-sidebar-list">&ndash;&gt;-->
-<!--&lt;!&ndash;                <li><a href="admin.html"><span class="am-icon-home"></span> 首页</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;                <li class="admin-parent">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav1'}"><span class="am-icon-table"></span>&ndash;&gt;-->
-<!--&lt;!&ndash;                        表格 <span class="am-icon-angle-right am-fr am-margin-right"></span></a>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav1">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <li><a href="html/table_basic.html" class="am-cf"> 基本表格</span></a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <li><a href="html/table_complete.html">完整表格</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </ul>&ndash;&gt;-->
-<!--&lt;!&ndash;                </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                <li class="admin-parent">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav2'}"><i class="am-icon-line-chart"&ndash;&gt;-->
-<!--&lt;!&ndash;                                                                                      aria-hidden="true"></i> 统计图表 <span&ndash;&gt;-->
-<!--&lt;!&ndash;                            class="am-icon-angle-right am-fr am-margin-right"></span></a>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav2">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <li><a href="html/chart_line.html" class="am-cf"> 折线图</span></a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <li><a href="html/chart_columnar.html" class="am-cf"> 柱状图</span></a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <li><a href="html/chart_pie.html" class="am-cf"> 饼状图</span></a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </ul>&ndash;&gt;-->
-<!--&lt;!&ndash;                </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                <li class="admin-parent">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <a class="am-cf" data-am-collapse="{target: '#collapse-nav5'}"><span class="am-icon-file"></span> 表单&ndash;&gt;-->
-<!--&lt;!&ndash;                        <span class="am-icon-angle-right am-fr am-margin-right"></span></a>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <ul class="am-list am-collapse admin-sidebar-sub am-in" id="collapse-nav5">&ndash;&gt;-->
-<!--&lt;!&ndash;                        <li><a href="html/form_basic.html" class="am-cf"> 基本表单</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <li><a href="html/form_validate.html">表单验证</a></li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </ul>&ndash;&gt;-->
-<!--&lt;!&ndash;                </li>&ndash;&gt;-->
-<!--&lt;!&ndash;            </ul>&ndash;&gt;-->
-<!--        </div>-->
-<!--    </div>-->
-    <!-- sidebar end -->
-
-    <!--</div>
-</div>
-</div>-->
-    <!-- ========== Left Sidebar end ========== -->
-
-
-    <!--	<div class="am-g">-->
-    <!-- ============================================================== -->
-    <!-- Start right Content here -->
-    <div class="content-page">
-        <!-- Start content -->
-        <div class="content">
-            <div class="am-g">
-                <!-- Row start -->
+        <h4>&nbsp;&nbsp;</h4>
+        <!--筛选-->
+        <div class="form-group form-inline">
+            <div>
+                <select class="form-control selectMonitor " id="consumeBySelect">
+                    <option value="0" selected>消费人</option>
+                    <option value="1">可</option>
+                    <option value="2">欣</option>
+                </select>
+            </div>
+            <div style="margin: 5px">
+                <select class="form-control selectMonitor" id="consumeCategorySelect">
+                    <option value="0" selected>消费类别</option>
+                </select>
+            </div>
+            <div style="margin-right: 5px">
+                <select class="form-control selectMonitor" id="consumeWaySelect">
+                    <option value="0" selected>消费方式</option>
+                    <option value="1">支付宝</option>
+                    <option value="2">微信</option>
+                    <option value="3">现金</option>
+                </select>
+            </div>
+            <div>
+                <select class="form-control selectMonitor" id="consumeDateSelect">
+                    <option value="0" selected>消费时间</option>
+                    <option value="1">本周</option>
+                    <option value="2">上周</option>
+                    <option value="3">本月</option>
+                    <option value="4">上个月</option>
+                    <option value="5">今年</option>
+                    <option value="6">去年</option>
+                    <!--                    <option value="7">自定义</option>-->
+                </select>
+            </div>
+        </div>
+        <!-- Tab panes -->
+        <div class="tab-content admin  ">
+            <div id="consumeDetailTable2" class="container tab-pane active"><br>
                 <div class="am-g">
-                    <!-- col start -->
-                    <div class="am-u-md-8">
+                    <div class="am-u-md-12">
                         <div class="card-box">
-                            <h4 class="header-title m-t-0 m-b-30">最近消费</h4>
-                                <table class="table table-bordered table-striped" id="consumeDetailTable">
-                                    <thead class="thead-light">
-                                    <tr>
-                                        <th style="text-align: center">消费人</th>
-                                        <th style="text-align: center">消费类别</th>
-                                        <th style="text-align: center">消费金额</th>
-                                        <th style="text-align: center">消费方式</th>
-                                        <th style="text-align: center">消费时间</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr id="consumeDetailTemplate">
-                                        <td style="text-align: center" id="consumeBy"></td>
-                                        <td style="text-align: center" id="consumeCategoryName"></td>
-                                        <td style="text-align: center" id="consumeAmount"></td>
-                                        <td style="text-align: center" id="consumeWay"></td>
-                                        <td style="text-align: center" id="consumeDate"></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-<!--                            </div>-->
+                            <table class="table table-bordered table-striped" id="consumeDetailTable">
+                                <thead class="thead-light">
+                                <tr>
+                                    <th style="text-align: center">人员</th>
+                                    <th style="text-align: center">类别</th>
+                                    <th style="text-align: center">金额</th>
+                                    <th style="text-align: center">方式</th>
+                                    <th style="text-align: center">时间</th>
+                                </tr>
+                                </thead>
+                                <tbody id="consumeDetailBody">
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <!-- col end -->
                 </div>
-                <!-- Row end -->
+                <!--分页插件-->
+                <div id="pagination"></div>
+            </div>
+            <div id="incomeAndExpenditure" class="container tab-pane fade"><br>
                 <div class="am-u-md-3">
                     <div class="card-box">
                         <h4 class="header-title m-t-0 m-b-30">当月消费</h4>
                         <div class="widget-box-2">
-                            <div class="widget-detail-2" >
-                                <!--<span class="badge  pull-left m-t-20  am-round"
-                                      style="color: #fff; background: #0e90d2;">32% <i
-                                        class="zmdi zmdi-trending-up"></i> </span>-->
-                                <h2 class="m-b-0" id="monthlyTotalConsumeAmount"> </h2>
+                            <div class="widget-detail-2">
+                                <h2 class="m-b-0" id="monthlyTotalConsumeAmount"></h2>
                                 <p class="text-muted m-b-25">当月消费总金额</p>
                             </div>
-                           <!-- <div class="am-progress am-progress-xs am-margin-bottom-0">
-                                <div class="am-progress-bar" style="width: 80%"></div>
-                            </div>-->
                         </div>
 
                     </div>
                 </div>
-                <!-- col end -->
                 <div class="am-u-md-3">
                     <div class="card-box">
                         <h4 class="header-title m-t-0 m-b-30">本周消费</h4>
                         <div class="widget-box-2">
                             <div class="widget-detail-2">
-                               <!-- <span class="badge  pull-left m-t-20  am-round progress-bar-pink" style="color: #fff;">32% <i
-                                        class="zmdi zmdi-trending-up"></i> </span>-->
                                 <h2 class="m-b-0" id="weeklyTotalConsumeAmount"></h2>
                                 <p class="text-muted m-b-25">本周消费总金额</p>
                             </div>
-                           <!-- <div class="am-progress am-progress-xs am-margin-bottom-0"
-                                 style="background: rgba(255, 138, 204, 0.2);">
-                                <div class="am-progress-bar progress-bar-pink" style="width: 80%"></div>
-                            </div>-->
                         </div>
                     </div>
                 </div>
-                <!-- Row end -->
                 <div class="am-u-md-3">
                     <div class="card-box">
                         <h4 class="header-title m-t-0 m-b-30">本月收入</h4>
                         <div class="widget-chart-1 am-cf">
-                            <div id="widget-chart-box-2" style="height: 110px;width: 110px;float: left;">
+                            <div id="widget-chart-box-2"
+                                 style="height: 110px;width: 110px;float: left;">
                             </div>
 
                             <div class="widget-detail-1" style="float: right;">
@@ -206,54 +141,37 @@
                         </div>
                     </div>
                 </div>
-                <!-- col end -->
             </div>
-
-            <div class="am-g">
-                <!-- Row start -->
-                <div class="am-u-md-4">
-                    <div class="card-box">
-                        <h4 class="header-title m-t-0">消费分析图</h4>
-                        <div id="index-pie-1" style="height: 345px;width: 300px;"></div>
+            <div id="chart" class="container tab-pane fade"><br>
+                <div class="am-g">
+                    <div class="am-u-md-4">
+                        <div class="card-box">
+                            <h4 class="header-title m-t-0">消费分析图</h4>
+                            <div id="index-pie-1" style="height: 345px;width: 300px;"></div>
+                        </div>
+                    </div>
+                    <div class="am-u-md-4">
+                        <div class="card-box">
+                            <h4 class="header-title m-t-0">一周消费折线图</h4>
+                            <div id="index-line-1" style="height: 345px;width: 340px;"></div>
+                        </div>
                     </div>
                 </div>
-
-               <!-- <div class="am-u-md-4">
-                    <div class="card-box">
-                        <h4 class="header-title m-t-0">柱状图</h4>
-                        <div id="index-bar-1" style="height: 345px;height: 300px;"></div>
-                    </div>
-                </div>-->
-
-                <div class="am-u-md-4">
-                    <div class="card-box">
-                        <h4 class="header-title m-t-0">一周消费折线图</h4>
-                        <div id="index-line-1" style="height: 345px;width: 340px;"></div>
-                    </div>
-                </div>
-                <!-- Row end -->
             </div>
-
-
         </div>
     </div>
-    <!-- end right Content here -->
-    <!--</div>-->
-</div>
-</div>
-
+</header>
 
 <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="../static/js/moment-with-locales.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="../static/js/amazeui.min.js"></script>
 <script type="text/javascript" src="../static/js/app.js"></script>
 <script type="text/javascript" src="../static/js/blockUI.js"></script>
 <script type="text/javascript" src="../static/js/charts/echarts.min.js"></script>
+<script src="../static/js/page/js/pages.js"></script>
 <script type="text/javascript" src="../static/js/charts/indexChart.js"></script>
 <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
-<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
-<script type="text/javascript">
-
-
-</script>

@@ -67,7 +67,7 @@ a:focus {
   text-decoration: none;
 }
 .container {
-  width: auto;
+  width: 100%;
 }
 .container-alt {
   margin-left: auto;
@@ -314,7 +314,7 @@ a:focus {
 }
 /* Card Box */
 .card-box {
-  padding: 20px;
+  padding: 0px;
   box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);
   -webkit-border-radius: 5px;
   border-radius: 5px;
@@ -751,8 +751,9 @@ textarea.form-control {
 }
 /* Tabs */
 .tab-content {
-  padding: 20px;
-  border: 2px solid #eeeeee;
+  width: 100%;
+  padding: 0px;
+  border: 0px solid #eeeeee;
   border-top: none;
 }
 .nav-tabs > .active > a,
