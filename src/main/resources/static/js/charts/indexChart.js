@@ -1,4 +1,12 @@
 (function () {
+
+    $('input,textarea').on('blur',function(){
+        window.scroll(0,0);
+    });
+    $('select').on('change',function(){
+        window.scroll(0,0);
+    });
+
     //分页查询
     const total = getPageDetail(1);
     //分页插件初始化
@@ -99,20 +107,28 @@ function getPageDetail(currentPage, consumeBy, consumeCategoryId, consumeWay, co
             } else {
                 row = $("#consumeDetailTemplate").clone();
             }
-            const consumeBy = consumeDetail.consumeBy == 1 ? "可" : "欣";
+            let consumeBy = consumeDetail.consumeBy;
+            if (consumeBy == 1) {
+                consumeBy = "可";
+            } else if (consumeBy == 2) {
+                consumeBy = "欣"
+            }
             row.find("#consumeBy").text(consumeBy);
             row.find("#consumeCategoryName").text(consumeDetail.consumeCategoryName);
-            row.find("#consumeAmount").text(consumeDetail.consumeAmount + "元");
             let consumeWay = consumeDetail.consumeWay;
             if (consumeWay == 1) {
                 consumeWay = "支付宝"
             } else if (consumeWay == 2) {
                 consumeWay = "微信"
-            } else {
+            } else if (consumeWay == 3) {
                 consumeWay = "现金"
+            } else {
+                consumeWay = "-"
             }
             row.find("#consumeWay").text(consumeWay);
-            row.find("#consumeDate").text(consumeDetail.consumeDate);
+            row.find("#consumeDate").text(consumeDetail.consumeDate == null ? "-" : consumeDetail.consumeDate);
+            row.find("#consumeAmount").text(consumeDetail.consumeAmount + "元");
+
             row.appendTo("#consumeDetailTable");//添加到模板的容器中
         }
     }).fail(function (res) {
@@ -126,9 +142,9 @@ function resetConsumeDetailBody() {
         "<tr  id=\"consumeDetailTemplate\">\n" +
         "<td style=\"text-align: center\" id=\"consumeBy\"></td>\n" +
         "<td style=\"text-align: center\" id=\"consumeCategoryName\"></td>\n" +
-        "<td style=\"text-align: center\" id=\"consumeAmount\"></td>\n" +
         "<td style=\"text-align: center\" id=\"consumeWay\"></td>\n" +
         "<td style=\"text-align: center\" id=\"consumeDate\"></td>\n" +
+        "<td style=\"text-align: center\" id=\"consumeAmount\"></td>\n" +
         "</tr>"
     )
 }

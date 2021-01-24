@@ -68,7 +68,7 @@ public class ConsumeDetailServiceImpl implements IConsumeDetailService {
         wrapper.lambda().orderByDesc(ConsumeDetailDO::getId);
         //获取查询时间段
         Period period = PeriodsUtil.getPeriodByType(consumeDetailPageVO.getConsumeDateType());
-        if (!Objects.isNull(period)){
+        if (!Objects.isNull(period)) {
             consumeDetailPageVO.setConsumeStartDate(period.getStartDate());
             consumeDetailPageVO.setConsumeEndDate(period.getEndDate());
         }
@@ -88,20 +88,34 @@ public class ConsumeDetailServiceImpl implements IConsumeDetailService {
         if (consumeDetailPageVO.getConsumeEndDate() != null) {
             wrapper.lambda().le(ConsumeDetailDO::getConsumeDate, consumeDetailPageVO.getConsumeEndDate());
         }
-
-
+        //条件下的总金额
+        Double totalConsumeAmount = consumeDetailMapper.selectTotalConsumeAmount(wrapper);
         Page<ConsumeDetailDO> page = new Page<>(consumeDetailPageVO.getCurrentPage(), consumeDetailPageVO.getPageSize());
         Page<ConsumeDetailDO> consumeDetailPage = consumeDetailMapper.selectPage(page, wrapper);
 
-        Double totalConsumeAmount = consumeDetailPage.getRecords().stream().mapToDouble(ConsumeDetailDO::getConsumeAmount).sum();
-        BigDecimal consumeTotalAmount = new BigDecimal(totalConsumeAmount.toString()).setScale(2, BigDecimal.ROUND_HALF_UP);
 
-        List<ConsumeDetailDTO> consumeDetailDTOS = consumeDetailPage.getRecords().stream()
+        Double subtotalConsumeAmount = consumeDetailPage.getRecords().stream().mapToDouble(ConsumeDetailDO::getConsumeAmount).sum();
+        BigDecimal subtotalConsumeAmountDecimal = new BigDecimal(subtotalConsumeAmount.toString()).setScale(2, BigDecimal.ROUND_HALF_UP);
+
+        List<ConsumeDetailDTO> consumeDetails = consumeDetailPage.getRecords().stream()
                 .map(consumeDetailDO -> BeanUtil.copyProperties(consumeDetailDO, ConsumeDetailDTO.class))
                 .collect(Collectors.toList());
-        setCategoryName(consumeDetailDTOS);
+        setCategoryName(consumeDetails);
 
-        return new ConsumeDetailPageDTO(consumeDetailPage.getTotal(), consumeDetailDTOS, consumeTotalAmount);
+        ConsumeDetailDTO subTotalconsumeDetailDTO = new ConsumeDetailDTO();
+        subTotalconsumeDetailDTO.setConsumeBy("小计");
+        subTotalconsumeDetailDTO.setConsumeAmount(subtotalConsumeAmountDecimal.doubleValue());
+        subTotalconsumeDetailDTO.setConsumeCategoryName("-");
+
+        ConsumeDetailDTO totalConsumeDetailDTO = new ConsumeDetailDTO();
+        totalConsumeDetailDTO.setConsumeBy("总计");
+        totalConsumeDetailDTO.setConsumeAmount(totalConsumeAmount);
+        totalConsumeDetailDTO.setConsumeCategoryName("-");
+
+        consumeDetails.add(subTotalconsumeDetailDTO);
+        consumeDetails.add(totalConsumeDetailDTO);
+
+        return new ConsumeDetailPageDTO(consumeDetailPage.getTotal(), consumeDetails);
     }
 
     private void setCategoryName(List<ConsumeDetailDTO> consumeDetails) {

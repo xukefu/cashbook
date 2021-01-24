@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="../static/css/amazeui.css"/>
     <link rel="stylesheet" href="../static/css/core.css"/>
     <link rel="stylesheet" href="../static/css/menu.css"/>
-    <link rel="stylesheet" href="../static/css/index.css"/>
     <link rel="stylesheet" href="../static/css/admin.css"/>
     <link rel="stylesheet" href="../static/css/page/typography.css"/>
     <link rel="stylesheet" href="../static/css/page/form.css"/>
@@ -17,17 +16,13 @@
 </head>
 <body>
 <header class="am-topbar am-topbar-fixed-top">
-    <!-- <div class="am-topbar-left am-hide-sm-only">
-         <a href="admin.html" class="logo"><span>Admin<span>to</span></span><i class="zmdi zmdi-layers"></i></a>
-     </div>-->
-
     <div class="page-title" style="float: left">
         <a href="/">
             <img src="../static/img/back.png" style="width: 30px;height: 30px"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </a>
     </div>
     <br>
-    <div class="container">
+    <div class="container consume-table">
         <h4>&nbsp;&nbsp;</h4>
         <ul class="nav nav-pills" role="tablist">
             <li class="nav-item">
@@ -43,40 +38,53 @@
 
         <h4>&nbsp;&nbsp;</h4>
         <!--筛选-->
-        <div class="form-group form-inline">
-            <div>
-                <select class="form-control selectMonitor " id="consumeBySelect">
-                    <option value="0" selected>消费人</option>
-                    <option value="1">可</option>
-                    <option value="2">欣</option>
-                </select>
+        <div class="form-group form-inline select-centered">
+            <!--消费人下拉框-->
+            <div class="form-group form-inline">
+                <div class="parent">
+                    <select class="form-control selectMonitor my-select" id="consumeBySelect">
+                        <option value="0" selected class="my-select">人员</option>
+                        <option value="1" class="my-select">可</option>
+                        <option value="2" class="my-select">欣</option>
+                    </select>
+                </div>
             </div>
-            <div style="margin: 5px">
-                <select class="form-control selectMonitor" id="consumeCategorySelect">
-                    <option value="0" selected>消费类别</option>
-                </select>
+            <!--消费类别下拉框-->
+            <div class="form-group form-inline">
+                <div class="parent">
+                    <select class="form-control selectMonitor my-select" id="consumeCategorySelect">
+                        <option value="0" selected>类别</option>
+                    </select>
+                </div>
             </div>
-            <div style="margin-right: 5px">
-                <select class="form-control selectMonitor" id="consumeWaySelect">
-                    <option value="0" selected>消费方式</option>
-                    <option value="1">支付宝</option>
-                    <option value="2">微信</option>
-                    <option value="3">现金</option>
-                </select>
+            <!--消费方式下拉框-->
+            <div class="form-group form-inline" style="margin-right: 5px">
+                <div class="parent">
+                    <select class="form-control selectMonitor my-select" id="consumeWaySelect">
+                        <option value="0" selected>方式</option>
+                        <option value="1">支付宝</option>
+                        <option value="2">微信</option>
+                        <option value="3">现金</option>
+                    </select>
+                </div>
             </div>
-            <div>
-                <select class="form-control selectMonitor" id="consumeDateSelect">
-                    <option value="0" selected>消费时间</option>
-                    <option value="1">本周</option>
-                    <option value="2">上周</option>
-                    <option value="3">本月</option>
-                    <option value="4">上个月</option>
-                    <option value="5">今年</option>
-                    <option value="6">去年</option>
-                    <!--                    <option value="7">自定义</option>-->
-                </select>
+            <!--消费时间下拉框-->
+            <div class="form-group form-inline">
+                <div class="parent">
+                    <select class="form-control selectMonitor my-select" id="consumeDateSelect">
+                        <option value="0" selected>时间</option>
+                        <option value="1">本周</option>
+                        <option value="2">上周</option>
+                        <option value="3">本月</option>
+                        <option value="4">上月</option>
+                        <option value="5">今年</option>
+                        <option value="6">去年</option>
+                        <!--                    <option value="7">自定义</option>-->
+                    </select>
+                </div>
             </div>
         </div>
+        <h4>&nbsp;&nbsp;</h4>
         <!-- Tab panes -->
         <div class="tab-content admin  ">
             <div id="consumeDetailTable2" class="container tab-pane active"><br>
@@ -88,9 +96,9 @@
                                 <tr>
                                     <th style="text-align: center">人员</th>
                                     <th style="text-align: center">类别</th>
-                                    <th style="text-align: center">金额</th>
                                     <th style="text-align: center">方式</th>
                                     <th style="text-align: center">时间</th>
+                                    <th style="text-align: center">金额</th>
                                 </tr>
                                 </thead>
                                 <tbody id="consumeDetailBody">
@@ -100,7 +108,7 @@
                     </div>
                 </div>
                 <!--分页插件-->
-                <div id="pagination"></div>
+                <div  id="pagination"></div>
             </div>
             <div id="incomeAndExpenditure" class="container tab-pane fade"><br>
                 <div class="am-u-md-3">

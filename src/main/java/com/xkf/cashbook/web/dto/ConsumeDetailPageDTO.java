@@ -1,6 +1,5 @@
 package com.xkf.cashbook.web.dto;
 
-import com.xkf.cashbook.web.mysql.ConsumeDetailDO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,5 +16,8 @@ public class ConsumeDetailPageDTO {
 
     private List<ConsumeDetailDTO> consumeDetails;
 
-    private BigDecimal totalConsumeAmount;
+    /*private BigDecimal totalConsumeAmount;
+
+    private BigDecimal subtotalConsumeAmount;*/
+
 }
