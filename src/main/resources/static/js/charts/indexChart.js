@@ -1,24 +1,18 @@
 (function () {
 
-    $('input,textarea').on('blur',function(){
-        window.scroll(0,0);
+    $('input,textarea').on('blur', function () {
+        window.scroll(0, 0);
     });
-    $('select').on('change',function(){
-        window.scroll(0,0);
+    $('select').on('change', function () {
+        window.scroll(0, 0);
     });
-
+    //消费类别
+    initConsumeCategory();
+    $(".rdolist").labelauty("rdolist", "rdo");
     //分页查询
     const total = getPageDetail(1);
     //分页插件初始化
     initPagePlugin(total);
-    //月度消费金额
-    // getMonthlyConsumeAmount();
-    //周度消费金额
-    // getWeeklyConsumeAmount();
-    //本月收入
-    // getMonthlyIncomeAmount();
-    //消费类别
-    initConsumeCategory();
     //图标
     initChart();
     //下拉框change事件
@@ -26,11 +20,23 @@
         const total = selectPage();
         initPagePlugin(total);
     })
+    //消费分类选中赋值
+    $(".consumeCategoryDiv").on("click", function () {
+        //关闭模态框
+        $("#closeModal").click();
+        var consumeCategoryName = $(".rdobox.checked").find(".radiobox-content").text();
+        $("#selectedCategory").text(consumeCategoryName)
+        const total = selectPage();
+        initPagePlugin(total);
+    })
+
 })();
+
 
 function selectPage(pageNumer) {
     let consumeBy = $("#consumeBySelect").val() == 0 ? null : $("#consumeBySelect").val();
-    let consumeCategory = $("#consumeCategorySelect").val() == 0 ? null : $("#consumeCategorySelect").val();
+    let consumeCategory = $("input[name='consumeCategoryId']:checked").val();
+    console.log(consumeCategory)
     let consumeWay = $("#consumeWaySelect").val() == 0 ? null : $("#consumeWaySelect").val();
     let consumeDateType = $("#consumeDateSelect").val() == 0 ? null : $("#consumeDateSelect").val();
     const currentPage = pageNumer == null ? 1 : pageNumer;
@@ -44,12 +50,17 @@ function initConsumeCategory() {
         type: 'get',
         cache: false,
         processData: false,
+        async: false,
     }).done(function (res) {
         var categorys = res.data;
         for (var index in categorys) {
             var category = categorys[index]
-            $("<option  value=" + category.id + ">" + category.categoryName + "</option>")
-                .appendTo("#consumeCategorySelect");
+            $("<div style='float: left;padding-left: 3px' class='consumeCategoryDiv'><input type='radio' value=" + category.id + " name='consumeCategoryId' class='rdolist'/>\n" +
+                "<label class='rdobox'>\n" +
+                "<span class='check-image'></span>\n" +
+                "<span class='radiobox-content'>" + category.categoryName + "</span>\n" +
+                " </label></div>")
+                .appendTo("#consumeCategoryRadio");
         }
     }).fail(function (res) {
 

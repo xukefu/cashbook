@@ -2,7 +2,8 @@
 <html>
 <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>记账吧</title>
     <link rel="stylesheet" href="../static/css/amazeui.css"/>
     <link rel="stylesheet" href="../static/css/core.css"/>
@@ -13,6 +14,8 @@
     <link rel="stylesheet" href="../static/css/component.css"/>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
     <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="../static/css/selectBox/index.css"/>
+    <link rel="stylesheet" href="../static/css/selectBox/labelauty.css"/>
 </head>
 <body>
 <header class="am-topbar am-topbar-fixed-top">
@@ -40,7 +43,7 @@
         <!--筛选-->
         <div class="form-group form-inline select-centered">
             <!--消费人下拉框-->
-            <div class="form-group form-inline">
+            <div class="form-group form-inline" style="margin-right: 2px">
                 <div class="parent">
                     <select class="form-control selectMonitor my-select" id="consumeBySelect">
                         <option value="0" selected class="my-select">人员</option>
@@ -50,15 +53,15 @@
                 </div>
             </div>
             <!--消费类别下拉框-->
-            <div class="form-group form-inline">
+            <div class="form-group form-inline" style="margin-right: 2px">
                 <div class="parent">
-                    <select class="form-control selectMonitor my-select" id="consumeCategorySelect">
-                        <option value="0" selected>类别</option>
-                    </select>
+                    <button type="button" data-toggle="modal" id="selectedCategory" data-target="#consumeCategoryModal"
+                            style="text-align: left">类别
+                    </button>
                 </div>
             </div>
             <!--消费方式下拉框-->
-            <div class="form-group form-inline" style="margin-right: 5px">
+            <div class="form-group form-inline" style="margin-right: 2px">
                 <div class="parent">
                     <select class="form-control selectMonitor my-select" id="consumeWaySelect">
                         <option value="0" selected>方式</option>
@@ -108,7 +111,7 @@
                     </div>
                 </div>
                 <!--分页插件-->
-                <div  id="pagination"></div>
+                <div id="pagination"></div>
             </div>
             <div id="incomeAndExpenditure" class="container tab-pane fade"><br>
                 <div class="am-u-md-3">
@@ -170,6 +173,24 @@
     </div>
 </header>
 
+<!-- 模态框 -->
+<div class="modal fade" id="consumeCategoryModal"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header" style="text-align: center">
+                <h4 class="modal-title">消费类别</h4>
+                <button type="button" id="closeModal" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <div id="consumeCategoryRadio" class="center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
 <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
 <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="../static/js/moment-with-locales.js"></script>
@@ -179,6 +200,7 @@
 <script type="text/javascript" src="../static/js/blockUI.js"></script>
 <script type="text/javascript" src="../static/js/charts/echarts.min.js"></script>
 <script src="../static/js/page/js/pages.js"></script>
+<script src="../static/js/labelauty.js"></script>
 <script type="text/javascript" src="../static/js/charts/indexChart.js"></script>
 <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
 </body>

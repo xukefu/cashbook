@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>记账吧</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!--图标库-->
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css'>
     <!--响应式框架-->
@@ -17,6 +17,8 @@
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
           rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/selectBox/index.css"/>
+    <link rel="stylesheet" href="../static/css/selectBox/labelauty.css"/>
     <script src="../static/js/jquery-2.1.0.js"></script>
     <script src="../static/js/layer-1.1.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -61,15 +63,15 @@
                             <input type="radio" value="2" name="consumeBy">&nbsp;欣
                         </div>
                     </div>
+                    <!--消费类别下拉框-->
                     <div class="form-group form-inline">
                         <div style="float: left">
                             <label>消费类别:&nbsp;&nbsp;&nbsp;</label>
                         </div>
-                        <div style="float: left;text-align: center">
-                            <select class="form-control" id="consumeCategoryId" style=";width: 130px"
-                                    required="required">
-                                <option value="0">请选择</option>
-                            </select>
+                        <div class="parent" style="width: 130px">
+                            <button type="button" data-toggle="modal" id="selectedCategory" data-target="#consumeCategoryModal"
+                                    style="text-align: left">请选择
+                            </button>
                         </div>
                     </div>
                     <div class="form-group form-inline">
@@ -110,7 +112,6 @@
                     <button onclick="addConsumeDetail()" class="btn btn-lg" >记一笔</button>
                 </form>
             </div>
-            <button class="btn btn-back js-btn" data-target="welcome"><i class="fas fa-angle-left"></i></button>
         </div>
 
         <div class="card border-0 shadow card--login" id="login">
@@ -167,14 +168,31 @@
             <button class="btn btn-back js-btn" data-target="welcome"><i
                     class="fas fa-angle-left"></i></button>
         </div>
-
     </div>
+</div>
 
+<!-- 模态框 -->
+<div class="modal fade" id="consumeCategoryModal"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header" style="text-align: center">
+                <h4 class="modal-title">消费类别</h4>
+                <button type="button" id="closeModal" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <div id="consumeCategoryRadio" class="center"></div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>
 
 <script src="../static/js/index.js"></script>
 <script src="../static/js/bootstrapValidator.min.js"></script>
 <script src="../static/js/jcalculator.js"></script>
+<script src="../static/js/labelauty.js"></script>
 </body>
 </html>
 <script type="text/javascript">
@@ -194,6 +212,7 @@
         });
         initConsumeCategory();
         initincomeCategory();
+        $(".rdolist").labelauty("rdolist", "rdo");
 
         let now = new Date();
         let month = Number(now.getMonth()) + 1;
@@ -208,6 +227,14 @@
         $("#consumeDate").val(nowDate)
         $("#incomeDate").val(nowDate)
 
+        $(".consumeCategoryDiv").on("click", function () {
+            //关闭模态框
+            $("#closeModal").click();
+            var consumeCategoryName = $(".rdobox.checked").find(".radiobox-content").text();
+            $("#selectedCategory").text(consumeCategoryName)
+            const total = selectPage();
+            initPagePlugin(total);
+        })
     });
 
     //初始化消费类别
@@ -217,11 +244,17 @@
             type: 'get',
             cache: false,
             processData: false,
+            async: false,
         }).done(function (res) {
             var categorys = res.data;
             for (var index in categorys) {
                 var category = categorys[index]
-                $("<option  value=" + category.id + ">" + category.categoryName + "</option>").appendTo("#consumeCategoryId");
+                $("<div style='float: left;padding-left: 3px' class='consumeCategoryDiv'><input type='radio' value=" + category.id + " name='consumeCategoryId' class='rdolist'/>\n" +
+                    "<label class='rdobox'>\n" +
+                    "<span class='check-image'></span>\n" +
+                    "<span class='radiobox-content'>" + category.categoryName + "</span>\n" +
+                    " </label></div>")
+                    .appendTo("#consumeCategoryRadio");
             }
         }).fail(function (res) {
 
@@ -248,7 +281,7 @@
 
     function addConsumeDetail() {
         const consumeAmount = $("#consumeAmount").val();
-        const consumeCategoryId = Number($("#consumeCategoryId").val());
+        const consumeCategoryId = $("input[name='consumeCategoryId']:checked").val();
         $.ajax({
             url: 'consume/detail/add',
             type: 'POST',
@@ -263,11 +296,15 @@
             async: false,
             contentType: 'application/json',
             success: function (data) {
-                alert(data.message);
-                window.location.href = "/index";
+                layer.msg(data.message, {
+                    time: 800
+                })
+                window.location.href = "/";
             },
             error: function (data) {
-                alert("记录失败")
+                layer.msg("记录失败!", {
+                    time: 800
+                })
             }
         });
     }
@@ -286,11 +323,15 @@
             async: false,
             contentType: 'application/json',
             success: function (data) {
-                alert(data.message)
-                window.location.href = "/index";
+                layer.msg(data.message, {
+                    time: 800
+                })
+                window.location.href = "/";
             },
             error: function (data) {
-                alert("记录失败")
+                layer.msg("记录失败!", {
+                    time: 800
+                })
             }
         });
     }
