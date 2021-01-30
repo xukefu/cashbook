@@ -32,7 +32,7 @@
 
 })();
 
-
+//分页查询
 function selectPage(pageNumer) {
     let consumeBy = $("#consumeBySelect").val() == 0 ? null : $("#consumeBySelect").val();
     let consumeCategory = $("input[name='consumeCategoryId']:checked").val();
@@ -311,9 +311,11 @@ function initChart() {
     };
 }
 
-function getChat() {
-    initChart();
+function getPieChat() {
     pieChart();
+}
+
+function getLineChat() {
     lineChart();
 }
 

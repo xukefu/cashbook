@@ -21,7 +21,7 @@
 <header class="am-topbar am-topbar-fixed-top">
     <div class="page-title" style="float: left">
         <a href="/">
-            <img src="../static/img/back.png" style="width: 30px;height: 30px"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <img src="../static/img/back.png" style="width: 30px;height: 30px"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </a>
     </div>
     <br>
@@ -35,7 +35,10 @@
                 <a class="nav-link" data-toggle="pill" href="#incomeAndExpenditure" onclick="getIncomeAndExpenditure()"><strong>收支汇总</strong></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#chart" onclick="getChat()"><strong>图表</strong></a>
+                <a class="nav-link" data-toggle="pill" href="#pieChart" onclick="getPieChat()"><strong>饼状图</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#lineChart" onclick="getLineChat()"><strong>折线图</strong></a>
             </li>
         </ul>
 
@@ -153,7 +156,8 @@
                     </div>
                 </div>
             </div>
-            <div id="chart" class="container tab-pane fade"><br>
+            <!--饼状图-->
+            <div id="pieChart" class="container tab-pane fade"><br>
                 <div class="am-g">
                     <div class="am-u-md-4">
                         <div class="card-box">
@@ -161,6 +165,11 @@
                             <div id="index-pie-1" style="height: 345px;width: 300px;"></div>
                         </div>
                     </div>
+                </div>
+            </div>
+            <!--折线图-->
+            <div id="lineChart" class="container tab-pane fade"><br>
+                <div class="am-g">
                     <div class="am-u-md-4">
                         <div class="card-box">
                             <h4 class="header-title m-t-0">一周消费折线图</h4>
