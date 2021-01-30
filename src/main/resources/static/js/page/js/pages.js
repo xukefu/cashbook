@@ -44,8 +44,8 @@ var getid = getUrlParms("page");
 				displayedPages: 5,
 				edges: '',
 				currentPage: getid,
-				prevText: '上一页',
-				nextText: '下一页',
+				prevText: '<',
+				nextText: '>',
 				ellipseText: '…',
 				cssStyle: '',
 				labelMap: [],
@@ -180,7 +180,7 @@ var getid = getUrlParms("page");
 					methods._appendItem.call(this, i);
 				}
 				if (o.edges < interval.start && (interval.start - o.edges != 1)) {
-					$panel.append('<li class="page-item disabled"><span class="page-link">' + o.ellipseText + '</span></li>');
+					$panel.append('<li class="page-item disabled" style="padding-left: 5px"><span class="page-link">' + o.ellipseText + '</span></li>');
 				} else if (interval.start - o.edges == 1) {
 					methods._appendItem.call(this, o.edges);
 				}
@@ -194,7 +194,7 @@ var getid = getUrlParms("page");
 			// Generate end edges
 			if (interval.end < o.pages && o.edges > 0) {
 				if (o.pages - o.edges > interval.end && (o.pages - o.edges - interval.end != 1)) {
-					$panel.append('<li class="page-item disabled"><span class="page-link">' + o.ellipseText + '</span></li>');
+					$panel.append('<li class="page-item disabled" style="padding-left: 5px"><span class="page-link">' + o.ellipseText + '</span></li>');
 				} else if (o.pages - o.edges - interval.end == 1) {
 					methods._appendItem.call(this, interval.end++);
 				}
@@ -223,7 +223,7 @@ var getid = getUrlParms("page");
 		},
 
 		_appendItem: function(pageIndex, opts) {
-			var self = this, options, $link, o = self.data('pagination'), $linkWrapper = $('<li class="page-item"></li>'), $ul = self.find('ul');
+			var self = this, options, $link, o = self.data('pagination'), $linkWrapper = $('<li class="page-item" style="padding-left: 5px"></li>'), $ul = self.find('ul');
 
 			pageIndex = pageIndex < 0 ? 0 : (pageIndex < o.pages ? pageIndex : o.pages - 1);
 
