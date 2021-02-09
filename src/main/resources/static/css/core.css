@@ -14,7 +14,15 @@ body {
     /*padding: 10px;*/
 }
 
-.parent{
+.text-success {
+    color: #03c895!important;
+}
+
+.text-danger {
+    color: #ff4f81!important;
+}
+
+.parent {
     background: url('../img/arrow.png') right center no-repeat;
     /* the width and the height of your image */
     width: 70px;
@@ -23,26 +31,27 @@ body {
     border: solid 1px #ccc;
 }
 
-.parent select{
-    -webkit-appearance:none;
-    -moz-appearance:none;
-    appearance:none;
-    background:transparent;
-    border:none;
-    padding-left:10px;
+
+.parent select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent;
+    border: none;
+    padding-left: 10px;
     width: 70px;
-    height:100%;
+    height: 100%;
 }
 
-.parent button{
-    -webkit-appearance:none;
-    -moz-appearance:none;
-    appearance:none;
-    background:transparent;
-    border:none;
-    padding-left:10px;
+.parent button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: transparent;
+    border: none;
+    padding-left: 10px;
     width: 70px;
-    height:100%;
+    height: 100%;
 }
 
 .my-select {

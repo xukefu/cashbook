@@ -39,9 +39,10 @@ public class ConsumeDetailServiceImpl implements IConsumeDetailService {
     @Override
     @Transactional
     public Result addConsumeDetail(ConsumeDetailVO consumeDetailVO) {
-        consumeDetailVO.setRecordDate(new Date());
-        consumeDetailVO.setRecordBy(consumeDetailVO.getConsumeBy());
-        int add = consumeDetailMapper.add(consumeDetailVO);
+        ConsumeDetailDO consumeDetailDO = BeanUtil.copyProperties(consumeDetailVO, ConsumeDetailDO.class);
+        consumeDetailDO.setRecordDate(new Date());
+        consumeDetailDO.setRecordBy(consumeDetailVO.getConsumeBy());
+        int add = consumeDetailMapper.insert(consumeDetailDO);
         if (add == 1) {
             return ResultGenerator.genSuccessResult("记录成功!", null);
         }

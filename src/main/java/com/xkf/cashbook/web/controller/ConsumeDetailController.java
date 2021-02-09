@@ -2,7 +2,6 @@ package com.xkf.cashbook.web.controller;
 
 import com.xkf.cashbook.common.Result;
 import com.xkf.cashbook.common.ResultGenerator;
-import com.xkf.cashbook.web.dto.ConsumeDetailPageDTO;
 import com.xkf.cashbook.web.service.IConsumeDetailService;
 import com.xkf.cashbook.web.vo.ConsumeDetailPageVO;
 import com.xkf.cashbook.web.vo.ConsumeDetailVO;

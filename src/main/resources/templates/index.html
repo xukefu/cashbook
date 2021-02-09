@@ -112,6 +112,7 @@
                     <button onclick="addConsumeDetail()" class="btn btn-lg" >记一笔</button>
                 </form>
             </div>
+            <button class="btn btn-back js-btn" data-target="welcome"><i class="fas fa-angle-left"></i></button>
         </div>
 
         <div class="card border-0 shadow card--login" id="login">
@@ -190,7 +191,6 @@
 </div>
 
 <script src="../static/js/index.js"></script>
-<script src="../static/js/bootstrapValidator.min.js"></script>
 <script src="../static/js/jcalculator.js"></script>
 <script src="../static/js/labelauty.js"></script>
 </body>
@@ -232,8 +232,6 @@
             $("#closeModal").click();
             var consumeCategoryName = $(".rdobox.checked").find(".radiobox-content").text();
             $("#selectedCategory").text(consumeCategoryName)
-            const total = selectPage();
-            initPagePlugin(total);
         })
     });
 

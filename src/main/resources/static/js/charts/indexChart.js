@@ -13,7 +13,7 @@
     const total = getPageDetail(1);
     //分页插件初始化
     initPagePlugin(total);
-    //图标
+    //图表
     initChart();
     //下拉框change事件
     $(".selectMonitor").on("change", function () {
@@ -36,7 +36,6 @@
 function selectPage(pageNumer) {
     let consumeBy = $("#consumeBySelect").val() == 0 ? null : $("#consumeBySelect").val();
     let consumeCategory = $("input[name='consumeCategoryId']:checked").val();
-    console.log(consumeCategory)
     let consumeWay = $("#consumeWaySelect").val() == 0 ? null : $("#consumeWaySelect").val();
     let consumeDateType = $("#consumeDateSelect").val() == 0 ? null : $("#consumeDateSelect").val();
     const currentPage = pageNumer == null ? 1 : pageNumer;
@@ -645,4 +644,32 @@ function lineChart() {
     };
     myChart.setOption(option);
 })();
+
+//新增分类
+function addCategory(type) {
+    let url = "";
+    let categoryName = "";
+    if (type === 1) {
+        categoryName = $("#addConsumeCategory").val();
+        url = "consume/category/add?categoryName="+categoryName;
+    } else if (type === 2) {
+        categoryName = $("#addIncomeCategory").val();
+        url = "income/category/add?categoryName="+categoryName;
+    }
+    $.ajax({
+        url: url,
+        type: 'GET',
+        success: function (data) {
+            layer.msg(data.message, {
+                time: 1800
+            })
+            $("#closeConfigModal").click();
+        },
+        error: function (data) {
+            layer.msg('添加失败!', {
+                time: 1800
+            })
+        }
+    });
+}
 

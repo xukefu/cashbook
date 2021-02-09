@@ -16,6 +16,7 @@
     <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="../static/css/selectBox/index.css"/>
     <link rel="stylesheet" href="../static/css/selectBox/labelauty.css"/>
+    <link rel="stylesheet" href="../static/css/font-awesome.css"/>
 </head>
 <body>
 <header class="am-topbar am-topbar-fixed-top">
@@ -23,6 +24,9 @@
         <a href="/">
             <img src="../static/img/back.png" style="width: 30px;height: 30px"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </a>
+    </div>
+    <div class="page-title" style="float: right">
+        <a class="col-xs-11" data-toggle="modal"data-target="#configModal"><i class="fa fa-cog" aria-hidden="true"></i></a>
     </div>
     <br>
     <div class="container consume-table">
@@ -38,7 +42,7 @@
                 <a class="nav-link" data-toggle="pill" href="#pieChart" onclick="getPieChat()"><strong>饼状图</strong></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#lineChart" onclick="getLineChat()"><strong>折线图</strong></a>
+                <a class="nav-link" data-toggle="pill" href="#lineChart"onclick="getLineChat()"><strong>折线图</strong></a>
             </li>
         </ul>
 
@@ -119,11 +123,11 @@
             <div id="incomeAndExpenditure" class="container tab-pane fade"><br>
                 <div class="am-u-md-3">
                     <div class="card-box">
-                        <h4 class="header-title m-t-0 m-b-30">当月消费</h4>
+                        <h4 class="header-title m-t-0 m-b-30">本月消费</h4>
                         <div class="widget-box-2">
                             <div class="widget-detail-2">
-                                <h2 class="m-b-0" id="monthlyTotalConsumeAmount"></h2>
-                                <p class="text-muted m-b-25">当月消费总金额</p>
+                                <h2 class="m-b-0 text-danger" id="monthlyTotalConsumeAmount"></h2>
+                                <p class="text-muted m-b-25">本月消费</p>
                             </div>
                         </div>
 
@@ -134,8 +138,8 @@
                         <h4 class="header-title m-t-0 m-b-30">本周消费</h4>
                         <div class="widget-box-2">
                             <div class="widget-detail-2">
-                                <h2 class="m-b-0" id="weeklyTotalConsumeAmount"></h2>
-                                <p class="text-muted m-b-25">本周消费总金额</p>
+                                <h2 class="m-b-0 text-danger" id="weeklyTotalConsumeAmount"></h2>
+                                <p class="text-muted m-b-25">本周消费</p>
                             </div>
                         </div>
                     </div>
@@ -143,14 +147,10 @@
                 <div class="am-u-md-3">
                     <div class="card-box">
                         <h4 class="header-title m-t-0 m-b-30">本月收入</h4>
-                        <div class="widget-chart-1 am-cf">
-                            <div id="widget-chart-box-2"
-                                 style="height: 110px;width: 110px;float: left;">
-                            </div>
-
-                            <div class="widget-detail-1" style="float: right;">
-                                <h2 class="p-t-10 m-b-0" id="monthlyIncomeAmount"></h2>
-                                <p class="text-muted">本月收入</p>
+                        <div class="widget-box-2">
+                            <div class="widget-detail-2">
+                                <h2 class="m-b-0 text-success" id="monthlyIncomeAmount"></h2>
+                                <p class="text-muted m-b-25">本月收入</p>
                             </div>
                         </div>
                     </div>
@@ -182,8 +182,9 @@
     </div>
 </header>
 
-<!-- 模态框 -->
-<div class="modal fade" id="consumeCategoryModal"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!-- 消费类别模态框 -->
+<div class="modal fade" id="consumeCategoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <!-- 模态框头部 -->
@@ -198,14 +199,94 @@
         </div>
     </div>
 </div>
+
+<!-- 设置模态框 -->
+<div class="modal fade" id="configModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header" style="text-align: center">
+                <h4 class="modal-title">设置</h4>
+                <button type="button" id="closeConfigModal" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <div class="center">
+                    <button data-toggle="modal" class="btn btn-success" data-target="#addConsumeCategoryModal">消费分类管理</button>
+                    <button data-toggle="modal" class="btn btn-info" data-target="#addIncomeCategoryModal">收入分类管理</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 添加消费分类模态框 -->
+<div class="modal fade" id="addConsumeCategoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header" style="text-align: center">
+                <h4 class="modal-title">添加消费分类</h4>
+                <button type="button" id="closeConsumeCategoryModal" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <div class="form-group form-inline">
+                    <div style="float: left">
+                        <label>分类名称:&nbsp;&nbsp;&nbsp;</label>
+                    </div>
+                    <div style="float: left">
+                        <div class='input-group ' style="width: 150px;">
+                            <input type='text' id="addConsumeCategory"  class="form-control" autocomplete="off"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="addCategory(1)">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 添加收入分类模态框 -->
+<div class="modal fade" id="addIncomeCategoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header" style="text-align: center">
+                <h4 class="modal-title">添加收入分类</h4>
+                <button type="button" id="closeIncomeCategoryModal" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <div class="form-group form-inline mx-auto">
+                    <div style="float: left">
+                        <label>分类名称:&nbsp;&nbsp;&nbsp;</label>
+                    </div>
+                    <div style="float: left" class="mx-auto">
+                        <div class='input-group ' style="width: 150px;">
+                            <input type='text' id="addIncomeCategory"  class="form-control" autocomplete="off"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary"  onclick="addCategory(2)">添加</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+<script src="../static/js/layer-1.1.js"></script>
 <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="../static/js/moment-with-locales.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="../static/js/amazeui.min.js"></script>
-<script type="text/javascript" src="../static/js/app.js"></script>
 <script type="text/javascript" src="../static/js/blockUI.js"></script>
 <script type="text/javascript" src="../static/js/charts/echarts.min.js"></script>
 <script src="../static/js/page/js/pages.js"></script>

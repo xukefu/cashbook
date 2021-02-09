@@ -17,8 +17,6 @@ import java.util.List;
 @Mapper
 public interface ConsumeDetailMapper extends BaseMapper<ConsumeDetailDO> {
 
-    int add(ConsumeDetailVO consumeDetailVO);
-
     @Select("select * from c_consume_detail order by consume_date desc,id desc limit #{size}")
     List<ConsumeDetailVO> getLastDetail(int size);
 

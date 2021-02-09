@@ -14,20 +14,19 @@ import java.util.Map;
 @Mapper
 public interface AdminMapper {
 
-    @Select("select sum(consume_amount)consumeAmount,consume_category_id consumeCategoryId from c_consume_detail where consume_date = DATE_SUB(curdate(),INTERVAL 1 DAY) GROUP BY\n" +
-            "\tconsume_category_id")
+    @Select("select ifnull(sum(consume_amount),0)consumeAmount,consume_category_id consumeCategoryId from c_consume_detail where consume_date = DATE_SUB(curdate(),INTERVAL 1 DAY) GROUP BY consume_category_id")
     List<ConsumeReportVO> getSumTotalTableByCategory();
 
-    @Select("SELECT sum(consume_amount) FROM `c_consume_detail` where consume_date >=#{date}")
+    @Select("SELECT ifnull(sum(consume_amount),0) FROM `c_consume_detail` where consume_date >=#{date}")
     Double getConsumeAmountByDate(@Param("date") String date);
 
-    @Select("SELECT sum(income_amount) FROM `c_income_detail` where income_date >=#{date}")
+    @Select("SELECT ifnull(sum(income_amount),0) FROM `c_income_detail` where income_date >=#{date}")
     Double getIncomeAmountByDate(@Param("date") String date);
 
-    @Select("SELECT sum(consume_amount)amount,consume_category_id FROM `c_consume_detail` where consume_date >= #{date} group by consume_category_id order by amount desc limit 5")
+    @Select("SELECT ifnull(sum(consume_amount),0)amount,consume_category_id FROM `c_consume_detail` where consume_date >= #{date} group by consume_category_id order by amount desc limit 5")
     List<ConsumeProportionDTO> getMonthlyConsumeProportion(@Param("date") String date);
 
-    @Select("select sum(consume_amount)amount,consume_date date from c_consume_detail group by consume_date HAVING consume_date >= DATE_ADD(now(),INTERVAL #{days} day)")
+    @Select("select ifnull(sum(consume_amount),0)amount,consume_date date from c_consume_detail group by consume_date HAVING consume_date >= DATE_ADD(now(),INTERVAL #{days} day)")
     List<LineChartDTO> getEveryDayConsumeAmount(int days);
 
 }
