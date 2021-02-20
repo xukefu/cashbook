@@ -154,6 +154,10 @@ function getPageDetail(currentPage, consumeBy, consumeCategoryId, consumeWay, co
             row.find("#consumeDate").text(consumeDetail.consumeDate == null ? "-" : month + "-" + date);
             row.find("#consumeDate").attr("title", consumeDetail.consumeDate)
             // row.find("#consumeDate").text(consumeDetail.consumeDate == null ? "-" : consumeDetail.consumeDate);
+            if (consumeDetail.consumeBy == '小计' || consumeDetail.consumeBy == '总计'){
+                row.find("#consumeAmount").attr("colspan",2)
+                row.find("#consumeComment").hide()
+            }
             row.find("#consumeAmount").text(consumeDetail.consumeAmount + "元");
             let comment = consumeDetail.consumeComment;
             row.find("#consumeComment").attr("title", comment)
