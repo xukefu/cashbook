@@ -2,6 +2,7 @@ package com.xkf.cashbook.web.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xkf.cashbook.common.PeriodsUtil;
 import com.xkf.cashbook.common.Result;
 import com.xkf.cashbook.common.ResultGenerator;
@@ -16,38 +17,23 @@ import com.xkf.cashbook.web.vo.ConsumeDetailPageVO;
 import com.xkf.cashbook.web.vo.ConsumeDetailVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
-public class ConsumeDetailServiceImpl implements IConsumeDetailService {
+public class ConsumeDetailServiceImpl extends ServiceImpl<ConsumeDetailMapper,ConsumeDetailDO> implements IConsumeDetailService {
 
     @Resource
     private ConsumeDetailMapper consumeDetailMapper;
 
     @Resource
     private ConsumeCategoryMapper consumeCategoryMapper;
-
-    @Override
-    @Transactional
-    public Result addConsumeDetail(ConsumeDetailVO consumeDetailVO) {
-        ConsumeDetailDO consumeDetailDO = BeanUtil.copyProperties(consumeDetailVO, ConsumeDetailDO.class);
-        consumeDetailDO.setRecordDate(new Date());
-        consumeDetailDO.setRecordBy(consumeDetailVO.getConsumeBy());
-        int add = consumeDetailMapper.insert(consumeDetailDO);
-        if (add == 1) {
-            return ResultGenerator.genSuccessResult("记录成功!", null);
-        }
-        return ResultGenerator.genFailResult();
-    }
 
     @Override
     public Result getLastDetail(int size) {
@@ -103,17 +89,17 @@ public class ConsumeDetailServiceImpl implements IConsumeDetailService {
                 .collect(Collectors.toList());
         setCategoryName(consumeDetails);
 
-        ConsumeDetailDTO subTotalconsumeDetailDTO = new ConsumeDetailDTO();
-        subTotalconsumeDetailDTO.setConsumeBy("小计");
-        subTotalconsumeDetailDTO.setConsumeAmount(subtotalConsumeAmountDecimal.doubleValue());
-        subTotalconsumeDetailDTO.setConsumeCategoryName("-");
+        ConsumeDetailDTO subTotalConsumeDetailDTO = new ConsumeDetailDTO();
+        subTotalConsumeDetailDTO.setConsumeBy("小计");
+        subTotalConsumeDetailDTO.setConsumeAmount(subtotalConsumeAmountDecimal.doubleValue());
+        subTotalConsumeDetailDTO.setConsumeCategoryName("-");
 
         ConsumeDetailDTO totalConsumeDetailDTO = new ConsumeDetailDTO();
         totalConsumeDetailDTO.setConsumeBy("总计");
         totalConsumeDetailDTO.setConsumeAmount(totalConsumeAmount);
         totalConsumeDetailDTO.setConsumeCategoryName("-");
 
-        consumeDetails.add(subTotalconsumeDetailDTO);
+        consumeDetails.add(subTotalConsumeDetailDTO);
         consumeDetails.add(totalConsumeDetailDTO);
 
         return new ConsumeDetailPageDTO(consumeDetailPage.getTotal(), consumeDetails);

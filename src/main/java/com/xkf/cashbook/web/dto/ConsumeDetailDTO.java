@@ -24,4 +24,6 @@ public class ConsumeDetailDTO {
     private String consumeBy;
 
     private String consumeDate;
+
+    private String consumeComment;
 }

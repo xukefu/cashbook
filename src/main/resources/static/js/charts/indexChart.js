@@ -6,6 +6,11 @@
     $('select').on('change', function () {
         window.scroll(0, 0);
     });
+    $('#consumeDatetimepicker').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale: moment.locale('zh-cn'),
+        ignoreReadonly: true
+    });
     //消费类别
     initConsumeCategory();
     $(".rdolist").labelauty("rdolist", "rdo");
@@ -107,7 +112,7 @@ function getPageDetail(currentPage, consumeBy, consumeCategoryId, consumeWay, co
         processData: false,
     }).done(function (res) {
         const details = res.data.consumeDetails;
-        resetConsumeDetailBody();
+        initConsumeDetailBody();
         for (const index in details) {
             let row = null;
             const consumeDetail = details[index];
@@ -124,6 +129,7 @@ function getPageDetail(currentPage, consumeBy, consumeCategoryId, consumeWay, co
                 consumeBy = "欣"
             }
             row.find("#consumeBy").text(consumeBy);
+            row.find("#consumeDetailId").text(consumeDetail.id)
             row.find("#consumeCategoryName").text(consumeDetail.consumeCategoryName);
             let consumeWay = consumeDetail.consumeWay;
             if (consumeWay == 1) {
@@ -136,8 +142,26 @@ function getPageDetail(currentPage, consumeBy, consumeCategoryId, consumeWay, co
                 consumeWay = "-"
             }
             row.find("#consumeWay").text(consumeWay);
-            row.find("#consumeDate").text(consumeDetail.consumeDate == null ? "-" : consumeDetail.consumeDate);
+            let tempDate = new Date(consumeDetail.consumeDate);
+            let month = tempDate.getMonth() + 1;
+            if (month < 10) {
+                month = "0" + month;
+            }
+            let date = tempDate.getDate();
+            if (date < 10) {
+                date = "0" + date;
+            }
+            row.find("#consumeDate").text(consumeDetail.consumeDate == null ? "-" : month + "-" + date);
+            row.find("#consumeDate").attr("title", consumeDetail.consumeDate)
+            // row.find("#consumeDate").text(consumeDetail.consumeDate == null ? "-" : consumeDetail.consumeDate);
             row.find("#consumeAmount").text(consumeDetail.consumeAmount + "元");
+            let comment = consumeDetail.consumeComment;
+            row.find("#consumeComment").attr("title", comment)
+            if (comment) {
+                row.find("#consumeComment").text(comment.substring(0, 3));
+            }else {
+                row.find("#consumeComment").text("");
+            }
 
             row.appendTo("#consumeDetailTable");//添加到模板的容器中
         }
@@ -147,16 +171,138 @@ function getPageDetail(currentPage, consumeBy, consumeCategoryId, consumeWay, co
 }
 
 //重置body
-function resetConsumeDetailBody() {
+function initConsumeDetailBody() {
     $("#consumeDetailBody").html(
-        "<tr  id=\"consumeDetailTemplate\">\n" +
+        "<tr  id=\"consumeDetailTemplate\" data-toggle=\"modal\" onclick='editConsumeDetail(this)' data-target=\"#editConsumeDetailModal\">\n" +
         "<td style=\"text-align: center\" id=\"consumeBy\"></td>\n" +
         "<td style=\"text-align: center\" id=\"consumeCategoryName\"></td>\n" +
         "<td style=\"text-align: center\" id=\"consumeWay\"></td>\n" +
-        "<td style=\"text-align: center\" id=\"consumeDate\"></td>\n" +
+        "<td style=\"text-align: center;font-size: xx-small\" id=\"consumeDate\"></td>\n" +
         "<td style=\"text-align: center\" id=\"consumeAmount\"></td>\n" +
+        "<td style=\"text-align: center\" id=\"consumeComment\"></td>\n" +
+        "<td style='display: none' id='consumeDetailId'></td>" +
         "</tr>"
     )
+}
+
+//完整的日期
+function showFullDate(obj) {
+    layer.msg($(obj).attr("title"), {
+        time: 1300
+    })
+}
+
+//编辑消费详情
+function editConsumeDetail(obj) {
+
+    //计算器初始化
+    $('#editConsumeAmount').calculator();
+
+    //日期选择器初始化
+    $('#consumeDatetimepicker').datetimepicker({
+        format: 'YYYY-MM-DD',
+        locale: moment.locale('zh-cn'),
+        ignoreReadonly: true
+    });
+
+    let consumeBy = $(obj).find("#consumeBy").text()
+    if (consumeBy == '可') {
+        consumeBy = 1;
+    } else if (consumeBy == '欣') {
+        consumeBy = 2;
+    }
+    $(":radio[name='editConsumeBy'][value='" + consumeBy + "']").prop("checked", "checked");
+
+    let consumeAmount = $(obj).find("#consumeAmount").text().replace("元", "");
+    $("#editConsumeAmount").val(consumeAmount)
+
+    let consumeWay = $(obj).find("#consumeWay").text().replace("元", "");
+    if (consumeWay == '支付宝') {
+        consumeWay = 1;
+    } else if (consumeWay == '微信') {
+        consumeWay = 2;
+    } else if (consumeWay == '现金') {
+        consumeWay = 3;
+    }
+    $(":radio[name='editConsumeWay'][value='" + consumeWay + "']").prop("checked", "checked");
+
+    let consumeDate = $(obj).find("#consumeDate").attr("title");
+    $("#editConsumeDate").val(consumeDate)
+
+    let consumeComment = $(obj).find("#consumeComment").attr("title");
+    $("#editConsumeComment").val(consumeComment)
+
+    //查出所有分类
+    var categoryMap = {};
+    $.ajax({
+        url: 'consume/category/getAll',
+        type: 'get',
+        cache: false,
+        processData: false,
+        async: false,
+    }).done(function (res) {
+        var categorys = res.data;
+        $("#editConsumeCategoryRadio").text("")
+        for (var index in categorys) {
+            var category = categorys[index]
+            $("<div style='float: left;padding-left: 3px' class='consumeCategoryDiv'><input type='radio' value=" + category.id + " name='editConsumeCategoryId' class='rdolist'/>\n" +
+                "<label class='rdobox'>\n" +
+                "<span class='check-image'></span>\n" +
+                "<span class='radiobox-content'>" + category.categoryName + "</span>\n" +
+                " </label></div>")
+                .appendTo("#editConsumeCategoryRadio");
+            categoryMap[category.categoryName] = category.id
+        }
+    }).fail(function (res) {
+    });
+    //回显分类
+    let consumeCategoryName = $(obj).find("#consumeCategoryName").text();
+    $("#editSelectedCategory").text(consumeCategoryName)
+    //初始化selectbox
+    $(".rdolist").labelauty("rdolist", "rdo");
+    //选中
+    let categoryId = categoryMap[consumeCategoryName];
+    let categoryRow = $(":radio[name='editConsumeCategoryId'][value='" + categoryId + "']");
+    categoryRow.prop("checked", "checked");
+    categoryRow.next().addClass("checked")
+    categoryRow.next().find(".check-image").css("background", "url(static/img/input-checked.png)");
+    //id
+    $("#consumeDetailId").val($(obj).find("#consumeDetailId").text())
+}
+
+//更新消费详情
+function updateConsumeDetail() {
+
+    let ss = $("input[name='editConsumeCategoryId']:checked").val();
+
+    $.ajax({
+        url: 'consume/detail/saveOrUpdate',
+        type: 'POST',
+        cache: false,
+        data: JSON.stringify({
+            "id": $("#consumeDetailId").val(),
+            "consumeAmount": $("#editConsumeAmount").val(),
+            "consumeCategoryId": $("input[name='editConsumeCategoryId']:checked").val(),
+            "consumeWay": $("input[name='editConsumeWay']:checked").val(),
+            "consumeDate": $("#editConsumeDate").val(),
+            "consumeBy": $("input[name='editConsumeBy']:checked").val(),
+            "consumeComment": $("#editConsumeComment").val()
+        }),
+        async: false,
+        contentType: 'application/json',
+        success: function (data) {
+            layer.msg(data.message, {
+                time: 2800
+            })
+            $("#closeConsumeDetailModal").click()
+            window.location.href = "/admin"
+        },
+        error: function (data) {
+            layer.msg("记录失败!", {
+                time: 2800
+            })
+        }
+    });
 }
 
 //收支总览
@@ -651,10 +797,10 @@ function addCategory(type) {
     let categoryName = "";
     if (type === 1) {
         categoryName = $("#addConsumeCategory").val();
-        url = "consume/category/add?categoryName="+categoryName;
+        url = "consume/category/add?categoryName=" + categoryName;
     } else if (type === 2) {
         categoryName = $("#addIncomeCategory").val();
-        url = "income/category/add?categoryName="+categoryName;
+        url = "income/category/add?categoryName=" + categoryName;
     }
     $.ajax({
         url: url,

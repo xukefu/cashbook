@@ -17,16 +17,17 @@
     <link rel="stylesheet" href="../static/css/selectBox/index.css"/>
     <link rel="stylesheet" href="../static/css/selectBox/labelauty.css"/>
     <link rel="stylesheet" href="../static/css/font-awesome.css"/>
+    <link rel="stylesheet" href="../static/css/jcalculator.css">
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+          rel="stylesheet">
 </head>
 <body>
 <header class="am-topbar am-topbar-fixed-top">
     <div class="page-title" style="float: left">
-        <a href="/">
-            <img src="../static/img/back.png" style="width: 30px;height: 30px"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </a>
+        <a class="col-xs-11" href="/"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
     </div>
     <div class="page-title" style="float: right">
-        <a class="col-xs-11" data-toggle="modal"data-target="#configModal"><i class="fa fa-cog" aria-hidden="true"></i></a>
+        <a class="col-xs-11" data-toggle="modal" data-target="#configModal"><i class="fa fa-cog" aria-hidden="true"></i></a>
     </div>
     <br>
     <div class="container consume-table">
@@ -42,7 +43,8 @@
                 <a class="nav-link" data-toggle="pill" href="#pieChart" onclick="getPieChat()"><strong>饼状图</strong></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#lineChart"onclick="getLineChat()"><strong>折线图</strong></a>
+                <a class="nav-link" data-toggle="pill" href="#lineChart"
+                   onclick="getLineChat()"><strong>折线图</strong></a>
             </li>
         </ul>
 
@@ -101,15 +103,14 @@
                 <div class="am-g">
                     <div class="am-u-md-12">
                         <div class="card-box">
-                            <table class="table table-bordered table-striped" id="consumeDetailTable">
+                            <table class="table table-bordered table-striped table-condensed" id="consumeDetailTable">
                                 <thead class="thead-light">
-                                <tr>
                                     <th style="text-align: center">人员</th>
                                     <th style="text-align: center">类别</th>
                                     <th style="text-align: center">方式</th>
                                     <th style="text-align: center">时间</th>
                                     <th style="text-align: center">金额</th>
-                                </tr>
+                                    <th style="text-align: center">备注</th>
                                 </thead>
                                 <tbody id="consumeDetailBody">
                                 </tbody>
@@ -213,8 +214,10 @@
             <!-- 模态框主体 -->
             <div class="modal-body">
                 <div class="center">
-                    <button data-toggle="modal" class="btn btn-success" data-target="#addConsumeCategoryModal">消费分类管理</button>
-                    <button data-toggle="modal" class="btn btn-info" data-target="#addIncomeCategoryModal">收入分类管理</button>
+                    <button data-toggle="modal" class="btn btn-success" data-target="#addConsumeCategoryModal">消费分类管理
+                    </button>
+                    <button data-toggle="modal" class="btn btn-info" data-target="#addIncomeCategoryModal">收入分类管理
+                    </button>
                 </div>
             </div>
         </div>
@@ -239,7 +242,7 @@
                     </div>
                     <div style="float: left">
                         <div class='input-group ' style="width: 150px;">
-                            <input type='text' id="addConsumeCategory"  class="form-control" autocomplete="off"/>
+                            <input type='text' id="addConsumeCategory" class="form-control" autocomplete="off"/>
                         </div>
                     </div>
                 </div>
@@ -269,13 +272,122 @@
                     </div>
                     <div style="float: left" class="mx-auto">
                         <div class='input-group ' style="width: 150px;">
-                            <input type='text' id="addIncomeCategory"  class="form-control" autocomplete="off"/>
+                            <input type='text' id="addIncomeCategory" class="form-control" autocomplete="off"/>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"  onclick="addCategory(2)">添加</button>
+                <button type="button" class="btn btn-secondary" onclick="addCategory(2)">添加</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑消费详情模态框 -->
+<div class="modal fade" id="editConsumeDetailModal" tabindex="-2" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header" style="text-align: center">
+                <h4 class="modal-title">编辑消费详情</h4>
+                <button type="button" id="closeConsumeDetailModal" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <div class="form-group form-inline mx-auto">
+                    <div class="card-body">
+                        <form id="consumeForm" autocomplete="off">
+                        <div class="form-group form-inline">
+                            <div style="float: left">
+                                <label>消费人:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            </div>
+                            <div style="float: left">
+                                <input type="radio" value="1" name="editConsumeBy" checked>&nbsp;可
+                                <input hidden id="consumeDetailId">
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="radio" value="2" name="editConsumeBy">&nbsp;欣
+                            </div>
+                        </div>
+                        <!--消费类别下拉框-->
+                        <div class="form-group form-inline">
+                            <div style="float: left">
+                                <label>消费类别:&nbsp;&nbsp;&nbsp;</label>
+                            </div>
+                            <div class="parent" style="width: 150px">
+                                <button type="button" data-toggle="modal" id="editSelectedCategory" data-target="#editConsumeCategoryModal"
+                                        style="text-align: left">请选择
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group form-inline">
+                            <div style="float: left">
+                                <label>消费金额:&nbsp;&nbsp;&nbsp;</label>
+                            </div>
+                            <div style="float: left">
+                                <input type="text" id="editConsumeAmount" readonly class="form-control"
+                                       style="background-color: white;width: 150px;text-align:center"
+                                       placeholder="金额"
+                                />
+                            </div>
+                        </div>
+                        <div class="form-group form-inline">
+                            <div style="float: left">
+                                <label>消费方式:&nbsp;&nbsp;&nbsp;</label>
+                            </div>
+                            <div style="float: left">
+                                <input type="radio" value="1" name="editConsumeWay" checked>&nbsp;&nbsp;支付宝&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="radio" value="2" name="editConsumeWay">&nbsp;微信&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="radio" value="3" name="editConsumeWay">&nbsp;现金
+                            </div>
+                        </div>
+                        <div class="form-group form-inline">
+                            <div style="float: left">
+                                <label>消费时间:&nbsp;&nbsp;&nbsp;</label>
+                            </div>
+                            <div style="float: left">
+                                <div class='input-group date' id='consumeDatetimepicker' style="width: 150px;text-align: center">
+                                    <input type='text' id="editConsumeDate" readonly class="form-control"
+                                           style="background-color: white;text-align: center"/>
+                                    <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                             </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-inline">
+                            <div style="float: left">
+                                <label>消费备注:&nbsp;&nbsp;&nbsp;</label>
+                            </div>
+                            <div class="form-group" style="width: 150px;">
+                                <input class="form-control" type="text" id="editConsumeComment" style="width: 150px;text-align:center"placeholder="选填"/>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="updateConsumeDetail()">更新</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑消费类别模态框 -->
+<div class="modal fade" id="editConsumeCategoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header" style="text-align: center">
+                <h4 class="modal-title">消费类别</h4>
+                <button type="button" id="closeEditModal" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <div id="editConsumeCategoryRadio" class="center"></div>
             </div>
         </div>
     </div>
@@ -293,5 +405,9 @@
 <script src="../static/js/labelauty.js"></script>
 <script type="text/javascript" src="../static/js/charts/indexChart.js"></script>
 <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+<script src="../static/js/jcalculator.js"></script>
+<script src="../static/js/labelauty.js"></script>
+<script src="../static/js/moment-with-locales.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 </body>
 </html>

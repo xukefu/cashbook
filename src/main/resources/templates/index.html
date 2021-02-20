@@ -68,7 +68,7 @@
                         <div style="float: left">
                             <label>消费类别:&nbsp;&nbsp;&nbsp;</label>
                         </div>
-                        <div class="parent" style="width: 130px">
+                        <div class="parent" style="width: 150px">
                             <button type="button" data-toggle="modal" id="selectedCategory" data-target="#consumeCategoryModal"
                                     style="text-align: left">请选择
                             </button>
@@ -80,7 +80,7 @@
                         </div>
                         <div style="float: left">
                             <input type="text" id="consumeAmount" readonly class="form-control"
-                                   style="background-color: white;width: 130px;"
+                                   style="background-color: white;width: 150px;text-align:center"
                                    placeholder="金额"
                             />
                         </div>
@@ -109,6 +109,15 @@
                             </div>
                         </div>
                     </div>
+                    <div class="form-group form-inline">
+                        <div style="float: left">
+                            <label>消费备注:&nbsp;&nbsp;&nbsp;</label>
+                        </div>
+                        <div class="form-group" style="width: 150px;">
+                            <input class="form-control" type="text" id="consumeComment" style="width: 150px;text-align:center"placeholder="选填"/>
+                        </div>
+                    </div>
+
                     <button onclick="addConsumeDetail()" class="btn btn-lg" >记一笔</button>
                 </form>
             </div>
@@ -134,10 +143,10 @@
                         <div style="float: left">
                             <label>收益类别:&nbsp;&nbsp;&nbsp;</label>
                         </div>
-                        <div style="float: left">
+                        <div style="float: left;">
                             <select class="form-control" id="incomeCategoryId" name="incomeCategoryId"
-                                    style="width: 100px">
-                                <option value="0">请选择</option>
+                                    style="width: 150px">
+                                <option value="0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请选择</option>
                             </select>
                         </div>
                     </div>
@@ -147,7 +156,7 @@
                         </div>
                         <div style="float: left">
                             <input type="number" id="incomeAmount" class="form-control" placeholder="金额"
-                                   required="required" style="width: 100px"/>
+                                   required="required" style="width: 150px;text-align:center"/>
                         </div>
                     </div>
                     <div class="form-group form-inline">
@@ -156,11 +165,20 @@
                         </div>
                         <div style="float: left">
                             <div class='input-group date' id='incomeDatetimepicker' style="width: 150px;">
-                                <input type='text' id="incomeDate" class="form-control"/>
+                                <input type='text' style="background-color: white;" id="incomeDate" readonly class="form-control"/>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group form-inline">
+                        <div style="float: left">
+                            <label>收益备注:&nbsp;&nbsp;&nbsp;</label>
+                        </div>
+                        <div class="form-group" style="width: 150px;">
+                            <input class="form-control" type="text" id="incomeComment" style="width: 150px;text-align:center"placeholder="选填"/>
                         </div>
                     </div>
                     <button onclick="addIncomeDetail()" class="btn btn-lg">记一笔</button>
@@ -281,7 +299,7 @@
         const consumeAmount = $("#consumeAmount").val();
         const consumeCategoryId = $("input[name='consumeCategoryId']:checked").val();
         $.ajax({
-            url: 'consume/detail/add',
+            url: 'consume/detail/saveOrUpdate',
             type: 'POST',
             cache: false,
             data: JSON.stringify({
@@ -289,19 +307,20 @@
                 "consumeAmount": consumeAmount,
                 "consumeWay": $("input[name='consumeWay']:checked").val(),
                 "consumeDate": $("#consumeDate").val(),
-                "consumeBy": $("input[name='consumeBy']:checked").val()
+                "consumeBy": $("input[name='consumeBy']:checked").val(),
+                "consumeComment": $("#consumeComment").val()
             }),
             async: false,
             contentType: 'application/json',
             success: function (data) {
                 layer.msg(data.message, {
-                    time: 1800
+                    time: 2800
                 })
                 window.location.href = "/";
             },
             error: function (data) {
                 layer.msg("记录失败!", {
-                    time: 1800
+                    time: 2800
                 })
             }
         });
@@ -316,19 +335,20 @@
                 "incomeCategoryId": $("#incomeCategoryId").val(),
                 "incomeAmount": $("#incomeAmount").val(),
                 "incomeDate": $("#incomeDate").val(),
-                "incomeBy": $("input[name='incomeBy']:checked").val()
+                "incomeBy": $("input[name='incomeBy']:checked").val(),
+                "incomeComment": $("#incomeComment").val()
             }),
             async: false,
             contentType: 'application/json',
             success: function (data) {
                 layer.msg(data.message, {
-                    time: 1800
+                    time: 2800
                 })
                 window.location.href = "/";
             },
             error: function (data) {
                 layer.msg("记录失败!", {
-                    time: 1800
+                    time: 2800
                 })
             }
         });

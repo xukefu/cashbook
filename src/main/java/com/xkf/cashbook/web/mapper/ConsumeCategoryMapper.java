@@ -16,7 +16,7 @@ import java.util.List;
 @Mapper
 public interface ConsumeCategoryMapper extends BaseMapper<ConsumeCategoryDO> {
 
-    @Select("select * from c_consume_category")
+    @Select("select * from c_consume_category order by id")
     List<ConsumeCategoryVO> getAll();
 
     @Select("select category_name from c_consume_category where id = #{consumeCategoryId}")

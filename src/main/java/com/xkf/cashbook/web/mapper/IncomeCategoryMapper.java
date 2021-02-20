@@ -11,6 +11,6 @@ import java.util.List;
 @Mapper
 public interface IncomeCategoryMapper extends BaseMapper<IncomeCategoryDO> {
 
-    @Select("select * from c_income_category")
+    @Select("select * from c_income_category order by id")
     List<IncomeCategoryVO> getAll();
 }

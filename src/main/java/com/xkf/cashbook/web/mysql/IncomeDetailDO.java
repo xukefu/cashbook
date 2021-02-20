@@ -1,5 +1,6 @@
-package com.xkf.cashbook.web.vo;
+package com.xkf.cashbook.web.mysql;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
@@ -8,8 +9,8 @@ import java.util.Date;
  * @author xukf01
  */
 @Data
-public class IncomeDetailVO {
-
+@TableName("c_income_detail")
+public class IncomeDetailDO {
     private Long id;
 
     private Integer incomeBy;

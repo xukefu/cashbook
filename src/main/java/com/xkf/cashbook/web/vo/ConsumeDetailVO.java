@@ -30,5 +30,6 @@ public class ConsumeDetailVO {
 
     private String consumeCategoryName;
 
+    private String consumeComment;
 
 }
