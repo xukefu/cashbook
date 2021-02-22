@@ -1,6 +1,6 @@
 
 server:
-  port: 80
+  port: 8188
   context-path: /
 
 spring:

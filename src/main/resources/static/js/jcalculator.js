@@ -15,11 +15,12 @@ var template =
     '<span class="clear operation">C</span>' +
     '<span>0</span>' +
     '<span>.</span>' +
-    '<span class="divide operation">&divide;</span>' +
-    '<span></span>' +
-    '<span></span>' +
-    '<span></span>' +
     '<span class="equal operation" >=</span>' +
+    // '<span class="divide operation">&divide;</span>' +
+  /*  '<span></span>' +
+    '<span></span>' +
+    '<span></span>' +*/
+    // '<span class="equal operation" >=</span>' +
     '</div>';
 
 

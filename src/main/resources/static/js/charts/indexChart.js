@@ -6,11 +6,7 @@
     $('select').on('change', function () {
         window.scroll(0, 0);
     });
-    $('#consumeDatetimepicker').datetimepicker({
-        format: 'YYYY-MM-DD',
-        locale: moment.locale('zh-cn'),
-        ignoreReadonly: true
-    });
+
     //消费类别
     initConsumeCategory();
     $(".rdolist").labelauty("rdolist", "rdo");
