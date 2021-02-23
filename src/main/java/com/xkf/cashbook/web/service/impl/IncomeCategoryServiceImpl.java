@@ -27,7 +27,7 @@ public class IncomeCategoryServiceImpl implements IncomeCategoryService {
     public Result add(String categoryName) {
         int insert = incomeCategoryMapper.insert(new IncomeCategoryDO(categoryName));
         if (insert == 1) {
-            return ResultGenerator.genSuccessResult("添加成功!");
+            return ResultGenerator.genSuccessResult("添加成功!",null);
         }
         return ResultGenerator.genFailResult("添加失败!");
     }

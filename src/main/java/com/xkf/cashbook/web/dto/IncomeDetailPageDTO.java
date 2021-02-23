@@ -4,19 +4,18 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.util.List;
 
-/** 支出dto
+
+/** 收入dto
  * @author xukf01
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConsumeDetailPageDTO {
+public class IncomeDetailPageDTO {
 
     private Long total;
 
-    private List<ConsumeDetailDTO> consumeDetails;
-
+    private List<IncomeDetailDTO> incomeDetails;
 }

@@ -189,7 +189,7 @@ public class DailyBakDataTask {
         List<IncomeDetailVO> incomeDetails = incomeDetailMapper.getLastDetail(100000000);
         incomeDetails.forEach(incomeDetailVO ->
                 sb.append(String.format(INSERT_INCOME_DETAIL, incomeDetailVO.getId(), incomeDetailVO.getIncomeBy(), incomeDetailVO.getIncomeAmount()
-                        , incomeDetailVO.getIncomeCategoryId(), incomeDetailVO.getIncomeDate(), DateUtil.formatDateTime(incomeDetailVO.getRecordDate()), incomeDetailVO.getRecordBy())));
+                        , incomeDetailVO.getIncomeCategoryId(), incomeDetailVO.getIncomeDate(), incomeDetailVO.getRecordDate(), incomeDetailVO.getRecordBy())));
     }
 
 

@@ -11,16 +11,16 @@
     initConsumeCategory();
     //单选框美化
     $(".rdolist").labelauty("rdolist", "rdo");
-    //分页查询
-    const total = getPageDetail(1);
+    //分页查询消费详情
+    const total = getPageConsumeDetail(1);
     //分页插件初始化
-    initPagePlugin(total);
+    initConsumePagePlugin(total);
     //图表
     initChart();
     //下拉框change事件
     $(".selectMonitor").on("change", function () {
         const total = selectPage();
-        initPagePlugin(total);
+        initConsumePagePlugin(total);
     })
     //消费分类选中赋值
     $(".consumeCategoryDiv").on("click", function () {
@@ -29,10 +29,17 @@
         var consumeCategoryName = $(".rdobox.checked").find(".radiobox-content").text();
         $("#selectedCategory").text(consumeCategoryName)
         const total = selectPage();
-        initPagePlugin(total);
+        initConsumePagePlugin(total);
     })
 
 })();
+
+function getIncomeDetail() {
+    //分页查询消费详情
+    const total = getPageIncomeDetail(1);
+    //分页插件初始化
+    initIncomePagePlugin(total);
+}
 
 //分页查询
 function selectPage(pageNumer) {
@@ -41,7 +48,7 @@ function selectPage(pageNumer) {
     let consumeWay = $("#consumeWaySelect").val() == 0 ? null : $("#consumeWaySelect").val();
     let consumeDateType = $("#consumeDateSelect").val() == 0 ? null : $("#consumeDateSelect").val();
     const currentPage = pageNumer == null ? 1 : pageNumer;
-    return getPageDetail(currentPage, consumeBy, consumeCategory, consumeWay, consumeDateType);
+    return getPageConsumeDetail(currentPage, consumeBy, consumeCategory, consumeWay, consumeDateType);
 }
 
 //初始化消费类别
@@ -68,8 +75,8 @@ function initConsumeCategory() {
     });
 }
 
-//初始化分页插件
-function initPagePlugin(total) {
+//初始化消费分页插件
+function initConsumePagePlugin(total) {
     let pageSize = 10;
     $("#pagination").html("");
     $("#pagination").pagination({
@@ -81,7 +88,25 @@ function initPagePlugin(total) {
             selectPage(pageNumber);
         },
         onInit: function (getid) {
-            const consumeBy = $("#consumeBySelect").val() == 0 ? null : $("#consumeBySelect").val()
+            //刷新时调用
+            // getPageDetail(getid, consumeBy, null, null)
+        }
+    });
+}
+
+//初始化收入分页插件
+function initIncomePagePlugin(total) {
+    let pageSize = 10;
+    $("#incomePagination").html("");
+    $("#incomePagination").pagination({
+        pages: Math.ceil(total / pageSize),
+        edges: 2,
+        cssStyle: 'pagination-sm',
+        displayedPages: 5,
+        onPageClick: function (pageNumber, event) {
+             getPageIncomeDetail(pageNumber)
+        },
+        onInit: function (getid) {
             //刷新时调用
             // getPageDetail(getid, consumeBy, null, null)
         }
@@ -89,7 +114,7 @@ function initPagePlugin(total) {
 }
 
 //分页消费详情
-function getPageDetail(currentPage, consumeBy, consumeCategoryId, consumeWay, consumeDateType) {
+function getPageConsumeDetail(currentPage, consumeBy, consumeCategoryId, consumeWay, consumeDateType) {
     const pageSize = 10;
     let total = 0;
     $.ajax({
@@ -151,8 +176,8 @@ function getPageDetail(currentPage, consumeBy, consumeCategoryId, consumeWay, co
             row.find("#consumeDate").text(consumeDetail.consumeDate == null ? "-" : month + "-" + date);
             row.find("#consumeDate").attr("title", consumeDetail.consumeDate)
             // row.find("#consumeDate").text(consumeDetail.consumeDate == null ? "-" : consumeDetail.consumeDate);
-            if (consumeDetail.consumeBy == '小计' || consumeDetail.consumeBy == '总计'){
-                row.find("#consumeAmount").attr("colspan",2)
+            if (consumeDetail.consumeBy == '小计' || consumeDetail.consumeBy == '总计') {
+                row.find("#consumeAmount").attr("colspan", 2)
                 row.find("#consumeComment").hide()
             }
             row.find("#consumeAmount").text(consumeDetail.consumeAmount + "元");
@@ -160,7 +185,7 @@ function getPageDetail(currentPage, consumeBy, consumeCategoryId, consumeWay, co
             row.find("#consumeComment").attr("title", comment)
             if (comment) {
                 row.find("#consumeComment").text(comment.substring(0, 3));
-            }else {
+            } else {
                 row.find("#consumeComment").text("");
             }
 
@@ -171,7 +196,59 @@ function getPageDetail(currentPage, consumeBy, consumeCategoryId, consumeWay, co
     return total;
 }
 
-//重置body
+//分页收入详情
+function getPageIncomeDetail(currentPage) {
+    const pageSize = 10;
+    let total = 0;
+    $.ajax({
+        url: 'income/detail/pageDetail',
+        data: JSON.stringify({
+            "currentPage": currentPage,
+            "pageSize": pageSize,
+        }),
+        contentType: 'application/json',
+        type: 'post',
+        cache: false,
+        async: false,
+        processData: false,
+    }).done(function (res) {
+        const details = res.data.incomeDetails;
+        initIncomeDetailBody();
+        for (const index in details) {
+            let row = null;
+            const incomeDetail = details[index];
+            if (index == 0) {
+                row = $("#incomeDetailTemplate");
+                total = res.data.total;
+            } else {
+                row = $("#incomeDetailTemplate").clone();
+            }
+            let incomeBy = incomeDetail.incomeBy;
+            if (incomeBy == 1) {
+                incomeBy = "可";
+            } else if (incomeBy == 2) {
+                incomeBy = "欣"
+            }
+            row.find("#incomeBy").text(incomeBy);
+            row.find("#incomeCategoryName").text(incomeDetail.incomeCategoryName);
+
+            row.find("#incomeDate").text(incomeDetail.incomeDate == null ? "-" : incomeDetail.incomeDate);
+            row.find("#incomeAmount").text(incomeDetail.incomeAmount + "元");
+            let comment = incomeDetail.incomeComment;
+            row.find("#incomeComment").attr("title", comment)
+            if (comment) {
+                row.find("#incomeComment").text(comment.substring(0, 3));
+            } else {
+                row.find("#incomeComment").text("");
+            }
+            row.appendTo("#incomeDetailTable");//添加到模板的容器中
+        }
+    }).fail(function (res) {
+    });
+    return total;
+}
+
+//初始化消费详情body
 function initConsumeDetailBody() {
     $("#consumeDetailBody").html(
         "<tr  id=\"consumeDetailTemplate\" data-toggle=\"modal\" onclick='editConsumeDetail(this)' data-target=\"#editConsumeDetailModal\">\n" +
@@ -182,6 +259,19 @@ function initConsumeDetailBody() {
         "<td style=\"text-align: center\" id=\"consumeAmount\"></td>\n" +
         "<td style=\"text-align: center\" id=\"consumeComment\"></td>\n" +
         "<td style='display: none' id='consumeDetailId'></td>" +
+        "</tr>"
+    )
+}
+
+//初始化收入详情body
+function initIncomeDetailBody() {
+    $("#incomeDetailBody").html(
+        "<tr  id=\"incomeDetailTemplate\" data-toggle=\"modal\">\n" +
+        "<td style=\"text-align: center\" id=\"incomeBy\"></td>\n" +
+        "<td style=\"text-align: center\" id=\"incomeCategoryName\"></td>\n" +
+        "<td style=\"text-align: center;font-size: xx-small\" id=\"incomeDate\"></td>\n" +
+        "<td style=\"text-align: center\" id=\"incomeAmount\"></td>\n" +
+        "<td style=\"text-align: center\" id=\"incomeComment\"></td>\n" +
         "</tr>"
     )
 }
@@ -807,7 +897,8 @@ function addCategory(type) {
             layer.msg(data.message, {
                 time: 1800
             })
-            $("#closeConfigModal").click();
+            $("#closeConsumeCategoryModal").click();
+            $("#closeIncomeCategoryModal").click();
         },
         error: function (data) {
             layer.msg('添加失败!', {
@@ -817,3 +908,10 @@ function addCategory(type) {
     });
 }
 
+function showFilter() {
+    $("#filter").show()
+}
+
+function hideFilter() {
+    $("#filter").hide()
+}

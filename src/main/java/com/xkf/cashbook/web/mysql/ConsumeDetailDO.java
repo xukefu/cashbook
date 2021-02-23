@@ -7,8 +7,10 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
+/**
+ * @author xukf01
+ */
 @TableName("c_consume_detail")
 @Data
 public class ConsumeDetailDO {

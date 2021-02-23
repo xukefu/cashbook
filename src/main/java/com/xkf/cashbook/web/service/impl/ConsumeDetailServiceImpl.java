@@ -80,7 +80,6 @@ public class ConsumeDetailServiceImpl extends ServiceImpl<ConsumeDetailMapper,Co
         Page<ConsumeDetailDO> page = new Page<>(consumeDetailPageVO.getCurrentPage(), consumeDetailPageVO.getPageSize());
         Page<ConsumeDetailDO> consumeDetailPage = consumeDetailMapper.selectPage(page, wrapper);
 
-
         Double subtotalConsumeAmount = consumeDetailPage.getRecords().stream().mapToDouble(ConsumeDetailDO::getConsumeAmount).sum();
         BigDecimal subtotalConsumeAmountDecimal = new BigDecimal(subtotalConsumeAmount.toString()).setScale(2, BigDecimal.ROUND_HALF_UP);
 

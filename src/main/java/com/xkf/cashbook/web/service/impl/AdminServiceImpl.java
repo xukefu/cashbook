@@ -1,8 +1,10 @@
 package com.xkf.cashbook.web.service.impl;
 
 import cn.hutool.core.util.NumberUtil;
+import com.xkf.cashbook.common.PeriodsUtil;
 import com.xkf.cashbook.common.Result;
 import com.xkf.cashbook.common.ResultGenerator;
+import com.xkf.cashbook.common.constant.Period;
 import com.xkf.cashbook.web.dto.ConsumeProportionDTO;
 import com.xkf.cashbook.web.dto.FanChartDTO;
 import com.xkf.cashbook.web.dto.LineChartDTO;
@@ -43,26 +45,15 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Result getMonthlyConsumeAmount() {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH) + 1;
-        String consumeDate = year + "-" + String.format("%02d", month) + "-" + "01";
-        Double amount = adminMapper.getConsumeAmountByDate(consumeDate);
+        Period period = PeriodsUtil.getPeriodByType(3);
+        Double amount = adminMapper.getConsumeAmountByDate(period.getStartDate(),period.getEndDate());
         return ResultGenerator.genSuccessResult(null, amount);
     }
 
     @Override
     public Result getWeeklyConsumeAmount() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar cld = Calendar.getInstance(Locale.CHINA);
-        //以周一为首日
-        cld.setFirstDayOfWeek(Calendar.MONDAY);
-        //当前时间
-        cld.setTimeInMillis(System.currentTimeMillis());
-        //周一
-        cld.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        String monDayDate = df.format(cld.getTime());
-        Double amount = adminMapper.getConsumeAmountByDate(monDayDate);
+        Period period = PeriodsUtil.getPeriodByType(1);
+        Double amount = adminMapper.getConsumeAmountByDate(period.getStartDate(),period.getEndDate());
         return ResultGenerator.genSuccessResult(null, amount);
     }
 
@@ -78,13 +69,10 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Result getMonthlyConsumeProportion() {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH) + 1;
-        String consumeDate = year + "-" + String.format("%02d", month) + "-" + "01";
-        List<ConsumeProportionDTO> consumeProportionDTOS = adminMapper.getMonthlyConsumeProportion(consumeDate);
+        Period periodByType = PeriodsUtil.getPeriodByType(3);
+        List<ConsumeProportionDTO> consumeProportionDTOS = adminMapper.getMonthlyConsumeProportion(periodByType.getStartDate(),periodByType.getEndDate());
         //月度总金额
-        Double monthlyAmount = adminMapper.getConsumeAmountByDate(consumeDate);
+        Double monthlyAmount = adminMapper.getConsumeAmountByDate(periodByType.getStartDate(),periodByType.getEndDate());
         Double top5Amount = 0d;
         if (!CollectionUtils.isEmpty(consumeProportionDTOS)) {
             for (ConsumeProportionDTO consumeProportion : consumeProportionDTOS) {

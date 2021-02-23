@@ -32,23 +32,25 @@
         <h4>&nbsp;&nbsp;</h4>
         <ul class="nav nav-pills" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="pill" href="#consumeDetailTable2"><strong>消费详情</strong></a>
+                <a class="nav-link active" data-toggle="pill" href="#consumeDetailTable2" onclick="showFilter()"><strong>支出</strong></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#incomeAndExpenditure" onclick="getIncomeAndExpenditure()"><strong>收支汇总</strong></a>
+                <a class="nav-link" data-toggle="pill" href="#incomeDetailTable2" onclick="getIncomeDetail();hideFilter()"><strong>收入</strong></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#pieChart" onclick="getPieChat()"><strong>饼状图</strong></a>
+                <a class="nav-link" data-toggle="pill" href="#incomeAndExpenditure" onclick="getIncomeAndExpenditure();hideFilter()"><strong>汇总</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="pill" href="#pieChart" onclick="getPieChat();hideFilter()"><strong>饼状图</strong></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="pill" href="#lineChart"
-                   onclick="getLineChat()"><strong>折线图</strong></a>
+                   onclick="getLineChat();hideFilter()"><strong>折线图</strong></a>
             </li>
         </ul>
-
         <h4>&nbsp;&nbsp;</h4>
         <!--筛选-->
-        <div class="form-group form-inline select-centered">
+        <div class="form-group form-inline select-centered" id="filter">
             <!--消费人下拉框-->
             <div class="form-group form-inline" style="margin-right: 2px">
                 <div class="parent">
@@ -97,6 +99,7 @@
         <h4>&nbsp;&nbsp;</h4>
         <!-- Tab panes -->
         <div class="tab-content admin  ">
+            <!--消费详情-->
             <div id="consumeDetailTable2" class="container tab-pane active"><br>
                 <div class="am-g">
                     <div class="am-u-md-12">
@@ -119,6 +122,29 @@
                 <!--分页插件-->
                 <div id="pagination"></div>
             </div>
+            <!--收入详情-->
+            <div id="incomeDetailTable2" class="container tab-pane fade"><br>
+                <div class="am-g">
+                    <div class="am-u-md-12">
+                        <div class="card-box">
+                            <table class="table table-bordered table-striped" id="incomeDetailTable">
+                                <thead class="thead-light">
+                                <th style="text-align: center">人员</th>
+                                <th style="text-align: center">类别</th>
+                                <th style="text-align: center">时间</th>
+                                <th style="text-align: center">金额</th>
+                                <th style="text-align: center">备注</th>
+                                </thead>
+                                <tbody id="incomeDetailBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!--分页插件-->
+                <div id="incomePagination"></div>
+            </div>
+            <!--收支汇总-->
             <div id="incomeAndExpenditure" class="container tab-pane fade"><br>
                 <div class="am-u-md-3">
                     <div class="card-box">
@@ -408,7 +434,7 @@
 <script type="text/javascript" src="../static/js/charts/echarts.min.js"></script>
 <script src="../static/js/page/js/pages.js"></script>
 <script src="../static/js/labelauty.js"></script>
-<script type="text/javascript" src="../static/js/charts/indexChart.js?version=123asdasss55sdasdss"></script>
+<script type="text/javascript" src="../static/js/charts/indexChart.js?version=123asdasss55sdsdsdasdss"></script>
 <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
 <script src="../static/js/jcalculator.js"></script>
 <script src="../static/js/labelauty.js"></script>

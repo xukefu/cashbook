@@ -1,20 +1,13 @@
-package com.xkf.cashbook.web.mysql;
+package com.xkf.cashbook.web.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+
 import lombok.Data;
 
 import java.time.LocalDate;
 
-/**
- * @author xukf01
- */
 @Data
-@TableName("c_income_detail")
-public class IncomeDetailDO {
+public class IncomeDetailDTO {
 
-    @TableId(type = IdType.AUTO)
     private Long id;
 
     private Integer incomeBy;
@@ -30,4 +23,6 @@ public class IncomeDetailDO {
     private String recordBy;
 
     private String incomeComment;
+
+    private String incomeCategoryName;
 }

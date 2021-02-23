@@ -2,7 +2,7 @@ package com.xkf.cashbook.web.vo;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * @author xukf01
@@ -20,7 +20,7 @@ public class IncomeDetailVO {
 
     private String incomeDate;
 
-    private Date recordDate;
+    private LocalDate recordDate;
 
     private String recordBy;
 
