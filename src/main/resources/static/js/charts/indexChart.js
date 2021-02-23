@@ -9,6 +9,7 @@
 
     //消费类别
     initConsumeCategory();
+    //单选框美化
     $(".rdolist").labelauty("rdolist", "rdo");
     //分页查询
     const total = getPageDetail(1);
@@ -196,14 +197,14 @@ function showFullDate(obj) {
 function editConsumeDetail(obj) {
 
     //计算器初始化
-    $('#editConsumeAmount').calculator();
+    // $('#editConsumeAmount').calculator();
 
     //日期选择器初始化
-    $('#consumeDatetimepicker').datetimepicker({
+    /*$('#editConsumeDatetimepicker').datetimepicker({
         format: 'YYYY-MM-DD',
         locale: moment.locale('zh-cn'),
-        ignoreReadonly: true
-    });
+        ignoreReadonly: true,
+    });*/
 
     let consumeBy = $(obj).find("#consumeBy").text()
     if (consumeBy == '可') {
@@ -272,9 +273,6 @@ function editConsumeDetail(obj) {
 
 //更新消费详情
 function updateConsumeDetail() {
-
-    let ss = $("input[name='editConsumeCategoryId']:checked").val();
-
     $.ajax({
         url: 'consume/detail/saveOrUpdate',
         type: 'POST',

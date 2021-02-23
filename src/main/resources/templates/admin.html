@@ -5,6 +5,7 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>记账吧</title>
+    <link rel='stylesheet' href='../static/css/bootstrap.min.css'>
     <link rel="stylesheet" href="../static/css/amazeui.min.css"/>
     <link rel="stylesheet" href="../static/css/core.css"/>
     <link rel="stylesheet" href="../static/css/menu.css"/>
@@ -13,13 +14,10 @@
     <link rel="stylesheet" href="../static/css/page/form.css"/>
     <link rel="stylesheet" href="../static/css/component.css"/>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
-    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="../static/css/selectBox/index.css"/>
     <link rel="stylesheet" href="../static/css/selectBox/labelauty.css"/>
     <link rel="stylesheet" href="../static/css/font-awesome.css"/>
     <link rel="stylesheet" href="../static/css/jcalculator.css">
-    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
-          rel="stylesheet">
 </head>
 <body>
 <header class="am-topbar am-topbar-fixed-top">
@@ -326,7 +324,7 @@
                                 <label>消费金额:&nbsp;&nbsp;&nbsp;</label>
                             </div>
                             <div style="float: left">
-                                <input type="text" id="editConsumeAmount" readonly class="form-control"
+                                <input type="text" id="editConsumeAmount" class="form-control"
                                        style="background-color: white;width: 150px;text-align:center"
                                        placeholder="金额"
                                 />
@@ -337,23 +335,30 @@
                                 <label>消费方式:&nbsp;&nbsp;&nbsp;</label>
                             </div>
                             <div style="float: left">
-                                <input type="radio" value="1" name="editConsumeWay" checked>&nbsp;&nbsp;支付宝&nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="radio" value="2" name="editConsumeWay">&nbsp;微信&nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="radio" value="3" name="editConsumeWay">&nbsp;现金
+                                <input type="radio" value="1" name="editConsumeWay" checked>&nbsp;&nbsp;支付宝&nbsp;&nbsp;
+                                <input type="radio" value="2" name="editConsumeWay">&nbsp;微信&nbsp;&nbsp;
+                                <input type="radio" value="3" name="editConsumeWay">&nbsp;现金&nbsp;&nbsp;
+                                <input type="radio" value="4" name="editConsumeWay">&nbsp;银行卡
                             </div>
                         </div>
                         <div class="form-group form-inline">
                             <div style="float: left">
                                 <label>消费时间:&nbsp;&nbsp;&nbsp;</label>
                             </div>
-                            <div style="float: left">
-                                <div class='input-group date' id='consumeDatetimepicker' style="width: 150px;text-align: center">
+                            <!--<div style="float: left">
+                                <div class='input-group date' id='editConsumeDatetimepicker' style="width: 150px;text-align: center">
                                     <input type='text' id="editConsumeDate" readonly class="form-control"
                                            style="background-color: white;text-align: center"/>
                                     <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
+&lt;!&ndash;                                <span class="glyphicon glyphicon-calendar"></span>&ndash;&gt;
+                                        <button class="btn default date-set" type="button">
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
                              </span>
                                 </div>
+                            </div>-->
+                            <div class="form-group" style="width: 150px;">
+                                <input  class="form-control" type="date" id="editConsumeDate" placeholder="YYYY-MM-DD">
                             </div>
                         </div>
                         <div class="form-group form-inline">
@@ -400,13 +405,12 @@
 <script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 <script type="text/javascript" src="../static/js/amazeui.min.js"></script>
 <script type="text/javascript" src="../static/js/blockUI.js"></script>
-<script  defer="defer" type="text/javascript" src="../static/js/charts/echarts.min.js"></script>
+<script type="text/javascript" src="../static/js/charts/echarts.min.js"></script>
 <script src="../static/js/page/js/pages.js"></script>
 <script src="../static/js/labelauty.js"></script>
 <script type="text/javascript" src="../static/js/charts/indexChart.js?version=123asdasss55sdasdss"></script>
 <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
 <script src="../static/js/jcalculator.js"></script>
 <script src="../static/js/labelauty.js"></script>
-<script src="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 </body>
 </html>
