@@ -3,7 +3,7 @@ package com.xkf.cashbook.web.dto;
 
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class IncomeDetailDTO {
@@ -18,9 +18,9 @@ public class IncomeDetailDTO {
 
     private String incomeDate;
 
-    private LocalDate recordDate;
+    private LocalDateTime recordDate;
 
-    private String recordBy;
+    private Integer recordBy;
 
     private String incomeComment;
 

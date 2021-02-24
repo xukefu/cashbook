@@ -3,17 +3,13 @@ package com.xkf.cashbook.web.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xkf.cashbook.common.PeriodsUtil;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.xkf.cashbook.common.Result;
 import com.xkf.cashbook.common.ResultGenerator;
-import com.xkf.cashbook.common.constant.Period;
-import com.xkf.cashbook.web.dto.ConsumeDetailDTO;
-import com.xkf.cashbook.web.dto.ConsumeDetailPageDTO;
 import com.xkf.cashbook.web.dto.IncomeDetailDTO;
 import com.xkf.cashbook.web.dto.IncomeDetailPageDTO;
 import com.xkf.cashbook.web.mapper.IncomeCategoryMapper;
 import com.xkf.cashbook.web.mapper.IncomeDetailMapper;
-import com.xkf.cashbook.web.mysql.ConsumeDetailDO;
 import com.xkf.cashbook.web.mysql.IncomeCategoryDO;
 import com.xkf.cashbook.web.mysql.IncomeDetailDO;
 import com.xkf.cashbook.web.service.IIncomeDetailService;
@@ -22,22 +18,18 @@ import com.xkf.cashbook.web.vo.IncomeDetailVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
  * @author xukf01
  */
 @Service
-public class IncomeDetailServiceImpl implements IIncomeDetailService {
+public class IncomeDetailServiceImpl extends ServiceImpl<IncomeDetailMapper,IncomeDetailDO> implements IIncomeDetailService {
     @Resource
     private IncomeDetailMapper incomeDetailMapper;
 
@@ -47,8 +39,8 @@ public class IncomeDetailServiceImpl implements IIncomeDetailService {
     @Override
     @Transactional
     public Result add(IncomeDetailVO incomeDetailVO) {
-        incomeDetailVO.setRecordBy(incomeDetailVO.getIncomeBy().toString());
-        incomeDetailVO.setRecordDate(LocalDate.now());
+        incomeDetailVO.setRecordBy(incomeDetailVO.getIncomeBy());
+        incomeDetailVO.setRecordDate(LocalDateTime.now());
         IncomeDetailDO incomeDetailDO = BeanUtil.copyProperties(incomeDetailVO, IncomeDetailDO.class);
         int add = incomeDetailMapper.insert(incomeDetailDO);
         if (add == 1) {

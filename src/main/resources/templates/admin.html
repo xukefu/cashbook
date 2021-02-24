@@ -371,20 +371,8 @@
                             <div style="float: left">
                                 <label>消费时间:&nbsp;&nbsp;&nbsp;</label>
                             </div>
-                            <!--<div style="float: left">
-                                <div class='input-group date' id='editConsumeDatetimepicker' style="width: 150px;text-align: center">
-                                    <input type='text' id="editConsumeDate" readonly class="form-control"
-                                           style="background-color: white;text-align: center"/>
-                                    <span class="input-group-addon">
-&lt;!&ndash;                                <span class="glyphicon glyphicon-calendar"></span>&ndash;&gt;
-                                        <button class="btn default date-set" type="button">
-                                                <i class="fa fa-calendar"></i>
-                                            </button>
-                             </span>
-                                </div>
-                            </div>-->
                             <div class="form-group" style="width: 150px;">
-                                <input  class="form-control" type="date" id="editConsumeDate" placeholder="YYYY-MM-DD">
+                                <input  class="form-control" type="date" id="editConsumeDate" style="text-align: center">
                             </div>
                         </div>
                         <div class="form-group form-inline">
@@ -401,6 +389,79 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="updateConsumeDetail()">更新</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 编辑收入详情模态框 -->
+<div class="modal fade" id="editIncomeDetailModal" tabindex="-2" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <!-- 模态框头部 -->
+            <div class="modal-header" style="text-align: center">
+                <h4 class="modal-title">编辑收入详情</h4>
+                <button type="button" id="closeIncomeDetailModal" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- 模态框主体 -->
+            <div class="modal-body">
+                <div class="form-group form-inline mx-auto">
+                    <div class="card-body">
+                        <form id="incomeForm" autocomplete="off">
+                            <div class="form-group form-inline">
+                                <div style="float: left">
+                                    <label>收入人员:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                </div>
+                                <div style="float: left">
+                                    <input type="radio" value="1" name="editIncomeBy" checked>&nbsp;可
+                                    <input hidden id="incomeDetailId">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" value="2" name="editIncomeBy">&nbsp;欣
+                                </div>
+                            </div>
+                            <!--消费类别下拉框-->
+                            <div class="form-group form-inline">
+                                <div style="float: left">
+                                    <label>收入类别:&nbsp;&nbsp;&nbsp;</label>
+                                </div>
+                                <div class="parent" style="width: 150px">
+                                    <select id="editIncomeCategorySelect"></select>
+                                </div>
+                            </div>
+                            <div class="form-group form-inline">
+                                <div style="float: left">
+                                    <label>收入金额:&nbsp;&nbsp;&nbsp;</label>
+                                </div>
+                                <div style="float: left">
+                                    <input type="text" id="editIncomeAmount" class="form-control"
+                                           style="background-color: white;width: 150px;text-align:center"
+                                           placeholder="金额"
+                                    />
+                                </div>
+                            </div>
+                            <div class="form-group form-inline">
+                                <div style="float: left">
+                                    <label>收入时间:&nbsp;&nbsp;&nbsp;</label>
+                                </div>
+                                <div class="form-group" style="width: 150px;">
+                                    <input  class="form-control" type="date" id="editIncomeDate" style="text-align: center">
+                                </div>
+                            </div>
+                            <div class="form-group form-inline">
+                                <div style="float: left">
+                                    <label>收入备注:&nbsp;&nbsp;&nbsp;</label>
+                                </div>
+                                <div class="form-group" style="width: 150px;">
+                                    <input class="form-control" type="text" id="editIncomeComment" style="width: 150px;text-align:center"placeholder="选填"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="updateIncomeDetail()">更新</button>
             </div>
         </div>
     </div>
@@ -434,7 +495,7 @@
 <script type="text/javascript" src="../static/js/charts/echarts.min.js"></script>
 <script src="../static/js/page/js/pages.js"></script>
 <script src="../static/js/labelauty.js"></script>
-<script type="text/javascript" src="../static/js/charts/indexChart.js?version=123asdasss55sdsdsdasdss"></script>
+<script type="text/javascript" src="../static/js/charts/indexChart.js?version=123asdasss55sds1dsdasdss"></script>
 <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
 <script src="../static/js/jcalculator.js"></script>
 <script src="../static/js/labelauty.js"></script>

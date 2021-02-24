@@ -248,7 +248,7 @@
         $(".consumeCategoryDiv").on("click", function () {
             //关闭模态框
             $("#closeModal").click();
-            var consumeCategoryName = $(".rdobox.checked").find(".radiobox-content").text();
+            const consumeCategoryName = $(".rdobox.checked").find(".radiobox-content").text();
             $("#selectedCategory").text(consumeCategoryName)
         })
     });
