@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @author xukf01
  */
 @SpringBootApplication
-@MapperScan("com.xkf.cashbook.web.mapper")
+@MapperScan("com.xkf.cashbook.mysql.mapper")
 @EnableScheduling
 public class CashBookApplication {
 

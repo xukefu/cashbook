@@ -1,6 +1,6 @@
 package com.xkf.cashbook;
 
-import com.xkf.cashbook.web.task.DailyBakDataTask;
+import com.xkf.cashbook.task.DailyBakDataTask;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@MapperScan("com.xkf.cashbook.web.mapper")
+@MapperScan("com.xkf.cashbook.mysql.mapper")
 public class WebtestApplicationTests {
 
     @Resource

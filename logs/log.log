@@ -2,7 +2,7 @@
 12:44:27.564 [INFO ] [restartedMain] [com.xkf.cashbook.WebtestApplication] - The following profiles are active: dev
 12:44:27.605 [INFO ] [restartedMain] [org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext] - Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@14b61ac: startup date [Sat Oct 10 12:44:27 CST 2020]; root of context hierarchy
 12:44:27.620 [INFO ] [background-preinit] [org.hibernate.validator.internal.util.Version] - HV000001: Hibernate Validator 5.3.5.Final
-12:44:28.008 [WARN ] [restartedMain] [org.mybatis.spring.mapper.ClassPathMapperScanner] - No MyBatis mapper was found in '[com.xkf.cashbook.web.mapper]' package. Please check your configuration.
+12:44:28.008 [WARN ] [restartedMain] [org.mybatis.spring.mapper.ClassPathMapperScanner] - No MyBatis mapper was found in '[com.xkf.cashbook.mysql.mapper]' package. Please check your configuration.
 12:44:28.087 [WARN ] [restartedMain] [org.mybatis.spring.mapper.ClassPathMapperScanner] - No MyBatis mapper was found in '[com.xkf.cashbook]' package. Please check your configuration.
 12:44:28.683 [INFO ] [restartedMain] [org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainer] - Tomcat initialized with port(s): 8888 (http)
 12:44:28.691 [INFO ] [restartedMain] [org.apache.catalina.core.StandardService] - Starting service [Tomcat]
