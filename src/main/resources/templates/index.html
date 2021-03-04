@@ -37,7 +37,7 @@
                 <h2 class="card-title">欢迎进入记账吧</h2>
                 <p>&nbsp;&nbsp;&nbsp;</p>
                 <div class="userImage">
-                    <a  onclick="jumpToAdmin()">
+                    <a  onclick="jumpPage('admin')">
                         <img class="userImage" src="../static/img/catFace.png"></a>
                 </div>
                 <div class="btn-wrap">
@@ -216,6 +216,7 @@
 <script src="../static/js/index.js"></script>
 <script src="../static/js/jcalculator.js"></script>
 <script src="../static/js/labelauty.js"></script>
+<script src="../static/js/jump.js"></script>
 </body>
 </html>
 <script type="text/javascript">
@@ -322,8 +323,7 @@
                 layer.msg(data.message, {
                     time: 2800
                 })
-                const authorization = encodeURIComponent(window.localStorage.getItem("tokenHead") + " " + window.localStorage.getItem("token"));
-                window.location.href = "/index?Authorization=" + authorization;
+                jumpPage("index");
             },
             error: function (data) {
                 layer.msg("记录失败!", {
@@ -351,8 +351,7 @@
                 layer.msg(data.message, {
                     time: 2800
                 })
-                const authorization = encodeURIComponent(window.localStorage.getItem("tokenHead") + " " + window.localStorage.getItem("token"));
-                window.location.href = "/index?Authorization=" + authorization;
+                jumpPage("index")
             },
             error: function (data) {
                 layer.msg("记录失败!", {
@@ -361,10 +360,4 @@
             }
         });
     }
-
-    function jumpToAdmin() {
-        const authorization = encodeURIComponent(window.localStorage.getItem("tokenHead") + " " + window.localStorage.getItem("token"));
-        window.location.href = "/admin?Authorization=" + authorization;
-    }
-
 </script>

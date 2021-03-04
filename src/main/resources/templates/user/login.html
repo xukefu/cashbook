@@ -139,6 +139,7 @@
                     console.log(token)
                     window.localStorage.setItem("tokenHead", header)
                     window.localStorage.setItem("token", token)
+
                     const authorization = encodeURIComponent(header + " " + token);
                     window.location.href = "/index?Authorization=" + authorization;
 

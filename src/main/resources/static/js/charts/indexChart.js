@@ -430,8 +430,7 @@ function updateConsumeDetail() {
                 time: 2800
             })
             $("#closeConsumeDetailModal").click()
-            const authorization = encodeURIComponent(window.localStorage.getItem("tokenHead") + " " + window.localStorage.getItem("token"));
-            window.location.href = "/admin?Authorization=" + authorization;
+            jumpPage("admin")
         },
         error: function (data) {
             layer.msg("记录失败!", {
@@ -462,8 +461,7 @@ function updateIncomeDetail() {
                 time: 2800
             })
             $("#closeIncomeDetailModal").click()
-            const authorization = encodeURIComponent(window.localStorage.getItem("tokenHead") + " " + window.localStorage.getItem("token"));
-            window.location.href = "/admin?Authorization=" + authorization;
+            jumpPage("admin")
         },
         error: function (data) {
             layer.msg("记录失败!", {
@@ -633,8 +631,7 @@ function getLineChat() {
 }
 
 function backHome() {
-    const authorization = encodeURIComponent(window.localStorage.getItem("tokenHead") + " " + window.localStorage.getItem("token"));
-    window.location.href = "/index?Authorization=" + authorization;
+    jumpPage("index")
 }
 
 //扇形图
