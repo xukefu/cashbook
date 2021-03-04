@@ -1,15 +1,13 @@
 package com.xkf.cashbook.common.result;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 响应结果生成工具
  */
-@SuppressWarnings("all")
+@Slf4j
 public class ResultGenerator {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(ResultGenerator.class);
     /**
      * Request result message
      */

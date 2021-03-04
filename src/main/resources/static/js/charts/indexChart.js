@@ -152,9 +152,9 @@ function getPageConsumeDetail(currentPage, consumeBy, consumeCategoryId, consume
             }
             row.find("#consumeBy").text(consumeBy);
             row.find("#consumeDetailId").text(consumeDetail.id)
-            if (!consumeDetail.id){
-                row.attr("onclick","")
-                row.attr("data-target","")
+            if (!consumeDetail.id) {
+                row.attr("onclick", "")
+                row.attr("data-target", "")
             }
             row.find("#consumeCategoryName").text(consumeDetail.consumeCategoryName);
             let consumeWay = consumeDetail.consumeWay;
@@ -430,7 +430,8 @@ function updateConsumeDetail() {
                 time: 2800
             })
             $("#closeConsumeDetailModal").click()
-            window.location.href = "/admin"
+            const authorization = encodeURIComponent(window.localStorage.getItem("tokenHead") + " " + window.localStorage.getItem("token"));
+            window.location.href = "/admin?Authorization=" + authorization;
         },
         error: function (data) {
             layer.msg("记录失败!", {
@@ -461,7 +462,8 @@ function updateIncomeDetail() {
                 time: 2800
             })
             $("#closeIncomeDetailModal").click()
-            window.location.href = "/admin"
+            const authorization = encodeURIComponent(window.localStorage.getItem("tokenHead") + " " + window.localStorage.getItem("token"));
+            window.location.href = "/admin?Authorization=" + authorization;
         },
         error: function (data) {
             layer.msg("记录失败!", {
@@ -628,6 +630,11 @@ function getPieChat() {
 
 function getLineChat() {
     lineChart();
+}
+
+function backHome() {
+    const authorization = encodeURIComponent(window.localStorage.getItem("tokenHead") + " " + window.localStorage.getItem("token"));
+    window.location.href = "/index?Authorization=" + authorization;
 }
 
 //扇形图

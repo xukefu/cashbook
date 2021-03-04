@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>记账吧</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!--图标库-->
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css'>
     <!--响应式框架-->
@@ -36,7 +37,7 @@
                 <h2 class="card-title">欢迎进入记账吧</h2>
                 <p>&nbsp;&nbsp;&nbsp;</p>
                 <div class="userImage">
-                    <a href="/admin">
+                    <a  onclick="jumpToAdmin()">
                         <img class="userImage" src="../static/img/catFace.png"></a>
                 </div>
                 <div class="btn-wrap">
@@ -67,7 +68,8 @@
                             <label>消费类别:&nbsp;&nbsp;&nbsp;</label>
                         </div>
                         <div class="parent" style="width: 150px">
-                            <button type="button" data-toggle="modal" id="selectedCategory" data-target="#consumeCategoryModal"
+                            <button type="button" data-toggle="modal" id="selectedCategory"
+                                    data-target="#consumeCategoryModal"
                                     style="text-align: left">请选择
                             </button>
                         </div>
@@ -113,11 +115,12 @@
                             <label>消费备注:&nbsp;&nbsp;&nbsp;</label>
                         </div>
                         <div class="form-group" style="width: 150px;">
-                            <input class="form-control" type="text" id="consumeComment" style="width: 150px;text-align:center"placeholder="选填"/>
+                            <input class="form-control" type="text" id="consumeComment"
+                                   style="width: 150px;text-align:center" placeholder="选填"/>
                         </div>
                     </div>
 
-                    <button onclick="addConsumeDetail()" class="btn btn-lg" >记一笔</button>
+                    <button onclick="addConsumeDetail()" class="btn btn-lg">记一笔</button>
                 </form>
             </div>
             <button class="btn btn-back js-btn" data-target="welcome"><i class="fas fa-angle-left"></i></button>
@@ -164,7 +167,8 @@
                         </div>
                         <div style="float: left">
                             <div class='input-group date' id='incomeDatetimepicker' style="width: 150px;">
-                                <input type='text' style="background-color: white;" id="incomeDate" readonly class="form-control"/>
+                                <input type='text' style="background-color: white;" id="incomeDate" readonly
+                                       class="form-control"/>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -177,7 +181,8 @@
                             <label>收益备注:&nbsp;&nbsp;&nbsp;</label>
                         </div>
                         <div class="form-group" style="width: 150px;">
-                            <input class="form-control" type="text" id="incomeComment" style="width: 150px;text-align:center"placeholder="选填"/>
+                            <input class="form-control" type="text" id="incomeComment"
+                                   style="width: 150px;text-align:center" placeholder="选填"/>
                         </div>
                     </div>
                     <button onclick="addIncomeDetail()" class="btn btn-lg">记一笔</button>
@@ -190,7 +195,8 @@
 </div>
 
 <!-- 模态框 -->
-<div class="modal fade" id="consumeCategoryModal"  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="consumeCategoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <!-- 模态框头部 -->
@@ -316,7 +322,8 @@
                 layer.msg(data.message, {
                     time: 2800
                 })
-                window.location.href = "/";
+                const authorization = encodeURIComponent(window.localStorage.getItem("tokenHead") + " " + window.localStorage.getItem("token"));
+                window.location.href = "/index?Authorization=" + authorization;
             },
             error: function (data) {
                 layer.msg("记录失败!", {
@@ -344,7 +351,8 @@
                 layer.msg(data.message, {
                     time: 2800
                 })
-                window.location.href = "/";
+                const authorization = encodeURIComponent(window.localStorage.getItem("tokenHead") + " " + window.localStorage.getItem("token"));
+                window.location.href = "/index?Authorization=" + authorization;
             },
             error: function (data) {
                 layer.msg("记录失败!", {
@@ -352,6 +360,11 @@
                 })
             }
         });
+    }
+
+    function jumpToAdmin() {
+        const authorization = encodeURIComponent(window.localStorage.getItem("tokenHead") + " " + window.localStorage.getItem("token"));
+        window.location.href = "/admin?Authorization=" + authorization;
     }
 
 </script>

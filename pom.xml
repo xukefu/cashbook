@@ -9,7 +9,7 @@
     <packaging>jar</packaging>
 
     <name>cashbook</name>
-    <description>Demo project for Spring Boot</description>
+    <description>cashbook</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -125,22 +125,10 @@
             <version>1.7</version>
         </dependency>
 
-        <!-- fastjson使用 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.28</version>
-        </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>RELEASE</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-core</artifactId>
-            <version>1.1.49</version>
         </dependency>
 
         <dependency>
@@ -155,17 +143,45 @@
             <version>1.18.16</version>
         </dependency>
 
-        <!--  <dependency>
-              <groupId>org.mybatis</groupId>
-              <artifactId>mybatis</artifactId>
-              <version>3.5.3</version>
-              <exclusions>
-                  <exclusion>
-                      <groupId>org.mybatis</groupId>
-                      <artifactId>mybatis</artifactId>
-                  </exclusion>
-              </exclusions>
-          </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.10.7</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.10.7</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.10.7</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.ucloud</groupId>
+            <artifactId>ucloud-sdk-java-usms</artifactId>
+            <version>0.8.2.4-release</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>20.0</version>
+        </dependency>
     </dependencies>
 
     <build>

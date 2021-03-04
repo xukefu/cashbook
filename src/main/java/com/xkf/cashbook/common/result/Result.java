@@ -1,11 +1,12 @@
 package com.xkf.cashbook.common.result;
 
 
-import com.xkf.cashbook.common.utils.JSONUtil;
+import lombok.ToString;
 
 /**
  * 统一API响应结果封装
  */
+@ToString
 public class Result<T> {
     private int code;
     private String message;
@@ -38,8 +39,4 @@ public class Result<T> {
         return this;
     }
 
-    @Override
-    public String toString() {
-        return JSONUtil.toJSONString(this);
-    }
 }

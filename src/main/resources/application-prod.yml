@@ -1,4 +1,3 @@
-
 server:
   port: 8188
   context-path: /
@@ -6,6 +5,11 @@ server:
 spring:
   profiles:
     active: prod
+  redis:
+    host: 106.75.168.129
+    port: 6379
+    timeout: 5000
+    password: xu@18823748161
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
@@ -57,6 +61,22 @@ mail:
   fromMail:
     addr: xukefu_vip@163.com
 
-publicKey: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANJB/MUeQRTFn1FT1ILWuZGraAjbnZjLHC9DhmD0IQq05zSVAdQznitFgNYBE3Ug5aeNw9p6chf28CA+6RsUsRECAwEAAQ==
+usms:
+  publicKey: A8Xz9j0Js8W5wid3DPmYECEcFqYve8NhT3mN453pX
+  privateKey: uOPzPcjIr83NJ0CKBfMFO9haQruFvKZZEfZGPgtwJRqGHwLJGdnvhY27JxXqaHZKY
+  validate:
+    templateId: UTA210225AC0DF9
+    sigId: SIG2021021014CEBD
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: 25F7rujqy9uFbtKOmn0GyRchdHKd7hNk=Wk5M6VS9tdEPzFCC84UnnEAbvpfc05WW=25F7rujqy9uFbtKOmn0GyRchdHKd7hNk=Wk5M6VS9tdEPzFCC84UnnEAbvpfc05WW #JWT加解密使用的密钥
+  aes-seed: hC5rAvaemoThvCpq4hbqt5RXdvQNLzfp
+  expiration: 604800 #JWT的超期限时间(60*60*24*7)
+  tokenHead: Bearer  #JWT负载中拿到开头
+
+password:
+  salt: f08aa748bd557c2d17ef62ed16ca1ab4
+
+
 
 

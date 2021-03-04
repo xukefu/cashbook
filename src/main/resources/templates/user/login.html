@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>记账吧</title>
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport"/>
+    <meta content="yes" name="apple-mobile-web-app-capable"/>
+    <meta content="black" name="apple-mobile-web-app-status-bar-style"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <link href="../static/css/login.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+<section class="aui-flexView">
+    <header class="aui-navBar aui-navBar-fixed">
+        <a href="javascript:;" class="aui-navBar-item">
+            <i class="icon icon-return"></i>
+        </a>
+        <div class="aui-center">
+            <span class="aui-center-title"></span>
+        </div>
+        <a href="javascript:;" class="aui-navBar-item">
+            客服
+        </a>
+    </header>
+    <section class="aui-scrollView">
+        <div class="aui-ver-head">
+            <img src="../static/img/head.png" alt="">
+        </div>
+        <h4>&nbsp;</h4>
+        <h4>&nbsp;</h4>
+        <h4>&nbsp;</h4>
+        <h4>&nbsp;</h4>
+        <h4>&nbsp;</h4>
+        <h4>&nbsp;</h4>
+        <h4>&nbsp;</h4>
+        <h4>&nbsp;</h4>
+        <h4>&nbsp;</h4>
+        <h4>&nbsp;</h4>
+        <div class="aui-ver-form">
+            <h2>短信快捷登录</h2>
+            <div class="aui-flex">
+                <div class="aui-flex-box">
+                    <i class="icon icon-phone"></i>
+                    <input id="phoneNumber" type="text" value="18823748161" autocomplete="off" placeholder="手机号码">
+                </div>
+            </div>
+            <div class="aui-flex">
+                <div class="aui-flex-box">
+                    <i class="icon icon-code"></i>
+                    <input id="validateCode" type="text" autocomplete="off" placeholder="验证码">
+                </div>
+                <div class="aui-button-code">
+                    <input id="btnSendCode1" type="button" class="btn btn-default" value="获取验证码"
+                           onClick="sendMessage1()"/>
+                </div>
+            </div>
+            <div class="aui-ver-button">
+                <button onClick="doLogin()">立即登录 / 注册</button>
+            </div>
+            <div class="aui-cell-box">
+                <label class="cell-right">
+                    <input type="checkbox" value="1" name="checkbox" checked="checked">
+                    <i class="cell-checkbox-icon"></i>
+                    <em>记住密码</em>
+                </label>
+            </div>
+
+        </div>
+        <div class="aui-ver-head">
+            <img src="../static/img/head.png" alt="">
+        </div>
+    </section>
+</section>
+</body>
+<script src="../static/js/jquery-2.1.0.min.js"></script>
+<script src="../static/js/layer-1.1.js"></script>
+<script type="text/javascript">
+    var phoneReg = /(^1[3|4|5|7|8]\d{9}$)|(^09\d{8}$)/;
+    var count = 60;
+    var InterValObj1;
+    var curCount1;
+
+    function sendMessage1() {
+        curCount1 = count;
+        const phoneNumber = $.trim($('#phoneNumber').val());
+        if (!phoneReg.test(phoneNumber)) {
+            layer.msg("请输入有效的手机号码", {
+                time: 2800
+            })
+            return false;
+        }
+        $("#btnSendCode1").attr("disabled", "true");
+        $("#btnSendCode1").val(+curCount1 + "秒再获取");
+        InterValObj1 = window.setInterval(SetRemainTime1, 1000);
+        sendValidateCode(phoneNumber);
+    }
+
+    function SetRemainTime1() {
+        if (curCount1 == 0) {
+            window.clearInterval(InterValObj1);
+            $("#btnSendCode1").removeAttr("disabled");
+            $("#btnSendCode1").val("重新发送");
+        } else {
+            curCount1--;
+            $("#btnSendCode1").val(+curCount1 + "秒再获取");
+        }
+    }
+
+    function doLogin() {
+        const phoneNumber = $.trim($('#phoneNumber').val());
+        const validateCode = $.trim($('#validateCode').val());
+        if (!phoneReg.test(phoneNumber)) {
+            layer.msg("请输入有效的手机号码", {
+                time: 2800
+            })
+            return false;
+        }
+        window.localStorage.removeItem("tokenHead")
+        window.localStorage.removeItem("token")
+        $.ajax({
+            url: '/user/doLogin',
+            type: 'POST',
+            cache: false,
+            async: false,
+            contentType: 'application/json',
+            data: JSON.stringify({
+                "loginType": 1,
+                "phoneNumber": phoneNumber,
+                "validateCode": validateCode
+            }),
+            success: function (result) {
+                if (result.code == 0) {
+                    layer.msg("登录成功!", {
+                        time: 2800
+                    })
+                    const header = result.data.tokenHead;
+                    const token = result.data.token;
+                    console.log(token)
+                    window.localStorage.setItem("tokenHead", header)
+                    window.localStorage.setItem("token", token)
+                    const authorization = encodeURIComponent(header + " " + token);
+                    window.location.href = "/index?Authorization=" + authorization;
+
+                } else {
+                    layer.msg("登录失败!", {
+                        time: 2800
+                    })
+                }
+            },
+            error: function (data) {
+                layer.msg("登陆失败!", {
+                    time: 2800
+                })
+            }
+        });
+    }
+
+    function sendValidateCode(phoneNumber) {
+        $.ajax({
+            url: '/user/sendValidateCode',
+            type: 'POST',
+            cache: false,
+            async: false,
+            contentType: 'application/json',
+            data: JSON.stringify({
+                "type": 0,
+                "phoneNumber": phoneNumber
+            }),
+            success: function (data) {
+                layer.msg("发送成功", {
+                    time: 2800
+                })
+            },
+            error: function (data) {
+                layer.msg("发送失败!", {
+                    time: 2800
+                })
+            }
+        });
+    }
+</script>
+
+</html>
