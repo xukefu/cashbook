@@ -64,12 +64,6 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String username = null;
         String jwtToken = null;
         // JWT Token 需要从 "Bearer {token}" 获取
-        if (requestTokenHeader == null){
-            String[] requestParameterValues = request.getParameterValues(HttpHeaders.AUTHORIZATION);
-            if (requestParameterValues != null && requestParameterValues.length > 0){
-                requestTokenHeader = requestParameterValues[0];
-            }
-        }
         if (requestTokenHeader != null && requestTokenHeader.startsWith(JwtTokenUtil.TOKEN_PREFIX)) {
             String encryptToken = requestTokenHeader.replace(JwtTokenUtil.TOKEN_PREFIX, "");
             try {

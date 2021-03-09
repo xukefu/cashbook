@@ -68,14 +68,19 @@ usms:
     templateId: UTA210225AC0DF9
     sigId: SIG2021021014CEBD
 jwt:
-  tokenHeader: Authorization #JWT存储的请求头
   secret: 25F7rujqy9uFbtKOmn0GyRchdHKd7hNk=Wk5M6VS9tdEPzFCC84UnnEAbvpfc05WW=25F7rujqy9uFbtKOmn0GyRchdHKd7hNk=Wk5M6VS9tdEPzFCC84UnnEAbvpfc05WW #JWT加解密使用的密钥
   aes-seed: hC5rAvaemoThvCpq4hbqt5RXdvQNLzfp
   expiration: 604800 #JWT的超期限时间(60*60*24*7)
   tokenHead: Bearer  #JWT负载中拿到开头
-
+  whiteList: #白名单
+    - /static/**
+    - /user/*
+    - /page/*
+    - /test/*
 password:
   salt: f08aa748bd557c2d17ef62ed16ca1ab4
+
+
 
 
 

@@ -18,7 +18,8 @@
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../static/css/selectBox/index.css"/>
     <link rel="stylesheet" href="../static/css/selectBox/labelauty.css"/>
-    <script src="../static/js/jquery-2.1.0.min.js"></script>
+    <link rel="stylesheet" href="../static/css/footer.css"/>
+    <script src="../static/js/jquery-2.1.0.js"></script>
     <script src="../static/js/layer-1.1.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="../static/js/moment-with-locales.min.js"></script>
@@ -37,7 +38,7 @@
                 <h2 class="card-title">欢迎进入记账吧</h2>
                 <p>&nbsp;&nbsp;&nbsp;</p>
                 <div class="userImage">
-                    <a  onclick="jumpPage('admin')">
+                    <a  href="/page/admin">
                         <img class="userImage" src="../static/img/catFace.png"></a>
                 </div>
                 <div class="btn-wrap">
@@ -213,6 +214,20 @@
 </div>
 </div>
 
+<div class="footer fl-ar bg-black">
+    <a>
+        <img src="../static/img/icon/home_a_icon.png" alt="">
+        <p class="blue-1">首页</p>
+    </a>
+    <a>
+        <img src="../static/img/icon/equr_n_icon.png" alt="">
+        <p>设备</p>
+    </a>
+    <a>
+        <img src="../static/img/icon/mine_n_icon.png" alt="">
+        <p>我的</p>
+    </a>
+</div>
 <script src="../static/js/index.js"></script>
 <script src="../static/js/jcalculator.js"></script>
 <script src="../static/js/labelauty.js"></script>
@@ -221,7 +236,6 @@
 </html>
 <script type="text/javascript">
     $(function () {
-
         //计算器初始化
         $('#consumeAmount').calculator();
 
@@ -236,7 +250,7 @@
             ignoreReadonly: true
         });
         initConsumeCategory();
-        initincomeCategory();
+        // initincomeCategory();
         $(".rdolist").labelauty("rdolist", "rdo");
 
         let now = new Date();
@@ -263,11 +277,11 @@
     //初始化消费类别
     function initConsumeCategory() {
         $.ajax({
-            url: 'consume/category/getAll',
+            url: '/consume/category/getAll',
             type: 'get',
             cache: false,
             processData: false,
-            async: false,
+            async: true,
         }).done(function (res) {
             var categorys = res.data;
             for (var index in categorys) {
@@ -287,10 +301,11 @@
     //初始化收益类别
     function initincomeCategory() {
         $.ajax({
-            url: 'income/category/getAll',
+            url: '/income/category/getAll',
             type: 'get',
             cache: false,
             processData: false,
+            async: true
         }).done(function (res) {
             const categorys = res.data;
             for (const index in categorys) {
@@ -306,7 +321,7 @@
         const consumeAmount = $("#consumeAmount").val();
         const consumeCategoryId = $("input[name='consumeCategoryId']:checked").val();
         $.ajax({
-            url: 'consume/detail/saveOrUpdate',
+            url: '/consume/detail/saveOrUpdate',
             type: 'POST',
             cache: false,
             data: JSON.stringify({
@@ -323,7 +338,7 @@
                 layer.msg(data.message, {
                     time: 2800
                 })
-                jumpPage("index");
+                window.location.href = "/page/index";
             },
             error: function (data) {
                 layer.msg("记录失败!", {
@@ -335,7 +350,7 @@
 
     function addIncomeDetail() {
         $.ajax({
-            url: 'income/detail/add',
+            url: '/income/detail/add',
             type: 'POST',
             cache: false,
             data: JSON.stringify({
@@ -351,7 +366,7 @@
                 layer.msg(data.message, {
                     time: 2800
                 })
-                jumpPage("index")
+                window.location.href = "/page/index";
             },
             error: function (data) {
                 layer.msg("记录失败!", {

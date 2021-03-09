@@ -25,11 +25,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+
     @Resource
     private UserDetailsService jwtUserDetailsService;
+
     @Resource
     private JwtRequestFilter jwtRequestFilter;
 
+    @Resource
+    private WhiteListConfig whiteListConfig;
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(jwtUserDetailsService).passwordEncoder(passwordEncoder());
@@ -58,24 +62,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        // 不需要安全验证的 URI
-        String[] anonUri = {
-                "/user/login",
-                "/user/doLogin",
-                "/user/logout",
-                "/user/sendValidateCode",
-                "/user/password/forget",
-                "/webapi/**",
-                "/test/*",
-             /*   "/static/css/**",
-                "/static/js/**",
-                "/static/fonts/**",*/
-                "/static/**"
-        };
         // 关闭csrf验证
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
-                .authorizeRequests().antMatchers(anonUri).permitAll()
+                .authorizeRequests().antMatchers(whiteListConfig.getWhiteList()).permitAll()
                 // all other requests need to be authenticated
                 .anyRequest().authenticated().and()
                 // make sure we use stateless session; session won't be used to

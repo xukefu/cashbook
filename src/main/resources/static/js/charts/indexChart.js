@@ -54,7 +54,7 @@ function selectConsumePage(pageNumer) {
 //初始化消费类别
 function initConsumeCategory() {
     $.ajax({
-        url: 'consume/category/getAll',
+        url: '/consume/category/getAll',
         type: 'get',
         cache: false,
         processData: false,
@@ -118,7 +118,7 @@ function getPageConsumeDetail(currentPage, consumeBy, consumeCategoryId, consume
     const pageSize = 10;
     let total = 0;
     $.ajax({
-        url: 'consume/detail/pageDetail',
+        url: '/consume/detail/pageDetail',
         data: JSON.stringify({
             "currentPage": currentPage,
             "pageSize": pageSize,
@@ -205,7 +205,7 @@ function getPageIncomeDetail(currentPage) {
     const pageSize = 10;
     let total = 0;
     $.ajax({
-        url: 'income/detail/pageDetail',
+        url: '/income/detail/pageDetail',
         data: JSON.stringify({
             "currentPage": currentPage,
             "pageSize": pageSize,
@@ -325,7 +325,7 @@ function editConsumeDetail(obj) {
     //查出所有分类
     let categoryMap = {};
     $.ajax({
-        url: 'consume/category/getAll',
+        url: '/consume/category/getAll',
         type: 'get',
         cache: false,
         processData: false,
@@ -383,7 +383,7 @@ function editIncomeDetail(obj) {
     //查出所有分类
     let categoryMap = {};
     $.ajax({
-        url: 'income/category/getAll',
+        url: '/income/category/getAll',
         type: 'get',
         cache: false,
         processData: false,
@@ -411,7 +411,7 @@ function editIncomeDetail(obj) {
 //更新消费详情
 function updateConsumeDetail() {
     $.ajax({
-        url: 'consume/detail/saveOrUpdate',
+        url: '/consume/detail/saveOrUpdate',
         type: 'POST',
         cache: false,
         data: JSON.stringify({
@@ -430,7 +430,7 @@ function updateConsumeDetail() {
                 time: 2800
             })
             $("#closeConsumeDetailModal").click()
-            jumpPage("admin")
+            window.location.href = "/page/admin";
         },
         error: function (data) {
             layer.msg("记录失败!", {
@@ -443,7 +443,7 @@ function updateConsumeDetail() {
 //更新收入详情
 function updateIncomeDetail() {
     $.ajax({
-        url: 'income/detail/saveOrUpdate',
+        url: '/income/detail/saveOrUpdate',
         type: 'POST',
         cache: false,
         data: JSON.stringify({
@@ -461,7 +461,7 @@ function updateIncomeDetail() {
                 time: 2800
             })
             $("#closeIncomeDetailModal").click()
-            jumpPage("admin")
+            window.location.href = "/page/admin";
         },
         error: function (data) {
             layer.msg("记录失败!", {
@@ -481,7 +481,7 @@ function getIncomeAndExpenditure() {
 //月度消费金额
 function getMonthlyConsumeAmount() {
     $.ajax({
-        url: 'getMonthlyConsumeAmount',
+        url: '/getMonthlyConsumeAmount',
         type: 'get',
         cache: false,
         processData: false,
@@ -495,7 +495,7 @@ function getMonthlyConsumeAmount() {
 function getWeeklyConsumeAmount() {
 
     $.ajax({
-        url: 'getWeeklyConsumeAmount',
+        url: '/getWeeklyConsumeAmount',
         type: 'get',
         cache: false,
         processData: false,
@@ -509,7 +509,7 @@ function getWeeklyConsumeAmount() {
 function getMonthlyIncomeAmount() {
 
     $.ajax({
-        url: 'getMonthlyIncomeAmount',
+        url: '/getMonthlyIncomeAmount',
         type: 'get',
         cache: false,
         processData: false,
@@ -630,10 +630,6 @@ function getLineChat() {
     lineChart();
 }
 
-function backHome() {
-    jumpPage("index")
-}
-
 //扇形图
 function pieChart() {
     const myChart = echarts.init(document.getElementById("index-pie-1"));
@@ -641,7 +637,7 @@ function pieChart() {
     let monthlyConsumeData = null;
 
     $.ajax({
-        url: 'getMonthlyConsumeProportion',
+        url: '/getMonthlyConsumeProportion',
         type: 'get',
         cache: false,
         processData: false,
@@ -728,7 +724,7 @@ function lineChart() {
     let everyDayAmountArr = [];
     let categoryArr = [];
     $.ajax({
-        url: 'getEveryDayConsumeAmount?days=' + 7,
+        url: '/getEveryDayConsumeAmount?days=' + 7,
         type: 'get',
         cache: false,
         processData: false,
@@ -804,7 +800,7 @@ function lineChart() {
     let monthlyConsumeData = null;
 
     $.ajax({
-        url: 'getMonthlyConsumeProportion',
+        url: '/getMonthlyConsumeProportion',
         type: 'get',
         cache: false,
         processData: false,
@@ -891,7 +887,7 @@ function lineChart() {
     let everyDayAmountArr = [];
     let categoryArr = [];
     $.ajax({
-        url: 'getEveryDayConsumeAmount?days=' + 7,
+        url: '/getEveryDayConsumeAmount?days=' + 7,
         type: 'get',
         cache: false,
         processData: false,

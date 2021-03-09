@@ -73,7 +73,7 @@
     </section>
 </section>
 </body>
-<script src="../static/js/jquery-2.1.0.min.js"></script>
+<script src="../static/js/jquery-2.1.0.js"></script>
 <script src="../static/js/layer-1.1.js"></script>
 <script type="text/javascript">
     var phoneReg = /(^1[3|4|5|7|8]\d{9}$)|(^09\d{8}$)/;
@@ -136,12 +136,11 @@
                     })
                     const header = result.data.tokenHead;
                     const token = result.data.token;
-                    console.log(token)
                     window.localStorage.setItem("tokenHead", header)
                     window.localStorage.setItem("token", token)
 
-                    const authorization = encodeURIComponent(header + " " + token);
-                    window.location.href = "/index?Authorization=" + authorization;
+                    // const authorization = encodeURIComponent(header + " " + token);
+                    window.location.href = "/page/index";
 
                 } else {
                     layer.msg("登录失败!", {

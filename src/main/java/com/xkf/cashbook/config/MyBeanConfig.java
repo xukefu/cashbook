@@ -21,4 +21,5 @@ public class MyBeanConfig {
     public Account getAccount(){
         return new Account(privateKey,publicKey);
     }
+
 }

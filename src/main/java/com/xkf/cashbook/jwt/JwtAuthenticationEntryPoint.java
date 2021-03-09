@@ -29,9 +29,9 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
         response.setHeader("Content-type", "application/json;charset=UTF-8");
         response.setStatus(HttpStatus.SC_OK);
         try {
-            response.sendRedirect("user/login");
-    /*        Result commonResponse = ResultGenerator.genUnAuthorizedResult();
-            response.getWriter().write(JacksonUtils.obj2json(commonResponse));*/
+//            response.sendRedirect("/user/login");
+            Result commonResponse = ResultGenerator.genUnAuthorizedResult();
+            response.getWriter().write(JacksonUtils.obj2json(commonResponse));
         } catch (Exception e) {
             log.error(e.getMessage());
         }
