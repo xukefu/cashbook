@@ -34,7 +34,7 @@ public class UserDO {
 
     private String phoneNumber;
 
-    private Boolean status;
+    private Integer status;
 
     private LocalDateTime createTime;
 

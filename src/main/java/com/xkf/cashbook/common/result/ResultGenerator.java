@@ -11,9 +11,10 @@ public class ResultGenerator {
     /**
      * Request result message
      */
-    public static final String DEFAULT_SUCCESS_MESSAGE = "success";
-    public static final String UNAUTHORIZED_MESSAGE = "unauthorized";
-    public static final String DEFAULT_FAIL_MESSAGE = "fail";
+    public static final String DEFAULT_SUCCESS_MESSAGE = "操作成功";
+    public static final String UNAUTHORIZED_MESSAGE = "认证失败";
+    public static final String UN_JOIN_FAMILY = "un join family";
+    public static final String DEFAULT_FAIL_MESSAGE = "操作失败";
     public static final String NO_RESULT_MESSAGE = "no result";
 
     /**
@@ -63,6 +64,13 @@ public class ResultGenerator {
         Result result = new Result()
                 .setCode(ResultCode.UNAUTHORIZED)
                 .setMessage(UNAUTHORIZED_MESSAGE);
+        return result;
+    }
+
+    public static Result genUnJoinFamilyResult() {
+        Result result = new Result()
+                .setCode(ResultCode.UN_JOIN_FAMILY)
+                .setMessage(UN_JOIN_FAMILY);
         return result;
     }
 

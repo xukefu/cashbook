@@ -1,5 +1,6 @@
 package com.xkf.cashbook.jwt;
 
+import com.xkf.cashbook.common.constant.UserStatus;
 import com.xkf.cashbook.common.result.Result;
 import com.xkf.cashbook.common.result.ResultGenerator;
 import com.xkf.cashbook.common.utils.JacksonUtils;
@@ -29,7 +30,6 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Se
         response.setHeader("Content-type", "application/json;charset=UTF-8");
         response.setStatus(HttpStatus.SC_OK);
         try {
-//            response.sendRedirect("/user/login");
             Result commonResponse = ResultGenerator.genUnAuthorizedResult();
             response.getWriter().write(JacksonUtils.obj2json(commonResponse));
         } catch (Exception e) {

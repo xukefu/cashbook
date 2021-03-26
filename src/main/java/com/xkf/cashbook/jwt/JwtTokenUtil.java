@@ -48,6 +48,8 @@ public class JwtTokenUtil implements Serializable {
      */
     public static final String NAME_CARD = "ncard";
     public static final String USER_ID = "uid";
+    public static final String PHONE_NUMBER = "pNumber";
+    public static final String USER_STATUS = "uStatus";
     public static final String FAMILY_ID = "fid";
 
     private static final long serialVersionUID = -2550185165626007488L;
@@ -71,6 +73,18 @@ public class JwtTokenUtil implements Serializable {
         }
         log.info("jws数据解析,username:{}",username);
         return username;
+    }
+
+    public String getUserStatus(String token) {
+        return getAllClaimsFromToken(token).get(USER_STATUS, String.class);
+    }
+
+    public Long getUserId(String token) {
+        return getAllClaimsFromToken(token).get(USER_ID, Long.class);
+    }
+
+    public Long getFamilyId(String token) {
+        return getAllClaimsFromToken(token).get(FAMILY_ID, Long.class);
     }
 
 	public UserDTO getNameCard(String token) {

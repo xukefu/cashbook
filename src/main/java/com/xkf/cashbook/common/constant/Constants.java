@@ -25,5 +25,8 @@ public interface Constants {
     String KEY_PREFIX_CACHE = "cashbook:cache:";
     String KEY_PREFIX_LOGIN = "cashbook:login:";
     String KEY_PREFIX_VALIDATE_CODE = "cashbook:validateCode:";
+    String KEY_PREFIX_USER_STATUS = "cashbook:user:status:";
+
+    String DOMAIN = "www.cashbook.top";
 
 }

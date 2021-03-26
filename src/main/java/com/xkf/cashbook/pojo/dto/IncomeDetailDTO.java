@@ -5,12 +5,17 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+/**
+ * 收入详情
+ *
+ * @author xukf01
+ */
 @Data
 public class IncomeDetailDTO {
 
     private Long id;
 
-    private Integer incomeBy;
+    private Long incomeBy;
 
     private Double incomeAmount;
 
@@ -20,7 +25,7 @@ public class IncomeDetailDTO {
 
     private LocalDateTime recordDate;
 
-    private Integer recordBy;
+    private Long recordBy;
 
     private String incomeComment;
 

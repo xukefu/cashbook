@@ -17,11 +17,6 @@ public class AdminController {
     @Resource
     private AdminService adminService;
 
-    @GetMapping(value = "/admin")
-    public String admin() {
-        return "admin";
-    }
-
     @RequestMapping("getMonthlyConsumeAmount")
     @ResponseBody
     public Result  getMonthlyConsumeAmount(){

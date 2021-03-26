@@ -26,4 +26,9 @@ public class PageController {
     public String home() {
         return "/home";
     }
+
+    @RequestMapping("/myFamily")
+    public String family() {
+        return "/family/myFamily";
+    }
 }

@@ -1,5 +1,6 @@
 package com.xkf.cashbook.common.result;
 
+
 /**
  * 响应码枚举，参考HTTP状态码的语义
  */
@@ -7,6 +8,7 @@ public enum ResultCode {
     /**
      * 0 成功
      * 1 失败
+     * -1 为加入家庭
      * -2 未认证（签名错误）
      * 404 接口不存在
      * 500 服务器内部错误
@@ -14,6 +16,7 @@ public enum ResultCode {
     SUCCESS(0),
     FAIL(1),
     INVALID_PARAM(2),
+    UN_JOIN_FAMILY(-1),
     UNAUTHORIZED(-2),
     NOT_FOUND(404),
     INTERNAL_SERVER_ERROR(500);
@@ -27,4 +30,5 @@ public enum ResultCode {
     public int code() {
         return code;
     }
+
 }

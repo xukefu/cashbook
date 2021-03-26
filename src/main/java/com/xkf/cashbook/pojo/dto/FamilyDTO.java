@@ -1,9 +1,6 @@
-package com.xkf.cashbook.mysql.model;
+package com.xkf.cashbook.pojo.dto;
 
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -12,10 +9,8 @@ import java.time.LocalDateTime;
  * @author xukf01
  */
 @Data
-@TableName("c_family")
-public class FamilyDO {
+public class FamilyDTO {
 
-    @TableId(value = "id",type = IdType.AUTO)
     private Long id;
 
     private String familyName;

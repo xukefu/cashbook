@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="../static/css/selectBox/labelauty.css"/>
     <link rel="stylesheet" href="../static/css/font-awesome.css"/>
     <link rel="stylesheet" href="../static/css/jcalculator.css">
+    <link rel="stylesheet" href="../static/css/footer.css"/>
 </head>
 <body>
 <header class="am-topbar am-topbar-fixed-top">
@@ -32,16 +33,20 @@
         <h4>&nbsp;&nbsp;</h4>
         <ul class="nav nav-pills" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="pill" href="#consumeDetailTable2" onclick="showFilter()"><strong>支出</strong></a>
+                <a class="nav-link active" data-toggle="pill" href="#consumeDetailTable2"
+                   onclick="showFilter()"><strong>支出</strong></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#incomeDetailTable2" onclick="getIncomeDetail();hideFilter()"><strong>收入</strong></a>
+                <a class="nav-link" data-toggle="pill" href="#incomeDetailTable2"
+                   onclick="getIncomeDetail();hideFilter()"><strong>收入</strong></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#incomeAndExpenditure" onclick="getIncomeAndExpenditure();hideFilter()"><strong>汇总</strong></a>
+                <a class="nav-link" data-toggle="pill" href="#incomeAndExpenditure"
+                   onclick="getIncomeAndExpenditure();hideFilter()"><strong>汇总</strong></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="pill" href="#pieChart" onclick="getPieChat();hideFilter()"><strong>饼状图</strong></a>
+                <a class="nav-link" data-toggle="pill" href="#pieChart"
+                   onclick="getPieChat();hideFilter()"><strong>饼状图</strong></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" data-toggle="pill" href="#lineChart"
@@ -98,7 +103,7 @@
         </div>
         <h4>&nbsp;&nbsp;</h4>
         <!-- Tab panes -->
-        <div class="tab-content admin  ">
+        <div class="tab-content admin" style="margin-top: 15px">
             <!--消费详情-->
             <div id="consumeDetailTable2" class="container tab-pane active"><br>
                 <div class="am-g">
@@ -106,12 +111,12 @@
                         <div class="card-box">
                             <table class="table table-bordered table-striped" id="consumeDetailTable">
                                 <thead class="thead-light">
-                                    <th style="text-align: center">人员</th>
-                                    <th style="text-align: center">类别</th>
-                                    <th style="text-align: center">方式</th>
-                                    <th style="text-align: center">时间</th>
-                                    <th style="text-align: center">金额</th>
-                                    <th style="text-align: center">备注</th>
+                                <th style="text-align: center">人员</th>
+                                <th style="text-align: center">类别</th>
+                                <th style="text-align: center">方式</th>
+                                <th style="text-align: center">时间</th>
+                                <th style="text-align: center">金额</th>
+                                <th style="text-align: center">备注</th>
                                 </thead>
                                 <tbody id="consumeDetailBody">
                                 </tbody>
@@ -206,6 +211,12 @@
         </div>
     </div>
 </header>
+
+<div class="footer fl-ar bg-black">
+    <a class="col-xs-11" href="/page/index"><i class="fa fa-home" aria-hidden="true"></i>首页</a>
+    <a class="col-xs-11" href="/page/admin"><i class="fa fa-bell" aria-hidden="true"></i>报表</a>
+    <a class="col-xs-11" href="/page/index"><i class="fa fa-user" aria-hidden="true"></i>我</a>
+</div>
 
 <!-- 消费类别模态框 -->
 <div class="modal fade" id="consumeCategoryModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
@@ -323,67 +334,70 @@
                 <div class="form-group form-inline mx-auto">
                     <div class="card-body">
                         <form id="consumeForm" autocomplete="off">
-                        <div class="form-group form-inline">
-                            <div style="float: left">
-                                <label>消费人:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <div class="form-group form-inline">
+                                <div style="float: left">
+                                    <label>消费人:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                </div>
+                                <div style="float: left">
+                                    <input type="radio" value="1" name="editConsumeBy" checked>&nbsp;可
+                                    <input hidden id="consumeDetailId">
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <input type="radio" value="2" name="editConsumeBy">&nbsp;欣
+                                </div>
                             </div>
-                            <div style="float: left">
-                                <input type="radio" value="1" name="editConsumeBy" checked>&nbsp;可
-                                <input hidden id="consumeDetailId">
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="radio" value="2" name="editConsumeBy">&nbsp;欣
+                            <!--消费类别下拉框-->
+                            <div class="form-group form-inline">
+                                <div style="float: left">
+                                    <label>消费类别:&nbsp;&nbsp;&nbsp;</label>
+                                </div>
+                                <div class="parent" style="width: 150px">
+                                    <button type="button" data-toggle="modal" id="editSelectedCategory"
+                                            data-target="#editConsumeCategoryModal"
+                                            style="text-align: left">请选择
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <!--消费类别下拉框-->
-                        <div class="form-group form-inline">
-                            <div style="float: left">
-                                <label>消费类别:&nbsp;&nbsp;&nbsp;</label>
+                            <div class="form-group form-inline">
+                                <div style="float: left">
+                                    <label>消费金额:&nbsp;&nbsp;&nbsp;</label>
+                                </div>
+                                <div style="float: left">
+                                    <input type="text" id="editConsumeAmount" class="form-control"
+                                           style="background-color: white;width: 150px;text-align:center"
+                                           placeholder="金额"
+                                    />
+                                </div>
                             </div>
-                            <div class="parent" style="width: 150px">
-                                <button type="button" data-toggle="modal" id="editSelectedCategory" data-target="#editConsumeCategoryModal"
-                                        style="text-align: left">请选择
-                                </button>
+                            <div class="form-group form-inline">
+                                <div style="float: left">
+                                    <label>消费方式:&nbsp;&nbsp;&nbsp;</label>
+                                </div>
+                                <div style="float: left">
+                                    <input type="radio" value="1" name="editConsumeWay" checked>&nbsp;&nbsp;支付宝&nbsp;&nbsp;
+                                    <input type="radio" value="2" name="editConsumeWay">&nbsp;微信&nbsp;&nbsp;
+                                    <input type="radio" value="3" name="editConsumeWay">&nbsp;现金&nbsp;&nbsp;
+                                    <input type="radio" value="4" name="editConsumeWay">&nbsp;银行卡
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group form-inline">
-                            <div style="float: left">
-                                <label>消费金额:&nbsp;&nbsp;&nbsp;</label>
+                            <div class="form-group form-inline">
+                                <div style="float: left">
+                                    <label>消费时间:&nbsp;&nbsp;&nbsp;</label>
+                                </div>
+                                <div class="form-group" style="width: 150px;">
+                                    <input class="form-control" type="date" id="editConsumeDate"
+                                           style="text-align: center">
+                                </div>
                             </div>
-                            <div style="float: left">
-                                <input type="text" id="editConsumeAmount" class="form-control"
-                                       style="background-color: white;width: 150px;text-align:center"
-                                       placeholder="金额"
-                                />
+                            <div class="form-group form-inline">
+                                <div style="float: left">
+                                    <label>消费备注:&nbsp;&nbsp;&nbsp;</label>
+                                </div>
+                                <div class="form-group" style="width: 150px;">
+                                    <input class="form-control" type="text" id="editConsumeComment"
+                                           style="width: 150px;text-align:center" placeholder="选填"/>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group form-inline">
-                            <div style="float: left">
-                                <label>消费方式:&nbsp;&nbsp;&nbsp;</label>
-                            </div>
-                            <div style="float: left">
-                                <input type="radio" value="1" name="editConsumeWay" checked>&nbsp;&nbsp;支付宝&nbsp;&nbsp;
-                                <input type="radio" value="2" name="editConsumeWay">&nbsp;微信&nbsp;&nbsp;
-                                <input type="radio" value="3" name="editConsumeWay">&nbsp;现金&nbsp;&nbsp;
-                                <input type="radio" value="4" name="editConsumeWay">&nbsp;银行卡
-                            </div>
-                        </div>
-                        <div class="form-group form-inline">
-                            <div style="float: left">
-                                <label>消费时间:&nbsp;&nbsp;&nbsp;</label>
-                            </div>
-                            <div class="form-group" style="width: 150px;">
-                                <input  class="form-control" type="date" id="editConsumeDate" style="text-align: center">
-                            </div>
-                        </div>
-                        <div class="form-group form-inline">
-                            <div style="float: left">
-                                <label>消费备注:&nbsp;&nbsp;&nbsp;</label>
-                            </div>
-                            <div class="form-group" style="width: 150px;">
-                                <input class="form-control" type="text" id="editConsumeComment" style="width: 150px;text-align:center"placeholder="选填"/>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -445,7 +459,8 @@
                                     <label>收入时间:&nbsp;&nbsp;&nbsp;</label>
                                 </div>
                                 <div class="form-group" style="width: 150px;">
-                                    <input  class="form-control" type="date" id="editIncomeDate" style="text-align: center">
+                                    <input class="form-control" type="date" id="editIncomeDate"
+                                           style="text-align: center">
                                 </div>
                             </div>
                             <div class="form-group form-inline">
@@ -453,7 +468,8 @@
                                     <label>收入备注:&nbsp;&nbsp;&nbsp;</label>
                                 </div>
                                 <div class="form-group" style="width: 150px;">
-                                    <input class="form-control" type="text" id="editIncomeComment" style="width: 150px;text-align:center"placeholder="选填"/>
+                                    <input class="form-control" type="text" id="editIncomeComment"
+                                           style="width: 150px;text-align:center" placeholder="选填"/>
                                 </div>
                             </div>
                         </form>

@@ -19,7 +19,7 @@ public class ConsumeDetailDTO {
 
     private Date recordDate;
 
-    private String recordBy;
+    private Long recordBy;
 
     private String consumeBy;
 

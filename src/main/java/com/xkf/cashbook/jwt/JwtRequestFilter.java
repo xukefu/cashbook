@@ -1,23 +1,32 @@
 package com.xkf.cashbook.jwt;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.xkf.cashbook.common.constant.UserStatus;
+import com.xkf.cashbook.common.result.Result;
+import com.xkf.cashbook.common.result.ResultGenerator;
 import com.xkf.cashbook.common.utils.AesEncryptUtils;
 import com.xkf.cashbook.common.utils.IpUtil;
 import com.xkf.cashbook.common.utils.JacksonUtils;
+import com.xkf.cashbook.mysql.mapper.UserMapper;
+import com.xkf.cashbook.mysql.model.UserDO;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHeaders;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.security.web.authentication.www.NonceExpiredException;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.Resource;
@@ -26,14 +35,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
+
+import static com.xkf.cashbook.common.constant.Constants.KEY_PREFIX_USER_STATUS;
 
 /**
  * @author xukf01
  */
 @Component
 @Slf4j
+@Order(1)
 public class JwtRequestFilter extends OncePerRequestFilter {
-    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
     @Resource
     protected Environment env;
@@ -58,7 +70,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             return;
         }
         String requestTokenHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        LOGGER.info("请求接口：{}，请求IP：{}，请求参数：{}",
+        log.info("请求接口：{}，请求IP：{}，请求参数：{}",
                 request.getRequestURI(), IpUtil.getIpAddress(request), JacksonUtils.obj2json(request.getParameterMap()));
 
         String username = null;
@@ -68,20 +80,19 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             String encryptToken = requestTokenHeader.replace(JwtTokenUtil.TOKEN_PREFIX, "");
             try {
                 jwtToken = AesEncryptUtils.decrypt(encryptToken, AesEncryptUtils.geneKey(aesSeed));
-                log.info("jwtToken:{}",jwtToken);
+                log.info("jwtToken:{}", jwtToken);
                 username = jwtTokenUtil.getUsernameFromToken(jwtToken);
             } catch (IllegalArgumentException e) {
-                LOGGER.warn("Unable to get JWT Token:" + encryptToken);
+                log.warn("Unable to get JWT Token:" + encryptToken);
             } catch (ExpiredJwtException e) {
-                LOGGER.warn("JWT Token has expired, token: {}", jwtToken);
+                log.warn("JWT Token has expired, token: {}", jwtToken);
             } catch (Exception e) {
                 // 解析 JWT 失败
-                LOGGER.warn("encryptToken cannot decrypt, aesSeed: {}", aesSeed, e);
+                log.warn("encryptToken cannot decrypt, aesSeed: {}", aesSeed, e);
             }
         } else {
-            logger.warn("JWT Token does not begin with Bearer String");
+            log.warn("JWT Token does not begin with Bearer String");
         }
-
 
 
         //一旦得到token，就进行验证。
@@ -90,7 +101,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             try {
                 userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
             } catch (Exception ex) {
-                logger.warn(ex.getMessage());
+                log.warn(ex.getMessage());
             }
 
             // if token is valid configure Spring Security to manually set authentication

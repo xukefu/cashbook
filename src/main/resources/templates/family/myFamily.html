@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="我的家庭">
+
+    <title>我的家庭</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/font-awesome.css" rel="stylesheet"/>
+    <link href="../static/css/familyStyle.css" rel="stylesheet">
+    <link href="../static/css/style-responsive.css" rel="stylesheet">
+</head>
+
+<body>
+<div id="login-page">
+    <div class="container">
+        <div class="form-login">
+            <h2 class="form-login-heading">我的家庭</h2>
+            <div class="login-wrap">
+                <input type="text" class="form-control" id="nickName" placeholder="请输入您的昵称" autofocus>
+                <br>
+                <input type="text" class="form-control" id="familyName" placeholder="请输入家庭名称" autofocus>
+                <br>
+                <label class="checkbox">
+		                <span class="pull-right">
+		                    <a href="#" onclick="showJoinModal()">已有家庭?</a>
+		                </span>
+                </label>
+                <p>&nbsp;</p>
+                <button class="btn btn-theme btn-block" onclick="createFamily()"><i class="fa fa-plus"></i>
+                    创建
+                </button>
+                <hr>
+                <div class="login-social-link centered">
+                    <p>风一更，雪一更</p>
+                    <p>聒碎乡心梦不成</p>
+                    <p>故园无此声</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;——纳兰性德《长相思》</p>
+                </div>
+            </div>
+
+            <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="joinFamilyModal"
+                 class="modal in">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">加入家庭</h4>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" class="form-control" id="applyNickName" placeholder="请输入您的昵称" autofocus>
+                            <br>
+                            <input type="text" name="familyName" id="applyFamilyName" placeholder="请输入家庭名称"
+                                   autocomplete="off"
+                                   class="form-control placeholder-no-fix">
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
+                            <button class="btn btn-theme" onclick="applyFamily()" type="button">申请</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="../static/js/jquery-2.1.0.js"></script>
+<script src="../static/js/layer-1.1.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="../static/js/jquery.backstretch.min.js"></script>
+<script>
+    $.backstretch("../static/img/family.jpg", {speed: 500});
+
+    $(function () {
+        //先判断是否有家庭//强制弹框//本来要后台security filter实现的,暂时不搞了...简单实现先
+        $.ajax({
+            url: '/user/getUser/',
+            type: 'get',
+            cache: false,
+            processData: false,
+            async: true,
+        }).done(function (res) {
+            console.log(res.data)
+            const userStatus = res.data.userStatus
+            if (userStatus == 1) {
+                window.location.href = "/page/index"
+            }
+        }).fail(function (res) {
+
+        });
+    });
+
+    function showJoinModal() {
+        $("#joinFamilyModal").modal('show')
+    }
+
+    function createFamily() {
+        const familyOwner = window.localStorage.getItem("phoneNumber")
+        $.ajax({
+            url: '/family/add',
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({
+                "familyName": $("#familyName").val(),
+                "familyOwner": familyOwner,
+                "userNickName": $("#nickName").val()
+            }),
+            async: true,
+            contentType: 'application/json',
+            success: function (data) {
+                layer.msg(data.message, {
+                    time: 2800
+                })
+                setTimeout(function () {
+                    if (data.code == 0) {
+                        window.location.href = "/page/index";
+                    }
+                }, 2000);
+            },
+            error: function (data) {
+                layer.msg(data.message, {
+                    time: 2800
+                })
+            }
+        });
+    }
+
+    function applyFamily() {
+        const phoneNumber = window.localStorage.getItem("phoneNumber")
+        $.ajax({
+            url: '/family/apply',
+            type: 'POST',
+            cache: false,
+            data: JSON.stringify({
+                "applyFamilyName": $("#applyFamilyName").val(),
+                "applyPhoneNumber": phoneNumber,
+                "userNickName": $("#applyNickName").val()
+            }),
+            async: true,
+            contentType: 'application/json',
+            success: function (data) {
+                if (data.code == 0) {
+                    layer.msg("申请成功,请等待家庭之主审核", {
+                        time: 5000
+                    })
+                    setTimeout(function () {
+                        window.location.href = "/page/index";
+                    }, 2500);
+                } else {
+                    layer.msg(data.message, {
+                        time: 2800
+                    })
+                }
+            },
+            error: function (data) {
+                layer.msg(data.message, {
+                    time: 2800
+                })
+            }
+        });
+    }
+</script>
+
+
+</body>
+</html>

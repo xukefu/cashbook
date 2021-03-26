@@ -12,7 +12,7 @@ public class IncomeDetailVO {
 
     private Long id;
 
-    private Integer incomeBy;
+    private Long incomeBy;
 
     private Double incomeAmount;
 
@@ -22,7 +22,7 @@ public class IncomeDetailVO {
 
     private LocalDateTime recordDate;
 
-    private Integer recordBy;
+    private Long recordBy;
 
     private String incomeComment;
 }

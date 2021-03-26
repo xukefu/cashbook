@@ -26,9 +26,9 @@ public class ConsumeDetailDO {
 
     private LocalDateTime recordDate;
 
-    private String recordBy;
+    private Long recordBy;
 
-    private String consumeBy;
+    private Long consumeBy;
 
     private String consumeDate;
 

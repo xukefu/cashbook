@@ -30,7 +30,7 @@ import java.util.zip.ZipOutputStream;
 @Component
 public class DailyBakDataTask {
 
-    private static final String INSERT_CONSUME_DETAIL = "INSERT INTO `cash_book`.`c_consume_detail` (`id`, `consume_category_id`, `consume_amount`, `consume_way`, `record_date`, `record_by`, `consume_by`, `consume_date`) VALUES ('%d', '%d', '%f', '%d', '%s', '%s', '%s', '%s');\r";
+  /*  private static final String INSERT_CONSUME_DETAIL = "INSERT INTO `cash_book`.`c_consume_detail` (`id`, `consume_category_id`, `consume_amount`, `consume_way`, `record_date`, `record_by`, `consume_by`, `consume_date`) VALUES ('%d', '%d', '%f', '%d', '%s', '%s', '%s', '%s');\r";
 
     private static final String INSERT_INCOME_DETAIL = "INSERT INTO `cash_book`.`c_income_detail` (`id`, `income_by`, `income_amount`, `income_category_id`, `income_date`, `record_date`, `record_by`) VALUES ('%d','%d','%f','%d','%s','%s','%s');\r";
 
@@ -60,9 +60,9 @@ public class DailyBakDataTask {
     @Value("${spring.mail.username}")
     private String to;
 
-    /**
+    *//**
      * 每天备份一份数据
-     */
+     *//*
     @Scheduled(cron = "0 00 22 1/1 * ?")
     public void bakData() {
         StringBuilder sb = new StringBuilder(1024);
@@ -75,11 +75,11 @@ public class DailyBakDataTask {
         sendMail(fileToZip());
     }
 
-    /**
+    *//**
      * sql写入到sql文件
      *
      * @param sql sql语句
-     */
+     *//*
     private void writeToFile(String sql) {
         File file;
         BufferedWriter bw = null;
@@ -103,11 +103,11 @@ public class DailyBakDataTask {
         }
     }
 
-    /**
+    *//**
      * 压缩文件
      *
      * @return 压缩路径
-     */
+     *//*
     private String fileToZip() {
         InputStream input = null;
         ZipOutputStream zipOut = null;
@@ -141,19 +141,19 @@ public class DailyBakDataTask {
 
     }
 
-    /**
+    *//**
      * 发送邮件
      *
      * @param filePath 文件路径
-     */
+     *//*
     public void sendMail(String filePath) {
         String nowDate = LocalDate.now().toString();
         mailService.sendAttachmentsMail(to, nowDate + "_bak", "bak", filePath);
     }
 
-    /**
+    *//**
      * 获取消费详情插入语句
-     */
+     *//*
     public void getConsumeDetailInsert(StringBuilder sb) {
         List<ConsumeDetailVO> consumeDetails = consumeDetailMapper.getLastDetail(100000000);
         consumeDetails.forEach(consumeDetailVO ->
@@ -162,9 +162,9 @@ public class DailyBakDataTask {
                 ));
     }
 
-    /**
+    *//**
      * 获取消费分类插入语句
-     */
+     *//*
     public void getConsumeCategoryInsert(StringBuilder sb) {
         List<ConsumeCategoryVO> consumeCategories = consumeCategoryMapper.getAll();
         consumeCategories.forEach(consumeCategory ->
@@ -172,9 +172,9 @@ public class DailyBakDataTask {
         );
     }
 
-    /**
+    *//**
      * 获取收入分类插入语句
-     */
+     *//*
     public void getIncomeCategoryInsert(StringBuilder sb) {
         List<IncomeCategoryVO> incomeCategories = incomeCategoryMapper.getAll();
         incomeCategories.forEach(incomeCategory ->
@@ -182,15 +182,15 @@ public class DailyBakDataTask {
         );
     }
 
-    /**
+    *//**
      * 获取收入详情插入语句
-     */
+     *//*
     public void getIncomeDetailInsert(StringBuilder sb) {
         List<IncomeDetailVO> incomeDetails = incomeDetailMapper.getLastDetail(100000000);
         incomeDetails.forEach(incomeDetailVO ->
                 sb.append(String.format(INSERT_INCOME_DETAIL, incomeDetailVO.getId(), incomeDetailVO.getIncomeBy(), incomeDetailVO.getIncomeAmount()
                         , incomeDetailVO.getIncomeCategoryId(), incomeDetailVO.getIncomeDate(), incomeDetailVO.getRecordDate(), incomeDetailVO.getRecordBy())));
-    }
+    }*/
 
 
 }

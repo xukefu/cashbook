@@ -35,4 +35,6 @@ public class UserDTO {
     private LocalDateTime lastLoginTime;
 
     private LocalDateTime updateTime;
+
+    private Integer status;
 }

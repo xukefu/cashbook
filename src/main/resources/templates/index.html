@@ -16,10 +16,13 @@
     <link rel="stylesheet" href="../static/css/jcalculator.css">
     <link rel="stylesheet" href="../static/css/bootstrapValidator.css">
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+          rel="stylesheet">
     <link rel="stylesheet" href="../static/css/selectBox/index.css"/>
     <link rel="stylesheet" href="../static/css/selectBox/labelauty.css"/>
     <link rel="stylesheet" href="../static/css/footer.css"/>
     <script src="../static/js/jquery-2.1.0.js"></script>
+    <!--    <script src="../static/js/jquery-2.1.0.min.js"></script>-->
     <script src="../static/js/layer-1.1.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="../static/js/moment-with-locales.min.js"></script>
@@ -38,7 +41,7 @@
                 <h2 class="card-title">欢迎进入记账吧</h2>
                 <p>&nbsp;&nbsp;&nbsp;</p>
                 <div class="userImage">
-                    <a  href="/page/admin">
+                    <a href="/page/admin">
                         <img class="userImage" src="../static/img/catFace.png"></a>
                 </div>
                 <div class="btn-wrap">
@@ -53,16 +56,6 @@
                 <h2 class="card-title">消费记录</h2>
                 <p>&nbsp;&nbsp;&nbsp;</p>
                 <form id="consumeForm" autocomplete="off">
-                    <div class="form-group form-inline">
-                        <div style="float: left">
-                            <label>消费人:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                        </div>
-                        <div style="float: left">
-                            <input type="radio" value="1" name="consumeBy" checked>&nbsp;可
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <input type="radio" value="2" name="consumeBy">&nbsp;欣
-                        </div>
-                    </div>
                     <!--消费类别下拉框-->
                     <div class="form-group form-inline">
                         <div style="float: left">
@@ -94,7 +87,6 @@
                             <input type="radio" value="1" name="consumeWay" checked>&nbsp;&nbsp;支付宝
                             <input type="radio" value="2" name="consumeWay">&nbsp;微信
                             <input type="radio" value="3" name="consumeWay">&nbsp;现金
-                            <input type="radio" value="4" name="consumeWay">&nbsp;银行卡
                         </div>
                     </div>
                     <div class="form-group form-inline">
@@ -132,16 +124,6 @@
                 <h2 class="card-title">收入记录</h2>
                 <p>&nbsp;&nbsp;&nbsp;</p>
                 <form>
-                    <div class="form-group form-inline">
-                        <div style="float: left">
-                            <label>收益人:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                        </div>
-                        <div style="float: left">
-                            <input type="radio" value="1" name="incomeBy" checked>&nbsp;可
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <input type="radio" value="2" name="incomeBy">&nbsp;&nbsp;欣
-                        </div>
-                    </div>
                     <div class="form-group form-inline">
                         <div style="float: left">
                             <label>收益类别:&nbsp;&nbsp;&nbsp;</label>
@@ -212,21 +194,13 @@
         </div>
     </div>
 </div>
+
 </div>
 
 <div class="footer fl-ar bg-black">
-    <a>
-        <img src="../static/img/icon/home_a_icon.png" alt="">
-        <p class="blue-1">首页</p>
-    </a>
-    <a>
-        <img src="../static/img/icon/equr_n_icon.png" alt="">
-        <p>设备</p>
-    </a>
-    <a>
-        <img src="../static/img/icon/mine_n_icon.png" alt="">
-        <p>我的</p>
-    </a>
+    <a class="col-xs-11" href="/page/index"><i class="fa fa-home" aria-hidden="true"></i>首页</a>
+    <a class="col-xs-11" href="/page/admin"><i class="fa fa-bell" aria-hidden="true"></i>报表</a>
+    <a class="col-xs-11" href="/page/index"><i class="fa fa-user" aria-hidden="true"></i>我</a>
 </div>
 <script src="../static/js/index.js"></script>
 <script src="../static/js/jcalculator.js"></script>
@@ -236,9 +210,31 @@
 </html>
 <script type="text/javascript">
     $(function () {
+        //先判断是否有家庭//强制弹框//本来要后台security filter实现的,暂时不搞了...简单实现先
+        $.ajax({
+            url: '/user/getUser/',
+            type: 'get',
+            cache: false,
+            processData: false,
+            async: true,
+        }).done(function (res) {
+            console.log(res.data)
+            const userStatus = res.data.userStatus
+            if (userStatus == 0) {
+                window.localStorage.setItem("phoneNumber", res.data.phoneNumber)
+                window.location.href = "/page/myFamily"
+            } else if (userStatus == 1) {
+                initIndex();
+            }
+        }).fail(function (res) {
+
+        });
+
+    });
+
+    function initIndex() {
         //计算器初始化
         $('#consumeAmount').calculator();
-
         $('#consumeDatetimepicker').datetimepicker({
             format: 'YYYY-MM-DD',
             locale: moment.locale('zh-cn'),
@@ -250,7 +246,7 @@
             ignoreReadonly: true
         });
         initConsumeCategory();
-        // initincomeCategory();
+        initincomeCategory();
         $(".rdolist").labelauty("rdolist", "rdo");
 
         let now = new Date();
@@ -272,7 +268,7 @@
             const consumeCategoryName = $(".rdobox.checked").find(".radiobox-content").text();
             $("#selectedCategory").text(consumeCategoryName)
         })
-    });
+    }
 
     //初始化消费类别
     function initConsumeCategory() {
@@ -281,7 +277,7 @@
             type: 'get',
             cache: false,
             processData: false,
-            async: true,
+            async: false,//这里写true会导致选择不了,不懂为啥
         }).done(function (res) {
             var categorys = res.data;
             for (var index in categorys) {
@@ -329,7 +325,6 @@
                 "consumeAmount": consumeAmount,
                 "consumeWay": $("input[name='consumeWay']:checked").val(),
                 "consumeDate": $("#consumeDate").val(),
-                "consumeBy": $("input[name='consumeBy']:checked").val(),
                 "consumeComment": $("#consumeComment").val()
             }),
             async: false,
@@ -338,7 +333,11 @@
                 layer.msg(data.message, {
                     time: 2800
                 })
-                window.location.href = "/page/index";
+                if (data.code == 1) {
+                    setTimeout(function () {
+                        window.location.href = "/page/index";
+                    }, 1500);
+                }
             },
             error: function (data) {
                 layer.msg("记录失败!", {
@@ -350,14 +349,13 @@
 
     function addIncomeDetail() {
         $.ajax({
-            url: '/income/detail/add',
+            url: '/income/detail/saveOrUpdate',
             type: 'POST',
             cache: false,
             data: JSON.stringify({
                 "incomeCategoryId": $("#incomeCategoryId").val(),
                 "incomeAmount": $("#incomeAmount").val(),
                 "incomeDate": $("#incomeDate").val(),
-                "incomeBy": $("input[name='incomeBy']:checked").val(),
                 "incomeComment": $("#incomeComment").val()
             }),
             async: false,
@@ -366,7 +364,11 @@
                 layer.msg(data.message, {
                     time: 2800
                 })
-                window.location.href = "/page/index";
+                if (data.code == 1) {
+                    setTimeout(function () {
+                        window.location.href = "/page/index";
+                    }, 1500);
+                }
             },
             error: function (data) {
                 layer.msg("记录失败!", {
@@ -375,4 +377,5 @@
             }
         });
     }
+
 </script>

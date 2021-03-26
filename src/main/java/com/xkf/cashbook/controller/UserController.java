@@ -1,19 +1,19 @@
 package com.xkf.cashbook.controller;
 
-import cn.ucloud.common.pojo.Account;
-import cn.ucloud.common.pojo.UcloudConfig;
-import cn.ucloud.usms.client.DefaultUSMSClient;
-import cn.ucloud.usms.model.SendUSMSMessageParam;
-import cn.ucloud.usms.model.SendUSMSMessageResult;
 import com.google.common.collect.Lists;
 import com.xkf.cashbook.common.constant.ValidateCodeType;
 import com.xkf.cashbook.common.result.Result;
 import com.xkf.cashbook.common.result.ResultGenerator;
+import com.xkf.cashbook.common.utils.AesEncryptUtils;
 import com.xkf.cashbook.common.utils.RndUtils;
+import com.xkf.cashbook.common.utils.SmsUtils;
+import com.xkf.cashbook.jwt.JwtTokenUtil;
+import com.xkf.cashbook.pojo.dto.UserDTO;
 import com.xkf.cashbook.pojo.vo.LoginVO;
 import com.xkf.cashbook.pojo.vo.ValidateCodeVO;
 import com.xkf.cashbook.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -22,11 +22,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.io.IOException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import static com.xkf.cashbook.common.constant.Constants.*;
 
@@ -36,16 +36,7 @@ import static com.xkf.cashbook.common.constant.Constants.*;
 public class UserController {
 
     @Autowired
-    protected StringRedisTemplate redisTemplate;
-
-    @Resource
-    private Account account;
-
-    @Value("${usms.validate.templateId}")
-    private String templateId;
-
-    @Value("${usms.validate.sigId}")
-    private String sigId;
+    private StringRedisTemplate redisTemplate;
 
     @Resource
     private UserService userService;
@@ -53,70 +44,47 @@ public class UserController {
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
+    @Resource
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Resource
+    private SmsUtils smsUtils;
+
+    @Value("${jwt.aes-seed}")
+    private String aesSeed;
+
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "user/login";
     }
 
     @PostMapping("/sendValidateCode")
     @ResponseBody
-    public Result sendValidateCode(@RequestBody ValidateCodeVO validateCodeVO) throws IOException {
+    public Result sendValidateCode(@RequestBody ValidateCodeVO validateCodeVO) throws Exception {
         Integer type = validateCodeVO.getType();
-        String cellphone = validateCodeVO.getPhoneNumber();
-        if (StringUtils.isEmpty(cellphone) || Objects.isNull(type)) {
-            return ResultGenerator.genFailResult("require param cellphone and type!");
+        String phoneNumber = validateCodeVO.getPhoneNumber();
+        if (StringUtils.isEmpty(phoneNumber) || Objects.isNull(type)) {
+            return ResultGenerator.genFailResult("require param phoneNumber and type!");
         }
-
         if (!ValidateCodeType.contain(type)) {
             return ResultGenerator.genFailResult("invalid validate Code type");
         }
+        log.info("[验证码]用户 {} 获取 ‘{}’ 验证码", phoneNumber, ValidateCodeType.getName(type));
 
-        log.info("[验证码]用户 {} 获取 ‘{}’ 验证码", cellphone, ValidateCodeType.getName(type));
-
-        String key = KEY_PREFIX_VALIDATE_CODE + ValidateCodeType.getName(type) + ":" + cellphone;
-        // 限制 90s 重发频率
-        if (redisTemplate.hasKey(key)) {
-            long resendTime = VALIDATE_CODE_EXPIRE_MINUTES * 60 - 90;
-            long expire = redisTemplate.getExpire(key, TimeUnit.SECONDS) - resendTime;
-            if (expire > 0) {
-                return ResultGenerator.genFailResult(String.format("请 %d 秒后获取验证码", expire));
-            }
-        }
         // 短信发送验证码
-        send(key, VALIDATE_CODE_EXPIRE_MINUTES, cellphone);
-        return ResultGenerator.genSuccessResult();
-    }
-
-    /**
-     * 发送短信验证码
-     * @param keyName
-     * @param expireMinutes 过期时间
-     * @param cellphone
-     * @return
-     */
-    private void send(String keyName, long expireMinutes, String cellphone){
         String randNum = RndUtils.getValidateCode(6, true);
-        // 保存验证码
-        redisTemplate.opsForValue().set(keyName, randNum, expireMinutes, TimeUnit.MINUTES);
-        log.info("验证码已存redis;keyName:{},value:{}",keyName,redisTemplate.opsForValue().get(keyName));
-        // 发送短信
-        try {
-            DefaultUSMSClient usmsClient = new DefaultUSMSClient(new UcloudConfig(account));
-            SendUSMSMessageParam messageParam = new SendUSMSMessageParam(Lists.newArrayList(cellphone),templateId);
-            messageParam.setTemplateParams(Lists.newArrayList(randNum));
-            messageParam.setSigContent(sigId);
-//            SendUSMSMessageResult sendUSMSMessageResult = usmsClient.sendUSMSMessage(messageParam);
-//            log.info("短信发送:cellphone:{},randNum:{},result:{}",cellphone,randNum,sendUSMSMessageResult.getMessage());
-            log.info("短信模拟发送:cellphone:{},randNum:{}",cellphone,randNum);
-        } catch (Exception e) {
-            e.printStackTrace();
-            log.error("短信发送失败,cellphone:{}",cellphone,e);
-        }
+        return smsUtils.sendMessage(Lists.newArrayList(randNum),phoneNumber,ValidateCodeType.getName(type));
     }
 
     @PostMapping(value = "/doLogin")
     @ResponseBody
     public Result login(@RequestBody LoginVO loginVO) {
+        //校验验证码和手机号是否正确
+        String key = KEY_PREFIX_VALIDATE_CODE + ValidateCodeType.REGISTER.getDesc() + ":" + loginVO.getPhoneNumber();
+        String randomCode = redisTemplate.opsForValue().get(key);
+        if (StringUtils.isEmpty(randomCode) || !randomCode.equals(loginVO.getValidateCode())) {
+            return ResultGenerator.genFailResult("登录失败,请检查手机号和验证码!");
+        }
         String token = userService.login(loginVO);
         if (token == null) {
             return ResultGenerator.genFailResult("用户名或密码错误");
@@ -126,4 +94,30 @@ public class UserController {
         tokenMap.put("tokenHead", tokenHead);
         return ResultGenerator.genSuccessResult(tokenMap);
     }
+
+    @RequestMapping("/getUser")
+    @ResponseBody
+    public Result getUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
+            String requestTokenHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (StringUtils.isEmpty(requestTokenHeader) || !requestTokenHeader.startsWith(JwtTokenUtil.TOKEN_PREFIX)) {
+            return ResultGenerator.genUnAuthorizedResult();
+        }
+        String encryptToken = requestTokenHeader.replace(JwtTokenUtil.TOKEN_PREFIX, "");
+        String token = AesEncryptUtils.decrypt(encryptToken, AesEncryptUtils.geneKey(aesSeed));
+        String phoneNumber = jwtTokenUtil.getUsernameFromToken(token);
+        String key = KEY_PREFIX_USER_STATUS + ":" + phoneNumber;
+        String userStatus = redisTemplate.opsForValue().get(key);
+        if (StringUtils.isEmpty(userStatus)) {
+            log.info("select userStatus from cache is empty,select from db,phoneNumber:{}", phoneNumber);
+            UserDTO userDTO = userService.selectByPhoneNumber(phoneNumber);
+            redisTemplate.opsForValue().set(key, userDTO.getStatus().toString());
+            userStatus = userDTO.getStatus().toString();
+        }
+        Map<String, String> userInfo = new HashMap<>();
+        userInfo.put("phoneNumber", phoneNumber);
+        userInfo.put("userStatus", userStatus);
+        log.info("phoneNumber:{},status:{}", phoneNumber, userStatus);
+        return ResultGenerator.genSuccessResult(userInfo);
+    }
+
 }
