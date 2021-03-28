@@ -18,9 +18,11 @@ import com.xkf.cashbook.jwt.JwtUserDetailsService;
 import com.xkf.cashbook.mysql.mapper.UserMapper;
 import com.xkf.cashbook.mysql.model.UserDO;
 import com.xkf.cashbook.pojo.dto.UserDTO;
+import com.xkf.cashbook.pojo.dto.UserSelectDTO;
 import com.xkf.cashbook.pojo.vo.LoginVO;
 import com.xkf.cashbook.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -34,6 +36,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static com.xkf.cashbook.common.constant.Constants.KEY_PREFIX_VALIDATE_CODE;
 
@@ -107,6 +110,33 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
             return null;
         }
         return BeanUtil.copyProperties(users.get(0), UserDTO.class);
+    }
+
+    @Override
+    public List<UserSelectDTO> selectUsersByFamilyId(Long familyId) {
+        QueryWrapper<UserDO> wrapper = new QueryWrapper<>();
+        wrapper.lambda()
+                .eq(UserDO::getFamilyId, familyId)
+                .eq(UserDO::getStatus, UserStatus.ACTIVE.getStatus());
+        List<UserDO> users = userMapper.selectList(wrapper);
+        if (Objects.isNull(users)) {
+            return null;
+        }
+        return users.stream()
+                .map(userDO -> BeanUtil.copyProperties(userDO, UserSelectDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserDTO> selectUsersByIds(List<Long> userIds) {
+        QueryWrapper<UserDO> wrapper = new QueryWrapper<>();
+        wrapper.lambda()
+                .in(UserDO::getId, userIds)
+                .eq(UserDO::getStatus, UserStatus.ACTIVE.getStatus());
+        List<UserDO> userDOS = userMapper.selectList(wrapper);
+        return userDOS.stream()
+                .map(userDO -> BeanUtil.copyProperties(userDO, UserDTO.class))
+                .collect(Collectors.toList());
     }
 
     private int add(UserDO userDO) {

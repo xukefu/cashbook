@@ -9,11 +9,9 @@ import com.xkf.cashbook.pojo.vo.ConsumeDetailVO;
 
 public interface IConsumeDetailService extends IService<ConsumeDetailDO> {
 
-    Result getLastDetail(int size);
-
     /** 消费详情分页接口
      * @param consumeDetailPageVO 消费详情
      * @return
      */
-    ConsumeDetailPageDTO pageDetail(ConsumeDetailPageVO consumeDetailPageVO);
+    Result pageDetail(ConsumeDetailPageVO consumeDetailPageVO,Long familyId);
 }

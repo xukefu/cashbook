@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 /**
  * 家庭
@@ -55,5 +56,14 @@ public class FamilyController extends BaseController {
             return ResultGenerator.genFailResult();
         }
         return familyService.approve(approveCode);
+    }
+
+    @GetMapping("getUsers")
+    public Result getUsers(HttpServletRequest request) {
+        Long familyId = getFamilyId(request);
+        if (Objects.isNull(familyId)){
+            return ResultGenerator.genFailResult("参数有误,家庭id不能为空");
+        }
+        return familyService.getUsers(familyId);
     }
 }

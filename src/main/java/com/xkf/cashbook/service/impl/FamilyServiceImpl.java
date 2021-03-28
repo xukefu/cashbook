@@ -17,9 +17,12 @@ import com.xkf.cashbook.mysql.model.FamilyApplyDO;
 import com.xkf.cashbook.mysql.model.FamilyDO;
 import com.xkf.cashbook.mysql.model.UserDO;
 import com.xkf.cashbook.pojo.dto.FamilyDTO;
+import com.xkf.cashbook.pojo.dto.UserDTO;
+import com.xkf.cashbook.pojo.dto.UserSelectDTO;
 import com.xkf.cashbook.pojo.vo.FamilyApplyVO;
 import com.xkf.cashbook.pojo.vo.FamilyVO;
 import com.xkf.cashbook.service.IFamilyService;
+import com.xkf.cashbook.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -66,6 +69,9 @@ public class FamilyServiceImpl implements IFamilyService {
 
     @Resource
     private SmsUtils smsUtils;
+
+    @Resource
+    private UserService userService;
 
     @Override
     @Transactional
@@ -171,6 +177,7 @@ public class FamilyServiceImpl implements IFamilyService {
     }
 
     @Override
+    @Transactional
     public Result approve(String approveCode) {
         QueryWrapper<FamilyApplyDO> wrapper = new QueryWrapper<>();
         wrapper.lambda()
@@ -203,6 +210,15 @@ public class FamilyServiceImpl implements IFamilyService {
             return null;
         }
         return BeanUtil.copyProperties(familyDO, FamilyDTO.class);
+    }
+
+    @Override
+    public Result getUsers(Long familyId) {
+        List<UserSelectDTO> userDTOS = userService.selectUsersByFamilyId(familyId);
+        if (CollectionUtil.isEmpty(userDTOS)) {
+            return ResultGenerator.genFailResult("数据异常,您的家庭没有成员");
+        }
+        return ResultGenerator.genSuccessResult(userDTOS);
     }
 
     private FamilyDO selectByFamilyName(String familyName) {

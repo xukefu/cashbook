@@ -21,9 +21,11 @@ public class ConsumeDetailDTO {
 
     private Long recordBy;
 
-    private String consumeBy;
+    private Long consumeBy;
 
     private String consumeDate;
 
     private String consumeComment;
+
+    private String nickName;
 }

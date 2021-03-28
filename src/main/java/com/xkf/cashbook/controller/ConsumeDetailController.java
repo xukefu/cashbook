@@ -19,14 +19,13 @@ import java.util.Objects;
  * @author xukf01
  */
 @RequestMapping("consume/detail")
-@Controller
+@RestController
 public class ConsumeDetailController extends BaseController{
 
     @Resource
     private IConsumeDetailService consumeDetailService;
 
     @PostMapping("saveOrUpdate")
-    @ResponseBody
     public Result saveOrUpdate(@RequestBody ConsumeDetailVO consumeDetailVO, HttpServletRequest request) {
         if (Objects.isNull(consumeDetailVO.getConsumeCategoryId()) || consumeDetailVO.getConsumeCategoryId() < 1) {
             return ResultGenerator.genFailResult("消费类别不能为空!");
@@ -47,16 +46,13 @@ public class ConsumeDetailController extends BaseController{
         return ResultGenerator.genFailResult("操作失败!");
     }
 
-    @GetMapping("getLastDetail")
-    @ResponseBody
-    public Result getLastDetail(@RequestParam(value = "size") int size) {
-        return consumeDetailService.getLastDetail(size);
-    }
-
     @PostMapping("pageDetail")
-    @ResponseBody
-    public Result pageDetail(@RequestBody ConsumeDetailPageVO consumeDetailPageVO) {
-        return ResultGenerator.genSuccessResult(consumeDetailService.pageDetail(consumeDetailPageVO));
+    public Result pageDetail(@RequestBody ConsumeDetailPageVO consumeDetailPageVO,HttpServletRequest request) {
+        Long familyId = getFamilyId(request);
+        if (Objects.isNull(familyId)){
+            return ResultGenerator.genFailResult("您暂未创建或加入家庭,不能查询详情");
+        }
+        return consumeDetailService.pageDetail(consumeDetailPageVO,familyId);
     }
 
 }

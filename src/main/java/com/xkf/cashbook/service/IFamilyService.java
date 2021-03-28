@@ -14,4 +14,5 @@ public interface IFamilyService {
 
     FamilyDTO selectByPhoneNumber(String phoneNumber);
 
+    Result getUsers(Long familyId);
 }

@@ -5,15 +5,15 @@ import com.xkf.cashbook.pojo.vo.TableVO;
 
 public interface AdminService {
 
-    TableVO getSumTotalTableByCategory();
+    TableVO getSumTotalTableByCategory(Long familyId);
 
-    Result getMonthlyConsumeAmount();
+    Result getMonthlyConsumeAmount(Long familyId);
 
-    Result getWeeklyConsumeAmount();
+    Result getWeeklyConsumeAmount(Long familyId);
 
-    Result getMonthlyIncomeAmount();
+    Result getMonthlyIncomeAmount(Long familyId);
 
-    Result getMonthlyConsumeProportion();
+    Result getMonthlyConsumeProportion(Long familyId);
 
-    Result getEveryDayConsumeAmount(int days);
+    Result getEveryDayConsumeAmount(int days,Long familyId);
 }

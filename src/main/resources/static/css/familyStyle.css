@@ -252,25 +252,6 @@ ul.top-menu > li > .logout {
     padding-bottom: 10px;
 }
 
-/*LEFT NAVIGATION ICON*/
-.dcjq-icon {
-    height:17px;
-    width:17px;
-    display:inline-block;
-    background: url("../img/nav-expand.png") no-repeat top;
-    border-radius:3px;
-    -moz-border-radius:3px;
-    -webkit-border-radius:3px;
-    position:absolute;
-    right:10px;
-    top:15px;
-}
-.active .dcjq-icon {
-    background: url("../img/nav-expand.png") no-repeat bottom;
-    border-radius:3px;
-    -moz-border-radius:3px;
-    -webkit-border-radius:3px;
-}
 /*---*/
 
 .nav-collapse.collapse {
@@ -506,13 +487,6 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
     -webkit-border-radius: 4px;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-    /* Safari and Chrome */
-    .dropdown-menu.extended  {
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.176) !important;
-    };
-    }
-
 .dropdown-menu.extended li p {
     background-color: #F1F2F7;
     color: #666666;
@@ -692,15 +666,6 @@ ul.top-menu > li > a:hover, ul.top-menu > li > a:focus {
 .top-nav ul.top-menu > li > a:hover .caret {
     border-bottom-color: #000;
     border-top-color: #000;
-}
-
-.log-arrow-up {
-    background: url("../img/arrow-up.png") no-repeat;
-    width: 20px;
-    height: 11px;
-    position: absolute;
-    right: 20px;
-    top: -10px;
 }
 
 /*----*/
@@ -1164,12 +1129,6 @@ PANELS CONFIGURATIONS
 
 /*WEATHER PANELS*/
 
-/* Weather 1 */
-.weather {
-	background: url(../img/weather.jpg) no-repeat center top;
-	text-align: center;
-	background-position: center center;
-}
 .weather i {
 	color: white;
 	margin-top: 45px;
@@ -1270,13 +1229,6 @@ PANELS CONFIGURATIONS
 	font-weight: 900;
 }
 
-
-/* Instagram Panel*/
-.instagram-panel {
-	background: url(../img/instagram.jpg) no-repeat center top;
-	text-align: center;
-	background-position: center center;
-}
 .instagram-panel i {
 	color: white;
 	margin-top: 35px;
@@ -1315,23 +1267,6 @@ PANELS CONFIGURATIONS
 	border-radius: 100%;
 }
 
-/* Soptify Panel */
-#spotify {
-	background: url(../img/lorde.jpg) no-repeat center top;
-	margin-top: -15px;
-	background-attachment: relative;
-	background-position: center center;
-	min-height: 220px;
-	width: 100%;
-    -webkit-background-size: 100%;
-    -moz-background-size: 100%;
-    -o-background-size: 100%;
-    background-size: 100%;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
 #spotify .btn-clear-g {
 	top: 15%;
 	right: 10px;
@@ -1359,23 +1294,6 @@ PANELS CONFIGURATIONS
 	margin-top: 5px;
 }
 
-/* BLOG PANEL */
-#blog-bg {
-	background: url(../img/blog-bg.jpg) no-repeat center top;
-	margin-top: -15px;
-	background-attachment: relative;
-	background-position: center center;
-	min-height: 150px;
-	width: 100%;
-    -webkit-background-size: 100%;
-    -moz-background-size: 100%;
-    -o-background-size: 100%;
-    background-size: 100%;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
 #blog-bg .badge {
 	position: absolute;
 	top: 20px;
@@ -1483,24 +1401,6 @@ PANELS CONFIGURATIONS
   background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAHCAYAAAA1WQxeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAGFJREFUeNpinHLMhgEHKADia0xQThIQs6JJ9gPxZhYQAcS6QHwDiI8hSYJAC0gBPxDLAvFcIJ6JJJkDxFNBVtgBcQ8Qa6BLghgwN4A4a9ElQYAFSj8C4mwg3o8sCQIAAQYA78QTYqnPZuEAAAAASUVORK5CYII=') no-repeat center center;
 }
 
-/* PROFILE PANELS */
-/* Profile 01*/
-#profile-01 {
-	background: url(../img/profile-01.jpg) no-repeat center top;
-	margin-top: -15px;
-	background-attachment: relative;
-	background-position: center center;
-	min-height: 150px;
-	width: 100%;
-    -webkit-background-size: 100%;
-    -moz-background-size: 100%;
-    -o-background-size: 100%;
-    background-size: 100%;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
 #profile-01 h3 {
 	color: white;
 	padding-top: 50px;
@@ -1532,23 +1432,6 @@ PANELS CONFIGURATIONS
 	font-size: 15px;
 }
 
-/* Profile 02*/
-#profile-02 {
-	background: url(../img/profile-02.jpg) no-repeat center top;
-	margin-top: -15px;
-	background-attachment: relative;
-	background-position: center center;
-	min-height: 200px;
-	width: 100%;
-    -webkit-background-size: 100%;
-    -moz-background-size: 100%;
-    -o-background-size: 100%;
-    background-size: 100%;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
 #profile-02 .user {
 	padding-top: 40px;
 	text-align: center;
@@ -1692,17 +1575,6 @@ PANELS CONFIGURATIONS
   
 }
 
-.project:hover .photo-wrapper {
-  background-color: #68dff0;
-	background-image:url(../img/zoom.png);
-	background-repeat:no-repeat;
-	background-position:center;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	position: relative;
-}
 .project:hover .photo {
   opacity: 10;
   filter: alpha(opacity=4000);
@@ -1779,25 +1651,6 @@ label {
 	height: 34px;
 }
 
-/* TOGGLE CONFIGURATION */
-.has-switch {
-    border-radius: 30px;
-    -webkit-border-radius: 30px;
-    display: inline-block;
-    cursor: pointer;
-    line-height: 1.231;
-    overflow: hidden;
-    position: relative;
-    text-align: left;
-    width: 80px;
-    -webkit-mask: url('../img/mask.png') 0 0 no-repeat;
-    mask: url('../img/mask.png') 0 0 no-repeat;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    user-select: none;
-}
 .has-switch.deactivate {
     opacity: 0.5;
     filter: alpha(opacity=50);
@@ -1893,12 +1746,6 @@ label {
     -o-transition: 0.25s ease-out;
     transition: 0.25s ease-out;
     -webkit-backface-visibility: hidden;
-}
-.switch-square {
-    border-radius: 6px;
-    -webkit-border-radius: 6px;
-    -webkit-mask: url('../img/mask.png') 0 0 no-repeat;
-    mask: url('../img/mask.png') 0 0 no-repeat;
 }
 .switch-square > div.switch-off label {
     border-color: #7f8c9a;
@@ -2096,14 +1943,6 @@ label {
     width: 100%;
     display: inline-block;
 }
-
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-    /* Safari and Chrome */
-    .panel-footer.revenue-foot {
-        margin-bottom: -4px;
-    };
-    }
-
 
 .panel-footer.revenue-foot ul  {
     margin: 0;

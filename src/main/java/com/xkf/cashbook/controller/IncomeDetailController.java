@@ -54,7 +54,11 @@ public class IncomeDetailController extends BaseController{
 
     @PostMapping("pageDetail")
     @ResponseBody
-    public Result pageDetail(@RequestBody IncomeDetailPageVO incomeDetailPageVO) {
-        return ResultGenerator.genSuccessResult(incomeDetailService.pageDetail(incomeDetailPageVO));
+    public Result pageDetail(@RequestBody IncomeDetailPageVO incomeDetailPageVO,HttpServletRequest request) {
+        Long familyId = getFamilyId(request);
+        if (Objects.isNull(familyId)){
+            return ResultGenerator.genFailResult("参数有误,家庭信息不能为空");
+        }
+        return incomeDetailService.pageDetail(incomeDetailPageVO,familyId);
     }
 }

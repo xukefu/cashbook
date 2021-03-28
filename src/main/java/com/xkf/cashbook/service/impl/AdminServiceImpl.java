@@ -19,6 +19,11 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import java.util.*;
 
+/**
+ * 后台报表
+ *
+ * @author xukf01
+ */
 @Service
 public class AdminServiceImpl implements AdminService {
 
@@ -29,9 +34,9 @@ public class AdminServiceImpl implements AdminService {
     private ConsumeCategoryMapper consumeCategoryMapper;
 
     @Override
-    public TableVO getSumTotalTableByCategory() {
+    public TableVO getSumTotalTableByCategory(Long familyId) {
         TableVO tableVO = new TableVO();
-        List<ConsumeReportVO> tableByCategory = adminMapper.getSumTotalTableByCategory();
+        List<ConsumeReportVO> tableByCategory = adminMapper.getSumTotalTableByCategory(familyId);
         if (!CollectionUtils.isEmpty(tableByCategory)) {
             for (ConsumeReportVO consumeReportVO : tableByCategory) {
                 String categoryName = consumeCategoryMapper.getCategoryNameById(consumeReportVO.getConsumeCategoryId());
@@ -43,35 +48,35 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Result getMonthlyConsumeAmount() {
+    public Result getMonthlyConsumeAmount(Long familyId) {
         Period period = PeriodsUtil.getPeriodByType(3);
-        Double amount = adminMapper.getConsumeAmountByDate(period.getStartDate(),period.getEndDate());
+        Double amount = adminMapper.getConsumeAmountByDate(period.getStartDate(), period.getEndDate(),familyId);
         return ResultGenerator.genSuccessResult(null, amount);
     }
 
     @Override
-    public Result getWeeklyConsumeAmount() {
+    public Result getWeeklyConsumeAmount(Long familyId) {
         Period period = PeriodsUtil.getPeriodByType(1);
-        Double amount = adminMapper.getConsumeAmountByDate(period.getStartDate(),period.getEndDate());
+        Double amount = adminMapper.getConsumeAmountByDate(period.getStartDate(), period.getEndDate(),familyId);
         return ResultGenerator.genSuccessResult(null, amount);
     }
 
     @Override
-    public Result getMonthlyIncomeAmount() {
+    public Result getMonthlyIncomeAmount(Long familyId) {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH) + 1;
         String consumeDate = year + "-" + String.format("%02d", month) + "-" + "01";
-        Double amount = adminMapper.getIncomeAmountByDate(consumeDate);
+        Double amount = adminMapper.getIncomeAmountByDate(consumeDate,familyId);
         return ResultGenerator.genSuccessResult(null, amount);
     }
 
     @Override
-    public Result getMonthlyConsumeProportion() {
+    public Result getMonthlyConsumeProportion(Long familyId) {
         Period periodByType = PeriodsUtil.getPeriodByType(3);
-        List<ConsumeProportionDTO> consumeProportionDTOS = adminMapper.getMonthlyConsumeProportion(periodByType.getStartDate(),periodByType.getEndDate());
+        List<ConsumeProportionDTO> consumeProportionDTOS = adminMapper.getMonthlyConsumeProportion(periodByType.getStartDate(), periodByType.getEndDate(),familyId);
         //月度总金额
-        Double monthlyAmount = adminMapper.getConsumeAmountByDate(periodByType.getStartDate(),periodByType.getEndDate());
+        Double monthlyAmount = adminMapper.getConsumeAmountByDate(periodByType.getStartDate(), periodByType.getEndDate(),familyId);
         Double top5Amount = 0d;
         if (!CollectionUtils.isEmpty(consumeProportionDTOS)) {
             for (ConsumeProportionDTO consumeProportion : consumeProportionDTOS) {
@@ -96,8 +101,8 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public Result getEveryDayConsumeAmount(int days) {
-        List<LineChartDTO> lineChartDTOS = adminMapper.getEveryDayConsumeAmount(-days);
+    public Result getEveryDayConsumeAmount(int days, Long familyId) {
+        List<LineChartDTO> lineChartDTOS = adminMapper.getEveryDayConsumeAmount(-days,familyId);
         if (lineChartDTOS.isEmpty()) {
             return ResultGenerator.genFailResult();
         }

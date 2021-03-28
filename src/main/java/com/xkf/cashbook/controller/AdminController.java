@@ -2,54 +2,77 @@ package com.xkf.cashbook.controller;
 
 
 import com.xkf.cashbook.common.result.Result;
+import com.xkf.cashbook.common.result.ResultGenerator;
 import com.xkf.cashbook.service.AdminService;
 import com.xkf.cashbook.pojo.vo.TableVO;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import javax.annotation.Resource;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-public class AdminController {
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
+
+/** 后台报表
+ * @author xukf01
+ */
+@RestController
+@RequestMapping("admin")
+public class AdminController extends BaseController{
 
     @Resource
     private AdminService adminService;
 
     @RequestMapping("getMonthlyConsumeAmount")
-    @ResponseBody
-    public Result  getMonthlyConsumeAmount(){
-        return adminService.getMonthlyConsumeAmount();
+    public Result  getMonthlyConsumeAmount(HttpServletRequest request){
+        Long familyId = getFamilyId(request);
+        if (Objects.isNull(familyId)){
+            return ResultGenerator.genFailResult("参数有误,家庭id不能为空");
+        }
+        return adminService.getMonthlyConsumeAmount(familyId);
     }
 
     @RequestMapping("getWeeklyConsumeAmount")
-    @ResponseBody
-    public Result  getWeeklyConsumeAmount(){
-        return adminService.getWeeklyConsumeAmount();
+    public Result  getWeeklyConsumeAmount(HttpServletRequest request){
+        Long familyId = getFamilyId(request);
+        if (Objects.isNull(familyId)){
+            return ResultGenerator.genFailResult("参数有误,家庭id不能为空");
+        }
+        return adminService.getWeeklyConsumeAmount(familyId);
     }
 
     @RequestMapping("getMonthlyIncomeAmount")
-    @ResponseBody
-    public Result  getMonthlyIncomeAmount(){
-        return adminService.getMonthlyIncomeAmount();
+    public Result  getMonthlyIncomeAmount(HttpServletRequest request){
+        Long familyId = getFamilyId(request);
+        if (Objects.isNull(familyId)){
+            return ResultGenerator.genFailResult("参数有误,家庭id不能为空");
+        }
+        return adminService.getMonthlyIncomeAmount(familyId);
     }
 
     @RequestMapping("getMonthlyConsumeProportion")
-    @ResponseBody
-    public Result  getMonthlyConsumeProportion(){
-        return adminService.getMonthlyConsumeProportion();
+    public Result  getMonthlyConsumeProportion(HttpServletRequest request){
+        Long familyId = getFamilyId(request);
+        if (Objects.isNull(familyId)){
+            return ResultGenerator.genFailResult("参数有误,家庭id不能为空");
+        }
+        return adminService.getMonthlyConsumeProportion(familyId);
     }
 
     @RequestMapping("getEveryDayConsumeAmount")
-    @ResponseBody
-    public Result  getEveryDayConsumeAmount(@RequestParam("days") int days){
-        return adminService.getEveryDayConsumeAmount(days);
+    public Result  getEveryDayConsumeAmount(@RequestParam("days") int days,HttpServletRequest request){
+        Long familyId = getFamilyId(request);
+        if (Objects.isNull(familyId)){
+            return ResultGenerator.genFailResult("参数有误,家庭id不能为空");
+        }
+        return adminService.getEveryDayConsumeAmount(days,familyId);
     }
 
-    @ResponseBody
     @RequestMapping("getTableVO")
-    public TableVO get() {
-        return adminService.getSumTotalTableByCategory();
+    public TableVO get(HttpServletRequest request) {
+        Long familyId = getFamilyId(request);
+        if (Objects.isNull(familyId)){
+//            return ResultGenerator.genFailResult("参数有误,家庭id不能为空");
+        }
+        return adminService.getSumTotalTableByCategory(familyId);
     }
 }

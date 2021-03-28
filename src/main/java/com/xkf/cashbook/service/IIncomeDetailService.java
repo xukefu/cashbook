@@ -11,5 +11,5 @@ public interface IIncomeDetailService extends IService<IncomeDetailDO> {
 
     Result add(IncomeDetailVO incomeDetailVO);
 
-    IncomeDetailPageDTO pageDetail(IncomeDetailPageVO incomeDetailPageVO);
+    Result pageDetail(IncomeDetailPageVO incomeDetailPageVO,Long familyId);
 }

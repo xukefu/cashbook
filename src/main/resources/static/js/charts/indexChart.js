@@ -9,6 +9,8 @@
 
     //消费类别
     initConsumeCategory();
+    //家庭成员
+    initFamilyUsers();
     //单选框美化
     $(".rdolist").labelauty("rdolist", "rdo");
     //分页查询消费详情
@@ -39,6 +41,25 @@ function getIncomeDetail() {
     const total = getPageIncomeDetail(1);
     //分页插件初始化
     initIncomePagePlugin(total);
+}
+
+//初始化家庭成员
+function initFamilyUsers() {
+    $.ajax({
+        url: '/family/getUsers/',
+        type: 'get',
+        cache: false,
+        processData: false,
+        async: true
+    }).done(function (res) {
+        const users = res.data;
+        for (const index in users) {
+            const user = users[index];
+            $("<option value=" + user.id + ">" + user.nickName + "</option>").appendTo("#consumeBySelect");
+        }
+    }).fail(function (res) {
+
+    });
 }
 
 //分页查询
@@ -144,12 +165,7 @@ function getPageConsumeDetail(currentPage, consumeBy, consumeCategoryId, consume
             } else {
                 row = $("#consumeDetailTemplate").clone();
             }
-            let consumeBy = consumeDetail.consumeBy;
-            if (consumeBy == 1) {
-                consumeBy = "可";
-            } else if (consumeBy == 2) {
-                consumeBy = "欣"
-            }
+            let consumeBy = consumeDetail.nickName;
             row.find("#consumeBy").text(consumeBy);
             row.find("#consumeDetailId").text(consumeDetail.id)
             if (!consumeDetail.id) {
@@ -180,7 +196,13 @@ function getPageConsumeDetail(currentPage, consumeBy, consumeCategoryId, consume
             row.find("#consumeDate").text(consumeDetail.consumeDate == null ? "-" : month + "-" + date);
             row.find("#consumeDate").attr("title", consumeDetail.consumeDate)
             // row.find("#consumeDate").text(consumeDetail.consumeDate == null ? "-" : consumeDetail.consumeDate);
-            if (consumeDetail.consumeBy == '小计' || consumeDetail.consumeBy == '总计') {
+            if (consumeDetail.consumeBy == 0) {
+                row.find("#consumeBy").text("总计");
+                row.find("#consumeAmount").attr("colspan", 2)
+                row.find("#consumeComment").hide()
+            }
+            if (consumeDetail.consumeBy == -1){
+                row.find("#consumeBy").text("小计");
                 row.find("#consumeAmount").attr("colspan", 2)
                 row.find("#consumeComment").hide()
             }
@@ -227,12 +249,7 @@ function getPageIncomeDetail(currentPage) {
             } else {
                 row = $("#incomeDetailTemplate").clone();
             }
-            let incomeBy = incomeDetail.incomeBy;
-            if (incomeBy == 1) {
-                incomeBy = "可";
-            } else if (incomeBy == 2) {
-                incomeBy = "欣"
-            }
+            let incomeBy = incomeDetail.nickName;
             row.find("#incomeBy").text(incomeBy);
             row.find("#incomeDetailId").text(incomeDetail.id);
             row.find("#incomeCategoryName").text(incomeDetail.incomeCategoryName);
@@ -294,15 +311,6 @@ function editConsumeDetail(obj) {
 
     //计算器初始化
     // $('#editConsumeAmount').calculator();
-
-    let consumeBy = $(obj).find("#consumeBy").text()
-    if (consumeBy == '可') {
-        consumeBy = 1;
-    } else if (consumeBy == '欣') {
-        consumeBy = 2;
-    }
-    $(":radio[name='editConsumeBy'][value='" + consumeBy + "']").prop("checked", "checked");
-
     let consumeAmount = $(obj).find("#consumeAmount").text().replace("元", "");
     $("#editConsumeAmount").val(consumeAmount)
 
@@ -362,14 +370,6 @@ function editConsumeDetail(obj) {
 
 //编辑收入详情
 function editIncomeDetail(obj) {
-
-    let incomeBy = $(obj).find("#incomeBy").text()
-    if (incomeBy == '可') {
-        incomeBy = 1;
-    } else if (incomeBy == '欣') {
-        incomeBy = 2;
-    }
-    $(":radio[name='editIncomeBy'][value='" + incomeBy + "']").prop("checked", "checked");
 
     let incomeAmount = $(obj).find("#incomeAmount").text().replace("元", "");
     $("#editIncomeAmount").val(incomeAmount)
@@ -481,7 +481,7 @@ function getIncomeAndExpenditure() {
 //月度消费金额
 function getMonthlyConsumeAmount() {
     $.ajax({
-        url: '/getMonthlyConsumeAmount',
+        url: '/admin/getMonthlyConsumeAmount',
         type: 'get',
         cache: false,
         processData: false,
@@ -495,7 +495,7 @@ function getMonthlyConsumeAmount() {
 function getWeeklyConsumeAmount() {
 
     $.ajax({
-        url: '/getWeeklyConsumeAmount',
+        url: '/admin/getWeeklyConsumeAmount',
         type: 'get',
         cache: false,
         processData: false,
@@ -509,7 +509,7 @@ function getWeeklyConsumeAmount() {
 function getMonthlyIncomeAmount() {
 
     $.ajax({
-        url: '/getMonthlyIncomeAmount',
+        url: '/admin/getMonthlyIncomeAmount',
         type: 'get',
         cache: false,
         processData: false,
@@ -637,7 +637,7 @@ function pieChart() {
     let monthlyConsumeData = null;
 
     $.ajax({
-        url: '/getMonthlyConsumeProportion',
+        url: '/admin/getMonthlyConsumeProportion',
         type: 'get',
         cache: false,
         processData: false,
@@ -724,7 +724,7 @@ function lineChart() {
     let everyDayAmountArr = [];
     let categoryArr = [];
     $.ajax({
-        url: '/getEveryDayConsumeAmount?days=' + 7,
+        url: '/admin/getEveryDayConsumeAmount?days=' + 7,
         type: 'get',
         cache: false,
         processData: false,
@@ -800,7 +800,7 @@ function lineChart() {
     let monthlyConsumeData = null;
 
     $.ajax({
-        url: '/getMonthlyConsumeProportion',
+        url: '/admin/getMonthlyConsumeProportion',
         type: 'get',
         cache: false,
         processData: false,
@@ -887,7 +887,7 @@ function lineChart() {
     let everyDayAmountArr = [];
     let categoryArr = [];
     $.ajax({
-        url: '/getEveryDayConsumeAmount?days=' + 7,
+        url: '/admin/getEveryDayConsumeAmount?days=' + 7,
         type: 'get',
         cache: false,
         processData: false,

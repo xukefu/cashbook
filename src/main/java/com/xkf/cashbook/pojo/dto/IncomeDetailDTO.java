@@ -30,4 +30,6 @@ public class IncomeDetailDTO {
     private String incomeComment;
 
     private String incomeCategoryName;
+
+    private String nickName;
 }
