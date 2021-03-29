@@ -14,7 +14,7 @@
     //单选框美化
     $(".rdolist").labelauty("rdolist", "rdo");
     //分页查询消费详情
-    const total = getPageConsumeDetail(1,0);
+    const total = getPageConsumeDetail(1, 0);
     //分页插件初始化
     initConsumePagePlugin(total);
     //图表
@@ -201,7 +201,7 @@ function getPageConsumeDetail(currentPage, consumeBy, consumeCategoryId, consume
                 row.find("#consumeAmount").attr("colspan", 2)
                 row.find("#consumeComment").hide()
             }
-            if (consumeDetail.consumeBy == -1){
+            if (consumeDetail.consumeBy == -1) {
                 row.find("#consumeBy").text("小计");
                 row.find("#consumeAmount").attr("colspan", 2)
                 row.find("#consumeComment").hide()
@@ -977,6 +977,8 @@ function addCategory(type) {
             })
             $("#closeConsumeCategoryModal").click();
             $("#closeIncomeCategoryModal").click();
+            $("#closeConfigModal").click();
+            window.location.href = "/page/index"
         },
         error: function (data) {
             layer.msg('添加失败!', {

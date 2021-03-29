@@ -13,6 +13,7 @@ import com.xkf.cashbook.mysql.model.IncomeCategoryDO;
 import com.xkf.cashbook.service.IncomeCategoryService;
 import com.xkf.cashbook.pojo.vo.IncomeCategoryVO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -33,11 +34,13 @@ public class IncomeCategoryServiceImpl implements IncomeCategoryService {
     }
 
     @Override
-    public Result add(String categoryName,Long familyId) {
+    @Transactional
+    public Result add(String categoryName, Long familyId) {
         QueryWrapper<IncomeCategoryDO> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda()
                 .eq(IncomeCategoryDO::getCategoryName, categoryName);
         List<IncomeCategoryDO> incomeCategorys = incomeCategoryMapper.selectList(queryWrapper);
+        Long categoryId = null;
         if (!CollectionUtil.isEmpty(incomeCategorys)) {
             QueryWrapper<FamilyCategoryDO> familyCategoryQueryWrapper = new QueryWrapper<>();
             familyCategoryQueryWrapper.lambda()
@@ -48,24 +51,19 @@ public class IncomeCategoryServiceImpl implements IncomeCategoryService {
             if (!Objects.isNull(familyCategoryDO)) {
                 return ResultGenerator.genFailResult("分类已经存在了");
             }
-            familyCategoryDO = new FamilyCategoryDO();
-            familyCategoryDO.setFamilyId(familyId)
-                    .setCategoryType(FamilyCategoryType.INCOME.getType())
-                    .setCategoryId(incomeCategorys.get(0).getId());
-            familyCategoryMapper.insert(familyCategoryDO);
+            categoryId = incomeCategorys.get(0).getId();
+        } else {
+            IncomeCategoryDO incomeCategoryDO = new IncomeCategoryDO(categoryName);
+            incomeCategoryMapper.insert(incomeCategoryDO);
+            categoryId = incomeCategoryDO.getId();
         }
-        IncomeCategoryDO incomeCategoryDO = new IncomeCategoryDO(categoryName);
-        int insert = incomeCategoryMapper.insert(incomeCategoryDO);
-        if (insert == 1) {
-            //记录关联表
-            FamilyCategoryDO familyCategoryDO = new FamilyCategoryDO();
-            familyCategoryDO
-                    .setCategoryId(incomeCategoryDO.getId())
-                    .setCategoryType(FamilyCategoryType.INCOME.getType())
-                    .setFamilyId(familyId);
-            familyCategoryMapper.insert(familyCategoryDO);
-            return ResultGenerator.genSuccessResult("添加成功");
-        }
-        return ResultGenerator.genFailResult("添加失败!");
+        //记录关联表
+        FamilyCategoryDO familyCategoryDO = new FamilyCategoryDO();
+        familyCategoryDO
+                .setCategoryId(categoryId)
+                .setCategoryType(FamilyCategoryType.INCOME.getType())
+                .setFamilyId(familyId);
+        familyCategoryMapper.insert(familyCategoryDO);
+        return ResultGenerator.genSuccessResult("添加成功");
     }
 }

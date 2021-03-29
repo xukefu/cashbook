@@ -13,6 +13,7 @@ import com.xkf.cashbook.mysql.model.FamilyCategoryDO;
 import com.xkf.cashbook.pojo.dto.ConsumeCategoryDTO;
 import com.xkf.cashbook.service.IConsumeCategoryService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -43,11 +44,13 @@ public class ConsumeCategoryServiceImpl implements IConsumeCategoryService {
     }
 
     @Override
+    @Transactional
     public Result add(String categoryName, Long familyId) {
         QueryWrapper<ConsumeCategoryDO> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda()
                 .eq(ConsumeCategoryDO::getCategoryName, categoryName);
         List<ConsumeCategoryDO> consumeCategorys = consumeCategoryMapper.selectList(queryWrapper);
+        Long categoryId = null;
         if (!CollectionUtil.isEmpty(consumeCategorys)) {
             QueryWrapper<FamilyCategoryDO> familyCategoryQueryWrapper = new QueryWrapper<>();
             familyCategoryQueryWrapper.lambda()
@@ -58,24 +61,18 @@ public class ConsumeCategoryServiceImpl implements IConsumeCategoryService {
             if (!Objects.isNull(familyCategoryDO)) {
                 return ResultGenerator.genFailResult("分类已经存在了");
             }
-            familyCategoryDO = new FamilyCategoryDO();
-            familyCategoryDO.setFamilyId(familyId)
-                    .setCategoryType(FamilyCategoryType.CONSUME.getType())
-                    .setCategoryId(consumeCategorys.get(0).getId());
-            familyCategoryMapper.insert(familyCategoryDO);
+            categoryId = consumeCategorys.get(0).getId();
+        } else {
+            ConsumeCategoryDO consumeCategoryDO = new ConsumeCategoryDO(categoryName);
+            consumeCategoryMapper.insert(consumeCategoryDO);
+            categoryId = consumeCategoryDO.getId();
         }
-        ConsumeCategoryDO consumeCategoryDO = new ConsumeCategoryDO(categoryName);
-        int insert = consumeCategoryMapper.insert(consumeCategoryDO);
-        if (insert == 1) {
-            //记录关联表
-            FamilyCategoryDO familyCategoryDO = new FamilyCategoryDO();
-            familyCategoryDO
-                    .setCategoryId(consumeCategoryDO.getId())
-                    .setCategoryType(FamilyCategoryType.CONSUME.getType())
-                    .setFamilyId(familyId);
-            familyCategoryMapper.insert(familyCategoryDO);
-            return ResultGenerator.genSuccessResult("添加成功");
-        }
-        return ResultGenerator.genFailResult("添加失败!");
+        //关联表
+        FamilyCategoryDO familyCategoryDO = new FamilyCategoryDO();
+        familyCategoryDO.setFamilyId(familyId)
+                .setCategoryType(FamilyCategoryType.CONSUME.getType())
+                .setCategoryId(categoryId);
+        familyCategoryMapper.insert(familyCategoryDO);
+        return ResultGenerator.genSuccessResult("添加成功");
     }
 }
