@@ -23,6 +23,7 @@ import com.xkf.cashbook.pojo.vo.ConsumeDetailPageVO;
 import com.xkf.cashbook.pojo.vo.ConsumeDetailVO;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xkf.cashbook.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -36,6 +37,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ConsumeDetailServiceImpl extends ServiceImpl<ConsumeDetailMapper, ConsumeDetailDO> implements IConsumeDetailService {
 
     @Resource
@@ -49,6 +51,12 @@ public class ConsumeDetailServiceImpl extends ServiceImpl<ConsumeDetailMapper, C
 
     @Override
     public Result pageDetail(ConsumeDetailPageVO consumeDetailPageVO, Long familyId) {
+        //校验权限
+        List<UserSelectDTO> users = userService.selectUsersByFamilyId(familyId);
+        if (CollectionUtil.isEmpty(users)) {
+            return ResultGenerator.genFailResult("家庭信息有误,未查询到成员信息");
+        }
+        List<Long> userIds = users.stream().map(UserSelectDTO::getId).collect(Collectors.toList());
         QueryWrapper<ConsumeDetailDO> wrapper = new QueryWrapper<>();
         //时间倒序
         wrapper.lambda()
@@ -61,21 +69,23 @@ public class ConsumeDetailServiceImpl extends ServiceImpl<ConsumeDetailMapper, C
             consumeDetailPageVO.setConsumeEndDate(period.getEndDate());
         }
         //查询条件
-        if (!StringUtils.isEmpty(consumeDetailPageVO.getConsumeBy())) {
-            //0查家庭所有
-            if (consumeDetailPageVO.getConsumeBy() == 0) {
-                List<UserSelectDTO> users = userService.selectUsersByFamilyId(familyId);
-                if (CollectionUtil.isEmpty(users)) {
-                    return ResultGenerator.genFailResult("家庭信息有误,未查询到成员信息");
-                }
-                List<Long> userIds = users.stream().map(UserSelectDTO::getId).collect(Collectors.toList());
-                //用户id
-                wrapper.lambda()
-                        .in(ConsumeDetailDO::getConsumeBy, userIds);
-            } else {
-                wrapper.lambda()
-                        .eq(ConsumeDetailDO::getConsumeBy, consumeDetailPageVO.getConsumeBy());
+        if (StringUtils.isEmpty(consumeDetailPageVO.getConsumeBy())) {
+            return ResultGenerator.genFailResult("参数有误,消费人不能空");
+        }
+        //0查家庭所有
+        if (consumeDetailPageVO.getConsumeBy() == 0) {
+            log.info("消费详情:consumeBy 为0 查询所有");
+            //用户id
+            wrapper.lambda()
+                    .in(ConsumeDetailDO::getConsumeBy, userIds);
+        } else {
+            //校验
+            if (!userIds.contains(consumeDetailPageVO.getConsumeBy())) {
+                return ResultGenerator.genFailResult("您没有权限查询此用户的记录");
             }
+            log.info("消费详情:consumeBy 不为0 查询:{}", consumeDetailPageVO.getConsumeBy());
+            wrapper.lambda()
+                    .eq(ConsumeDetailDO::getConsumeBy, consumeDetailPageVO.getConsumeBy());
         }
         if (!StringUtils.isEmpty(consumeDetailPageVO.getConsumeWay())) {
             wrapper.lambda()

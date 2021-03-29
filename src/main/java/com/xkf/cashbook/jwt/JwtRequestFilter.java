@@ -91,7 +91,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 log.warn("encryptToken cannot decrypt, aesSeed: {}", aesSeed, e);
             }
         } else {
-            log.warn("JWT Token does not begin with Bearer String");
+//            log.warn("JWT Token does not begin with Bearer String");
         }
 
 

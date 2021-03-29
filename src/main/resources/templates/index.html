@@ -197,11 +197,11 @@
 
 </div>
 
-<div class="footer fl-ar bg-black">
+<!--<div class="footer fl-ar bg-black">
     <a class="col-xs-11" href="/page/index"><i class="fa fa-home" aria-hidden="true"></i>首页</a>
     <a class="col-xs-11" href="/page/admin"><i class="fa fa-bell" aria-hidden="true"></i>报表</a>
     <a class="col-xs-11" href="/page/index"><i class="fa fa-user" aria-hidden="true"></i>我</a>
-</div>
+</div>-->
 <script src="../static/js/index.js"></script>
 <script src="../static/js/jcalculator.js"></script>
 <script src="../static/js/labelauty.js"></script>
@@ -216,9 +216,8 @@
             type: 'get',
             cache: false,
             processData: false,
-            async: true,
+            async: true,a
         }).done(function (res) {
-            console.log(res.data)
             const userStatus = res.data.userStatus
             if (userStatus == 0) {
                 window.localStorage.setItem("phoneNumber", res.data.phoneNumber)

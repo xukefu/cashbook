@@ -67,6 +67,9 @@ usms:
   validate:
     templateId: UTA21022616091C
     sigId: SIG2021021014CEBD
+  applyFamily:
+    templateId: UTA21022616091C
+
 jwt:
   secret: 25F7rujqy9uFbtKOmn0GyRchdHKd7hNk=Wk5M6VS9tdEPzFCC84UnnEAbvpfc05WW=25F7rujqy9uFbtKOmn0GyRchdHKd7hNk=Wk5M6VS9tdEPzFCC84UnnEAbvpfc05WW #JWT加解密使用的密钥
   aes-seed: hC5rAvaemoThvCpq4hbqt5RXdvQNLzfp
@@ -78,6 +81,7 @@ jwt:
     - /page/*
     - /test/*
     - /family/approve/**
+    - /
 password:
   salt: f08aa748bd557c2d17ef62ed16ca1ab4
 

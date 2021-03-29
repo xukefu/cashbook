@@ -12,13 +12,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 /**
  * @author xukf01
  */
 @RestController
 @RequestMapping("income/category")
-public class IncomeCategoryController {
+public class IncomeCategoryController extends BaseController{
     @Resource
     private IncomeCategoryService incomeCategoryService;
 
@@ -28,10 +30,14 @@ public class IncomeCategoryController {
     }
 
     @RequestMapping("/add")
-    public Result add(@RequestParam(name = "categoryName") String categoryName) {
+    public Result add(@RequestParam(name = "categoryName") String categoryName, HttpServletRequest request) {
         if (StringUtils.isEmpty(categoryName) && StringUtils.isEmpty(categoryName.trim())) {
             return ResultGenerator.genFailResult("分类名称不能为空!");
         }
-        return incomeCategoryService.add(categoryName);
+        Long familyId = getFamilyId(request);
+        if (Objects.isNull(familyId)){
+            return ResultGenerator.genFailResult("参数有误,家庭id不能为空");
+        }
+        return incomeCategoryService.add(categoryName,familyId);
     }
 }

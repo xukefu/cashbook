@@ -14,7 +14,7 @@
     //单选框美化
     $(".rdolist").labelauty("rdolist", "rdo");
     //分页查询消费详情
-    const total = getPageConsumeDetail(1);
+    const total = getPageConsumeDetail(1,0);
     //分页插件初始化
     initConsumePagePlugin(total);
     //图表
@@ -963,10 +963,10 @@ function addCategory(type) {
     let categoryName = "";
     if (type === 1) {
         categoryName = $("#addConsumeCategory").val();
-        url = "consume/category/add?categoryName=" + categoryName;
+        url = "/consume/category/add?categoryName=" + categoryName;
     } else if (type === 2) {
         categoryName = $("#addIncomeCategory").val();
-        url = "income/category/add?categoryName=" + categoryName;
+        url = "/income/category/add?categoryName=" + categoryName;
     }
     $.ajax({
         url: url,

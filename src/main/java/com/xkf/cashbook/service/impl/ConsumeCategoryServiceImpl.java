@@ -3,6 +3,7 @@ package com.xkf.cashbook.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.xkf.cashbook.common.constant.FamilyCategoryType;
 import com.xkf.cashbook.common.result.Result;
 import com.xkf.cashbook.common.result.ResultGenerator;
 import com.xkf.cashbook.mysql.mapper.ConsumeCategoryMapper;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -41,13 +43,26 @@ public class ConsumeCategoryServiceImpl implements IConsumeCategoryService {
     }
 
     @Override
-    public Result add(String categoryName,Long familyId) {
+    public Result add(String categoryName, Long familyId) {
         QueryWrapper<ConsumeCategoryDO> queryWrapper = new QueryWrapper<>();
         queryWrapper.lambda()
-                .eq(ConsumeCategoryDO::getCategoryName,categoryName);
+                .eq(ConsumeCategoryDO::getCategoryName, categoryName);
         List<ConsumeCategoryDO> consumeCategorys = consumeCategoryMapper.selectList(queryWrapper);
-        if (!CollectionUtil.isEmpty(consumeCategorys)){
-            return ResultGenerator.genFailResult("分类已经存在了");
+        if (!CollectionUtil.isEmpty(consumeCategorys)) {
+            QueryWrapper<FamilyCategoryDO> familyCategoryQueryWrapper = new QueryWrapper<>();
+            familyCategoryQueryWrapper.lambda()
+                    .eq(FamilyCategoryDO::getCategoryId, consumeCategorys.get(0).getId())
+                    .eq(FamilyCategoryDO::getFamilyId, familyId)
+                    .eq(FamilyCategoryDO::getCategoryType, FamilyCategoryType.CONSUME.getType());
+            FamilyCategoryDO familyCategoryDO = familyCategoryMapper.selectOne(familyCategoryQueryWrapper);
+            if (!Objects.isNull(familyCategoryDO)) {
+                return ResultGenerator.genFailResult("分类已经存在了");
+            }
+            familyCategoryDO = new FamilyCategoryDO();
+            familyCategoryDO.setFamilyId(familyId)
+                    .setCategoryType(FamilyCategoryType.CONSUME.getType())
+                    .setCategoryId(consumeCategorys.get(0).getId());
+            familyCategoryMapper.insert(familyCategoryDO);
         }
         ConsumeCategoryDO consumeCategoryDO = new ConsumeCategoryDO(categoryName);
         int insert = consumeCategoryMapper.insert(consumeCategoryDO);
@@ -56,7 +71,7 @@ public class ConsumeCategoryServiceImpl implements IConsumeCategoryService {
             FamilyCategoryDO familyCategoryDO = new FamilyCategoryDO();
             familyCategoryDO
                     .setCategoryId(consumeCategoryDO.getId())
-                    .setCategoryType(1)
+                    .setCategoryType(FamilyCategoryType.CONSUME.getType())
                     .setFamilyId(familyId);
             familyCategoryMapper.insert(familyCategoryDO);
             return ResultGenerator.genSuccessResult("添加成功");

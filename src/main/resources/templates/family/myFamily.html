@@ -26,7 +26,7 @@
                 <br>
                 <label class="checkbox">
 		                <span class="pull-right">
-		                    <a href="#" onclick="showJoinModal()">已有家庭?</a>
+		                    <a href="#" onclick="showJoinModal()">已有家庭?点击申请</a>
 		                </span>
                 </label>
                 <p>&nbsp;</p>
@@ -86,7 +86,6 @@
             processData: false,
             async: true,
         }).done(function (res) {
-            console.log(res.data)
             const userStatus = res.data.userStatus
             if (userStatus == 1) {
                 window.location.href = "/page/index"

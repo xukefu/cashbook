@@ -7,5 +7,5 @@ public interface IncomeCategoryService {
 
     Result getAll();
 
-    Result add(String categoryName);
+    Result add(String categoryName,Long familyId);
 }

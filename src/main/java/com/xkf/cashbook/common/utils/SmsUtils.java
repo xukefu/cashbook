@@ -2,12 +2,14 @@ package com.xkf.cashbook.common.utils;
 
 import cn.ucloud.usms.client.DefaultUSMSClient;
 import cn.ucloud.usms.model.SendUSMSMessageParam;
+import cn.ucloud.usms.model.SendUSMSMessageResult;
 import com.google.common.collect.Lists;
 import com.xkf.cashbook.common.result.Result;
 import com.xkf.cashbook.common.result.ResultGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +17,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import static com.xkf.cashbook.common.constant.Constants.KEY_PREFIX_VALIDATE_CODE;
-import static com.xkf.cashbook.common.constant.Constants.VALIDATE_CODE_EXPIRE_MINUTES;
+import static com.xkf.cashbook.common.constant.Constants.*;
 
 /**
  * 短信工具
@@ -31,16 +32,19 @@ public class SmsUtils {
     private DefaultUSMSClient usmsClient;
 
     @Value("${usms.validate.templateId}")
-    private static String validCodeTemplateId;
+    private String validCodeTemplateId;
 
     @Value("${usms.applyFamily.templateId}")
-    private static String applyFamilyTemplateId;
+    private String applyFamilyTemplateId;
 
     @Value("${usms.validate.sigId}")
-    private static String sigId;
+    private String sigId;
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Resource
+    private TaskExecutor threadPoolTaskExecutor;
 
     public Result sendMessage(List<String> messages, String phoneNumber, String validCodeType) throws Exception {
         // 保存验证码
@@ -58,9 +62,8 @@ public class SmsUtils {
         SendUSMSMessageParam messageParam = new SendUSMSMessageParam(Lists.newArrayList(phoneNumber), validCodeTemplateId);
         messageParam.setTemplateParams(messages);
         messageParam.setSigContent(sigId);
-//        SendUSMSMessageResult sendUSMSMessageResult = usmsClient.sendUSMSMessage(messageParam);
-//        log.info("短信发送:phoneNumber:{},randNum:{},result:{}", phoneNumber, randNum, sendUSMSMessageResult.getMessage());
-        log.info("短信模拟发送:phoneNumber:{},randNum:{}", phoneNumber, messages.get(0));
+        asyncSend(messageParam);
+        log.info("短信发送:phoneNumber:{},randNum:{}", phoneNumber, messages.get(0));
         return ResultGenerator.genSuccessResult();
     }
 
@@ -69,10 +72,19 @@ public class SmsUtils {
         SendUSMSMessageParam messageParam = new SendUSMSMessageParam(Lists.newArrayList(phoneNumber), applyFamilyTemplateId);
         messageParam.setTemplateParams(messages);
         messageParam.setSigContent(sigId);
-//        SendUSMSMessageResult sendUSMSMessageResult = usmsClient.sendUSMSMessage(messageParam);
-//        log.info("短信发送:phoneNumber:{},randNum:{},result:{}", phoneNumber, randNum, sendUSMSMessageResult.getMessage());
-        log.info("短信模拟发送:phoneNumber:{},url:{}", phoneNumber, messages.get(0));
+        asyncSend(messageParam);
+        log.info("短信发送:phoneNumber:{},url:{}", phoneNumber, messages.get(0));
         return ResultGenerator.genSuccessResult();
+    }
+
+    private void asyncSend(SendUSMSMessageParam messageParam) {
+        threadPoolTaskExecutor.execute(() -> {
+            try {
+                usmsClient.sendUSMSMessage(messageParam);
+            } catch (Exception e) {
+                log.error("异步信息发送异常,messageParam:{}", messageParam);
+            }
+        });
     }
 
 }

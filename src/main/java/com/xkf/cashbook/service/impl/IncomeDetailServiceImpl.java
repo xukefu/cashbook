@@ -86,7 +86,6 @@ public class IncomeDetailServiceImpl extends ServiceImpl<IncomeDetailMapper,Inco
         if (CollectionUtil.isEmpty(incomeDetails)) {
             return;
         }
-
         List<Long> userIds = incomeDetails.stream().map(IncomeDetailDTO::getIncomeBy).collect(Collectors.toList());
         List<UserDTO> users = userService.selectUsersByIds(userIds);
         if (CollectionUtil.isEmpty(users)) {
