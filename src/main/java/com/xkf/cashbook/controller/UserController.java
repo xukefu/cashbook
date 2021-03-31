@@ -13,6 +13,7 @@ import com.xkf.cashbook.pojo.vo.LoginVO;
 import com.xkf.cashbook.pojo.vo.ValidateCodeVO;
 import com.xkf.cashbook.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,13 +28,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import static com.xkf.cashbook.common.constant.Constants.*;
 
 @Controller
 @RequestMapping("/user")
 @Slf4j
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
@@ -73,7 +75,7 @@ public class UserController {
 
         // 短信发送验证码
         String randNum = RndUtils.getValidateCode(6, true);
-        return smsUtils.sendMessage(Lists.newArrayList(randNum),phoneNumber,ValidateCodeType.getName(type));
+        return smsUtils.sendMessage(Lists.newArrayList(randNum), phoneNumber, ValidateCodeType.getName(type));
     }
 
     @PostMapping(value = "/doLogin")
@@ -98,7 +100,7 @@ public class UserController {
     @RequestMapping("/getUser")
     @ResponseBody
     public Result getUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-            String requestTokenHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        String requestTokenHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (StringUtils.isEmpty(requestTokenHeader) || !requestTokenHeader.startsWith(JwtTokenUtil.TOKEN_PREFIX)) {
             return ResultGenerator.genUnAuthorizedResult();
         }
@@ -118,6 +120,18 @@ public class UserController {
         userInfo.put("userStatus", userStatus);
         log.info("phoneNumber:{},status:{}", phoneNumber, userStatus);
         return ResultGenerator.genSuccessResult(userInfo);
+    }
+
+    @GetMapping("logout")
+    @ResponseBody
+    public Result logout(HttpServletRequest request) {
+        String cellphone = getPhoneNumber(request);
+        log.info("[登出] 手机号：{}", cellphone);
+        String token = decryptJwtToken(request);
+        // 黑名单
+        String keyBlacklist = KEY_PREFIX_TOKEN_BLACKLIST + cellphone + ":" + Md5Crypt.md5Crypt(token.getBytes());
+        redisTemplate.opsForValue().set(keyBlacklist, token, JwtTokenUtil.JWT_REFRESH_TOKEN_VALIDITY, TimeUnit.SECONDS);
+        return ResultGenerator.genSuccessResult();
     }
 
 }

@@ -3,6 +3,7 @@ package com.xkf.cashbook.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.xkf.cashbook.common.constant.ApplyStatus;
 import com.xkf.cashbook.common.constant.FamilyStatus;
@@ -16,11 +17,13 @@ import com.xkf.cashbook.mysql.mapper.UserMapper;
 import com.xkf.cashbook.mysql.model.FamilyApplyDO;
 import com.xkf.cashbook.mysql.model.FamilyDO;
 import com.xkf.cashbook.mysql.model.UserDO;
+import com.xkf.cashbook.pojo.dto.FamilyApplyDTO;
 import com.xkf.cashbook.pojo.dto.FamilyDTO;
 import com.xkf.cashbook.pojo.dto.UserDTO;
 import com.xkf.cashbook.pojo.dto.UserSelectDTO;
 import com.xkf.cashbook.pojo.vo.FamilyApplyVO;
 import com.xkf.cashbook.pojo.vo.FamilyVO;
+import com.xkf.cashbook.service.IFamilyApplyService;
 import com.xkf.cashbook.service.IFamilyService;
 import com.xkf.cashbook.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -47,19 +50,16 @@ import static com.xkf.cashbook.common.constant.Constants.*;
  */
 @Service
 @Slf4j
-public class FamilyServiceImpl implements IFamilyService {
+public class FamilyServiceImpl extends ServiceImpl<FamilyMapper, FamilyDO> implements IFamilyService {
 
     @Resource
     private FamilyMapper familyMapper;
 
-    @Resource
-    private FamilyApplyMapper familyApplyMapper;
+//    @Resource
+//    private FamilyApplyMapper familyApplyMapper;
 
     @Resource
     private UserMapper userMapper;
-
-    @Autowired
-    private RedisTemplate stringRedisTemplate;
 
     @Value("${family.members.max}")
     private Integer maxMembers;
@@ -73,6 +73,9 @@ public class FamilyServiceImpl implements IFamilyService {
     @Resource
     private UserService userService;
 
+    @Resource
+    private IFamilyApplyService familyApplyService;
+
     @Override
     @Transactional
     public Result add(FamilyVO familyVO) {
@@ -85,29 +88,9 @@ public class FamilyServiceImpl implements IFamilyService {
         int insert = familyMapper.insert(familyDO);
         log.info("add family insert:{}", insert);
         if (insert == 1) {
-            updateUserStatus(familyDO.getId(), familyVO.getFamilyOwner());
+            userService.updateUserStatus(familyDO.getId(), familyVO.getFamilyOwner());
             updateUserNickName(familyVO.getFamilyOwner(), familyVO.getUserNickName());
             return ResultGenerator.genSuccessResult("创建成功,快邀请您的家人一起来记账吧!");
-        }
-        return ResultGenerator.genFailResult();
-    }
-
-    private Result updateUserStatus(Long familyId, String phoneNumber) {
-        //同步user和family的关系
-        QueryWrapper<UserDO> userWrapper = new QueryWrapper<>();
-        userWrapper.lambda()
-                .eq(UserDO::getPhoneNumber, phoneNumber)
-                .eq(UserDO::getStatus, UserStatus.INIT.getStatus());
-        UserDO userDO = new UserDO();
-        userDO.setFamilyId(familyId);
-        userDO.setStatus(UserStatus.ACTIVE.getStatus());
-        int update = userMapper.update(userDO, userWrapper);
-        if (update == 1) {
-            //修改用户状态缓存
-            String key = KEY_PREFIX_USER_STATUS + ":" + phoneNumber;
-            stringRedisTemplate.delete(key);
-            stringRedisTemplate.opsForValue().set(key, UserStatus.ACTIVE.getStatus().toString());
-            return ResultGenerator.genSuccessResult();
         }
         return ResultGenerator.genFailResult();
     }
@@ -132,13 +115,8 @@ public class FamilyServiceImpl implements IFamilyService {
         if (users.size() > maxMembers) {
             return ResultGenerator.genFailResult("您申请的家庭成员已满!");
         }
-        //校验是否已有未同意的申请
-        QueryWrapper<FamilyApplyDO> familyApplyWrapper = new QueryWrapper<>();
-        familyApplyWrapper.lambda()
-                .eq(FamilyApplyDO::getApplyUserId, familyApplyVO.getApplyUserId())
-                .eq(FamilyApplyDO::getApplyFamilyName, familyApplyVO.getApplyFamilyName())
-                .eq(FamilyApplyDO::getApplyStatus, ApplyStatus.INIT.getStatus());
-        List<FamilyApplyDO> familyApplys = familyApplyMapper.selectList(familyApplyWrapper);
+        //校验是否已有初始的申请
+        List<FamilyApplyDTO> familyApplys = familyApplyService.selectInitListByFamilyId(familyApplyVO);
         log.info("familyApplys familyName:{},applyUserId:{},size:{}", familyApplyVO.getApplyFamilyName(), familyApplyVO.getApplyUserId(), familyApplys.size());
         if (!CollectionUtil.isEmpty(familyApplys) && familyApplys.size() >= 1) {
             return ResultGenerator.genFailResult("申请已存在,请等待审核!");
@@ -149,7 +127,7 @@ public class FamilyServiceImpl implements IFamilyService {
                 .setApplyStatus(ApplyStatus.INIT.getStatus())
                 .setApplyTime(LocalDateTime.now())
                 .setApproveCode(UUID.randomUUID().toString());
-        int insert = familyApplyMapper.insert(familyApplyDO);
+        int insert = familyApplyService.add(familyApplyDO);
         if (insert == 0) {
             return ResultGenerator.genFailResult();
         }
@@ -174,29 +152,6 @@ public class FamilyServiceImpl implements IFamilyService {
         UserDO userDO = new UserDO();
         userDO.setNickName(nickName);
         userMapper.update(userDO, userWrapper);
-    }
-
-    @Override
-    @Transactional
-    public Result approve(String approveCode) {
-        QueryWrapper<FamilyApplyDO> wrapper = new QueryWrapper<>();
-        wrapper.lambda()
-                .eq(FamilyApplyDO::getApproveCode, approveCode)
-                .eq(FamilyApplyDO::getApplyStatus, ApplyStatus.INIT.getStatus());
-        FamilyApplyDO familyApplyDO = new FamilyApplyDO();
-        familyApplyDO
-                .setApplyStatus(ApplyStatus.ACTIVE.getStatus())
-                .setApproveTime(LocalDateTime.now());
-
-        FamilyApplyDO familyApply = familyApplyMapper.selectOne(wrapper);
-        if (Objects.isNull(familyApply)) {
-            return ResultGenerator.genFailResult("申请信息有误!");
-        }
-        int update = familyApplyMapper.update(familyApplyDO, wrapper);
-        if (update == 1) {
-            return updateUserStatus(familyApply.getApplyFamilyId(), familyApply.getApplyPhoneNumber());
-        }
-        return ResultGenerator.genFailResult();
     }
 
     @Override

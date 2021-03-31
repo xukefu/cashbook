@@ -50,13 +50,6 @@ public class FamilyController extends BaseController {
         return familyService.apply(familyApplyVO);
     }
 
-    @GetMapping("approve")
-    public Result approve(@RequestParam(value = "approveCode") String approveCode) {
-        if (StringUtils.isEmpty(approveCode)) {
-            return ResultGenerator.genFailResult();
-        }
-        return familyService.approve(approveCode);
-    }
 
     @GetMapping("getUsers")
     public Result getUsers(HttpServletRequest request) {

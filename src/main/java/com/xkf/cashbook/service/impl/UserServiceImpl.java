@@ -10,6 +10,7 @@ import com.google.common.collect.Maps;
 import com.xkf.cashbook.common.constant.UserStatus;
 import com.xkf.cashbook.common.constant.ValidateCodeType;
 import com.xkf.cashbook.common.exception.ServiceException;
+import com.xkf.cashbook.common.result.Result;
 import com.xkf.cashbook.common.result.ResultCode;
 import com.xkf.cashbook.common.result.ResultGenerator;
 import com.xkf.cashbook.common.utils.AesEncryptUtils;
@@ -28,6 +29,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -38,6 +40,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.xkf.cashbook.common.constant.Constants.KEY_PREFIX_USER_STATUS;
 import static com.xkf.cashbook.common.constant.Constants.KEY_PREFIX_VALIDATE_CODE;
 
 /**
@@ -137,6 +140,28 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         return userDOS.stream()
                 .map(userDO -> BeanUtil.copyProperties(userDO, UserDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public Result updateUserStatus(Long familyId, String phoneNumber) {
+        //同步user和family的关系
+        QueryWrapper<UserDO> userWrapper = new QueryWrapper<>();
+        userWrapper.lambda()
+                .eq(UserDO::getPhoneNumber, phoneNumber)
+                .eq(UserDO::getStatus, UserStatus.INIT.getStatus());
+        UserDO userDO = new UserDO();
+        userDO.setFamilyId(familyId);
+        userDO.setStatus(UserStatus.ACTIVE.getStatus());
+        int update = userMapper.update(userDO, userWrapper);
+        if (update == 1) {
+            //修改用户状态缓存
+            String key = KEY_PREFIX_USER_STATUS + ":" + phoneNumber;
+            redisTemplate.delete(key);
+            redisTemplate.opsForValue().set(key, UserStatus.ACTIVE.getStatus().toString());
+            return ResultGenerator.genSuccessResult();
+        }
+        return ResultGenerator.genFailResult();
     }
 
     private int add(UserDO userDO) {

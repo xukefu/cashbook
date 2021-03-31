@@ -32,4 +32,6 @@ public class FamilyApplyVO {
     private LocalDateTime approveTime;
 
     private String userNickName;
+
+
 }

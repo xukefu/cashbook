@@ -31,7 +31,7 @@ public class FamilyApplyDO {
 
     private Integer applyStatus;
 
-    private Integer applyUserId;
+    private Long applyUserId;
 
     private LocalDateTime applyTime;
 

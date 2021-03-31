@@ -11,8 +11,9 @@ import lombok.Getter;
 public enum ApplyStatus {
     /*0->初始;1->激活;-1:封禁'*/
     INIT(0, "初始"),
-    ACTIVE(1, "同意"),
-    DISABLE(-1, "拒绝");
+    IS_READ(1, "已读"),
+    ACTIVE(2, "同意"),
+    DISABLE(3, "拒绝");
 
     private Integer status;
 

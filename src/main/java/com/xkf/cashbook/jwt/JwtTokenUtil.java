@@ -180,7 +180,7 @@ public class JwtTokenUtil implements Serializable {
 
     public String generateAccessToken(UserDetails userDetails, Map<String, Object> claims) {
         return doGenerateToken(claims, userDetails.getUsername(),
-                new Date(System.currentTimeMillis() + JWT_ACCESS_TOKEN_VALIDITY * 1000));
+                new Date(System.currentTimeMillis() + JWT_REFRESH_TOKEN_VALIDITY * 1000));
     }
 
     private String doGenerateToken(Map<String, Object> claims, String subject, Date expiration) {

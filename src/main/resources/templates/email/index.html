@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的信箱</title>
+    <link rel="stylesheet" href="../static/css/email/amazeui.css"/>
+    <link rel="stylesheet" href="../static/css/email/core.css"/>
+    <link rel="stylesheet" href="../static/css/email/menu.css"/>
+    <link rel="stylesheet" href="../static/css/email/component.css"/>
+    <link rel="stylesheet" href="../static/css/font-awesome.css"/>
+</head>
+<body>
+
+<div class="page-title" style="float: left">
+    <a class="col-xs-11" href="/page/index"><i class="fa fa-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+</div>
+<div class="admin">
+    <div class="content-page">
+        <div class="content">
+            <div class="am-g">
+                <div class="am-u-md-4">
+                    <div class="card-box">
+                        <h4 class="header-title m-t-0 m-b-50">我的信箱</h4>
+                        <div class="inbox-widget nicescroll" style="height: 315px; overflow: hidden; outline: none;"
+                             tabindex="5000">
+                            <a href="#" id="emailBody">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript" src="../static/js/jquery-2.1.0.js"></script>
+<script src="../static/js/layer-1.1.js"></script>
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        //加载信箱
+        $.ajax({
+            url: '/familyApply/getList',
+            type: 'get',
+            cache: false,
+            processData: false,
+            async: true,
+        }).done(function (res) {
+            if (res.code == 1) {
+                layer.msg(res.message, {
+                    time: 2800
+                })
+                setTimeout(function () {
+                    window.location.href = "/page/myFamily";
+                }, 1500);
+
+            }
+            for (var index in res.data) {
+                var familyApply = res.data[index]
+                var approveCode = familyApply.approveCode
+                var applyStatus = familyApply.applyStatus
+                var isFamilyOwner = familyApply.familyOwner;
+                if (isFamilyOwner == true) {
+                    if (applyStatus == 0) {
+                        $("<div class=\"inbox-item\">\n" +
+                            "<div class=\"inbox-item-img\"><img src=\"../static/img/email-unread.png\" class=\"img-circle\"\n" +
+                            "         alt=\"\">\n" +
+                            "</div>\n" +
+                            "<p class=\"inbox-item-author\">家庭申请</p>\n" +
+                            "<p class=\"inbox-item-text\" onclick=\"approveApply(\'" + approveCode + "'\)\">亲友【" + familyApply.applyUserNickName + "】申请加入您的家庭,快来审批吧!</p>" +
+                            "<p class=\"inbox-item-date\">" + familyApply.applyTime + "</p></div>")
+                            .appendTo("#emailBody");
+                    } else {
+                        if (applyStatus == 1) {
+                            //已读
+                            $("<div class=\"inbox-item\">\n" +
+                                "<div class=\"inbox-item-img\"><img src=\"../static/img/email.png\" class=\"img-circle\"\n" +
+                                "         alt=\"\">\n" +
+                                "</div>\n" +
+                                "<p class=\"inbox-item-author\">家庭申请</p>\n" +
+                                "<p class=\"inbox-item-text\" onclick=\"approveApply(\'" + approveCode + "'\)\">亲友【" + familyApply.applyUserNickName + "】申请加入您的家庭,快来审批吧!</p>" +
+                                "<p class=\"inbox-item-date\">" + familyApply.applyTime + "</p></div>")
+                                .appendTo("#emailBody");
+                        } else {
+                            let msg = "";
+                            if (applyStatus == 2) {
+                                //已同意
+                                msg = "您同意了亲友【" + familyApply.applyUserNickName + "】加入了您的家庭!"
+                            } else if (applyStatus == 3) {
+                                //已拒绝
+                                msg = "您拒绝了亲友【" + familyApply.applyUserNickName + "】加入了您的家庭!";
+                            }
+                            //已读
+                            $("<div class=\"inbox-item\">\n" +
+                                "<div class=\"inbox-item-img\"><img src=\"../static/img/email.png\" class=\"img-circle\"\n" +
+                                "         alt=\"\">\n" +
+                                "</div>\n" +
+                                "<p class=\"inbox-item-author\">家庭申请</p>\n" +
+                                "<p class=\"inbox-item-text\" >" + msg + "</p>" +
+                                "<p class=\"inbox-item-date\">" + familyApply.applyTime + "</p></div>")
+                                .appendTo("#emailBody");
+                        }
+                    }
+                } else {
+                    if (applyStatus == 0) {
+                        $("<div class=\"inbox-item\">\n" +
+                            "<div class=\"inbox-item-img\"><img src=\"../static/img/email-unread.png\" class=\"img-circle\"\n" +
+                            "         alt=\"\">\n" +
+                            "</div>\n" +
+                            "<p class=\"inbox-item-author\">家庭申请</p>\n" +
+                            "<p class=\"inbox-item-text\">您申请加入【" + familyApply.applyFamilyName + "】已发出,请等待审核！</p>" +
+                            "<p class=\"inbox-item-date\">" + familyApply.applyTime + "</p></div>")
+                            .appendTo("#emailBody");
+                    } else {
+                        let msg = "";
+                        if (applyStatus == 2) {
+                            //同意
+                            msg = "恭喜您已成功加入【" + familyApply.applyFamilyName + "】!";
+                        } else if (applyStatus == 3) {
+                            msg = "您申请加入【" + familyApply.applyFamilyName + "】已被拒绝！";
+                        }
+                        $("<div class=\"inbox-item\">\n" +
+                            "<div class=\"inbox-item-img\"><img src=\"../static/img/email.png\" class=\"img-circle\"\n" +
+                            "         alt=\"\">\n" +
+                            "</div>\n" +
+                            "<p class=\"inbox-item-author\">家庭申请</p>\n" +
+                            "<p class=\"inbox-item-text\">" + msg + "</p>" +
+                            "<p class=\"inbox-item-date\">" + familyApply.applyTime + "</p></div>")
+                            .appendTo("#emailBody");
+                    }
+                }
+            }
+        }).fail(function (res) {
+
+        });
+    })
+
+    function approveApply(approveCode) {
+        //标记已读
+        markRead(approveCode);
+        layer.confirm('同意亲友加入您的家庭吗?', {
+            btn: ['同意', '拒绝']
+        }, function (index, layero) {
+            doApprove(approveCode, 2)
+        }, function (index) {
+            doApprove(approveCode, 3)
+        });
+    }
+
+    function markRead(approveCode) {
+        $.ajax({
+            url: '/familyApply/read',
+            type: 'post',
+            contentType: 'application/json',
+            cache: false,
+            processData: false,
+            data: JSON.stringify({
+                "approveCode": approveCode,
+                "approveStatus": 1,
+            }),
+        }).done(function (data) {
+
+        }).fail(function (res) {
+            console.log(res)
+        });
+    }
+
+    function doApprove(approveCode, approveStatus) {
+        $.ajax({
+            url: '/familyApply/approve',
+            type: 'post',
+            contentType: 'application/json',
+            cache: false,
+            processData: false,
+            data: JSON.stringify({
+                "approveCode": approveCode,
+                "approveStatus": approveStatus,
+            }),
+        }).done(function (data) {
+            layer.msg(data.message, {
+                time: 2800
+            })
+            if (data.code == 0) {
+                setTimeout(function () {
+                    window.location.href = "/page/email";
+                }, 1500);
+            }
+        }).fail(function (res) {
+
+        });
+    }
+</script>

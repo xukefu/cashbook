@@ -9,30 +9,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author xukf01
  */
 @Controller
+@RequestMapping("/page")
 public class PageController {
 
-    @RequestMapping("/page/index")
+    @RequestMapping("/index")
     public String index() {
         return "index";
     }
 
-    @RequestMapping("")
-    public String index2() {
-        return "index";
-    }
-
-    @RequestMapping("/page/admin")
+    @RequestMapping("/admin")
     public String admin() {
         return "admin";
     }
 
-    @RequestMapping("/page/home")
+    @RequestMapping("/home")
     public String home() {
         return "home";
     }
 
-    @RequestMapping("/page/myFamily")
+    @RequestMapping("/myFamily")
     public String family() {
         return "family/myFamily";
+    }
+
+    @RequestMapping("/email")
+    public String familyApply() {
+        return "email/index";
     }
 }
