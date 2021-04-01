@@ -2078,5 +2078,15 @@ label {
 .site-min-height {
     min-height: 900px;
 }
+.ml-auto, .mx-auto {
+    margin-left: auto !important;
+}
+.mr-auto, .mx-auto {
+    margin-right: auto !important;
+}
 
+.myFont{
+    color: #666;
+    font-family: 'Microsoft YaHei';
+}
 

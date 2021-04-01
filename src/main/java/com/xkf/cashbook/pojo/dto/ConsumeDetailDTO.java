@@ -2,7 +2,8 @@ package com.xkf.cashbook.pojo.dto;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class ConsumeDetailDTO {
@@ -17,13 +18,13 @@ public class ConsumeDetailDTO {
 
     private Integer consumeWay;
 
-    private Date recordDate;
+    private LocalDateTime recordDate;
 
     private Long recordBy;
 
     private Long consumeBy;
 
-    private String consumeDate;
+    private LocalDate consumeDate;
 
     private String consumeComment;
 

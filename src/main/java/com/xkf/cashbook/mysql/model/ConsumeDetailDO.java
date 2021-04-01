@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -30,7 +31,7 @@ public class ConsumeDetailDO {
 
     private Long consumeBy;
 
-    private String consumeDate;
+    private LocalDate consumeDate;
 
     private String consumeComment;
 

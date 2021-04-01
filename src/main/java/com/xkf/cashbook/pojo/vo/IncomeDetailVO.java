@@ -2,6 +2,7 @@ package com.xkf.cashbook.pojo.vo;
 
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -18,7 +19,7 @@ public class IncomeDetailVO {
 
     private Long incomeCategoryId;
 
-    private String incomeDate;
+    private LocalDate incomeDate;
 
     private LocalDateTime recordDate;
 

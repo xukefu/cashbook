@@ -24,7 +24,7 @@ public class PageController {
 
     @RequestMapping("/home")
     public String home() {
-        return "home";
+        return "home/index";
     }
 
     @RequestMapping("/myFamily")

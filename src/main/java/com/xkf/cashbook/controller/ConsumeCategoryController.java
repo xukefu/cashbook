@@ -9,6 +9,7 @@ import com.xkf.cashbook.service.IConsumeCategoryService;
 import com.xkf.cashbook.pojo.vo.ConsumeCategoryVO;
 import com.xkf.cashbook.service.IFamilyService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,8 +31,8 @@ public class ConsumeCategoryController extends BaseController {
     @Resource
     private IConsumeCategoryService consumeCategoryService;
 
-    @Resource
-    private IFamilyService familyService;
+    @Value("${common.length.max}")
+    private Integer categoryLength;
 
     @RequestMapping("/getAll")
     public Result getAll(HttpServletRequest request) {
@@ -45,12 +46,15 @@ public class ConsumeCategoryController extends BaseController {
 
     @RequestMapping("/add")
     public Result add(@RequestParam(name = "categoryName") String categoryName,HttpServletRequest request) {
+        Long familyId = getFamilyId(request);
+        if (Objects.isNull(familyId)) {
+            return ResultGenerator.genFailResult("您还未加入任何家庭,无法记账哦");
+        }
+        if (categoryName.length() > categoryLength) {
+            return ResultGenerator.genFailResult("分类名称最多"+categoryLength+"个字哦");
+        }
         if (StringUtils.isEmpty(categoryName) && StringUtils.isEmpty(categoryName.trim())) {
             return ResultGenerator.genFailResult("分类名称不能为空!");
-        }
-        Long familyId = getFamilyId(request);
-        if (Objects.isNull(familyId)){
-            return ResultGenerator.genFailResult("您还未加入任何家庭,无法记账哦");
         }
         return consumeCategoryService.add(categoryName,familyId);
     }

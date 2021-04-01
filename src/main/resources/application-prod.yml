@@ -77,7 +77,9 @@ jwt:
   tokenHead: Bearer  #JWT负载中拿到开头
   whiteList: #白名单
     - /static/**
-    - /user/*
+    - /user/login
+    - /user/doLogin
+    - /user/sendValidateCode
     - /page/*
     - /test/*
     - /family/approve/**
@@ -88,6 +90,15 @@ password:
 family:
   members:
     max: 3
+
+common:
+  length:
+    max: 3
+
+comments:
+  length:
+    max: 10
+
 
 
 

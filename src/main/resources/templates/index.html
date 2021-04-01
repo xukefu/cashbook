@@ -34,18 +34,9 @@
 <body>
 <header>
     <div class="top-menu" style="position: absolute;top: 10px;left: 15px">
-        <!--<ul class="nav pull-right top-menu">
-            <li><a class="logout" href="#" onclick="logout()">退出</a></li>
-            <li class="inform"><i class="am-icon-bell-o" aria-hidden="true"></i></li>
-        </ul>-->
         <ul class="nav nav-pills">
             <li class="nav-item ">
                 <a class="nav-link" data-toggle="dropdown" href="#">
-                    <!-- <svg t="1617115930209" class="icon" viewBox="0 0 1024 1024" version="1.1"
-                          xmlns="http://www.w3.org/2000/svg" p-id="14109" width="20" height="20">
-                         <path d="M128 725.333333h768a42.666667 42.666667 0 0 1 4.992 85.034667L896 810.666667H128a42.666667 42.666667 0 0 1-4.992-85.034667L128 725.333333h768H128z m0-256l768-0.085333a42.666667 42.666667 0 0 1 4.992 85.034667l-4.992 0.298666L128 554.666667a42.666667 42.666667 0 0 1-4.992-85.034667L128 469.333333l768-0.085333L128 469.333333z m0-256h768a42.666667 42.666667 0 0 1 4.992 85.034667L896 298.666667H128a42.666667 42.666667 0 0 1-4.992-85.034667L128 213.333333h768H128z"
-                               p-id="14110" fill="#119bdb"></path>
-                     </svg>-->
                     <svg t="1617158437936" class="icon" viewBox="0 0 1024 1024" version="1.1"
                          xmlns="http://www.w3.org/2000/svg" p-id="25454" width="20" height="20">
                         <path d="M117.418667 768h789.333333a32 32 0 0 1 4.352 63.701333l-4.352 0.298667h-789.333333a32 32 0 0 1-4.309334-63.701333L117.418667 768h789.333333-789.333333z m0-277.205333h789.333333a32 32 0 0 1 4.352 63.701333l-4.352 0.298667h-789.333333a32 32 0 0 1-4.309334-63.701334l4.309334-0.298666h789.333333-789.333333z m0-277.333334h789.333333a32 32 0 0 1 4.309333 63.701334l-4.352 0.298666h-789.333333A32 32 0 0 1 113.066667 213.76l4.309333-0.298667h789.333333-789.333333z"
@@ -53,7 +44,7 @@
                     </svg>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="/page/home">
                         <svg t="1617116177398" class="icon" viewBox="0 0 1024 1024" version="1.1"
                              xmlns="http://www.w3.org/2000/svg" p-id="18605" width="20" height="20">
                             <path d="M979.84 404.544 574.272 84c-34.912-27.648-89.696-27.616-124.576 0L44.16 404.544c-13.856 10.976-16.224 31.104-5.28 44.96s30.624 16.224 44.48 5.28L96 444.416 96 832c0 54.944 57.888 96 108.8 96l640 0c50.304 0 83.2-38.592 83.2-96L928 445.92l11.68 8.864c5.888 4.64 13.12 6.88 20.064 6.88 9.44 0 18.912-4.16 25.216-12.16C995.936 435.648 993.728 415.52 979.84 404.544zM480 864l0-177.408c0-8.832 16-13.248 32-13.248s32 4.416 32 13.248L544 864 480 864zM864 832c0 21.216-5.856 32-19.2 32L608.64 864c0-0.48-0.64-0.864-0.64-1.344l0-176.064c0-37.216-30.016-77.28-96-77.28s-96 40.064-96 77.28l0 176.064c0 0.48 0.864 0.864 0.864 1.344L204.8 864C184.736 864 160 846.656 160 832L160 393.824l328.928-259.616c11.808-9.344 33.12-9.344 44.96 0L864 395.328 864 832z"
@@ -170,7 +161,7 @@
                     <button onclick="addConsumeDetail()" class="btn btn-lg">记一笔</button>
                 </form>
             </div>
-            <button class="btn btn-back js-btn" data-target="welcome"><i class="fas fa-angle-left"></i></button>
+            <button class="btn btn-back js-btn" data-target="welcome"><i class="fa fa-angle-left"></i></button>
         </div>
 
         <div class="card border-0 shadow card--login" id="login">
@@ -182,9 +173,9 @@
                         <div style="float: left">
                             <label>收益类别:&nbsp;&nbsp;&nbsp;</label>
                         </div>
-                        <div style="float: left;">
+                        <div style="float: left;text-align: center">
                             <select class="form-control" id="incomeCategoryId" name="incomeCategoryId"
-                                    style="width: 150px">
+                                    style="width: 150px;text-align: center">
                                 <option value="0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;请选择</option>
                             </select>
                         </div>
@@ -226,7 +217,7 @@
                 </form>
             </div>
             <button class="btn btn-back js-btn" data-target="welcome"><i
-                    class="fas fa-angle-left"></i></button>
+                    class="fa fa-angle-left"></i></button>
         </div>
     </div>
 </div>
@@ -254,194 +245,6 @@
 <script src="../static/js/index.js"></script>
 <script src="../static/js/jcalculator.js"></script>
 <script src="../static/js/labelauty.js"></script>
-<script src="../static/js/jump.js"></script>
+<script src="../static/js/pageIndex.js"></script>
 </body>
 </html>
-<script type="text/javascript">
-    $(function () {
-        //先判断是否有家庭//强制弹框//本来要后台security filter实现的,暂时不搞了...简单实现先
-        $.ajax({
-            url: '/user/getUser/',
-            type: 'get',
-            cache: false,
-            processData: false,
-            async: true,
-        }).done(function (res) {
-            const userStatus = res.data.userStatus
-            if (userStatus == 0) {
-                window.localStorage.setItem("phoneNumber", res.data.phoneNumber)
-                window.location.href = "/page/myFamily"
-            } else if (userStatus == 1) {
-                initIndex();
-            }
-        }).fail(function (res) {
-
-        });
-
-    });
-
-    function initIndex() {
-        //计算器初始化
-        $('#consumeAmount').calculator();
-        $('#consumeDatetimepicker').datetimepicker({
-            format: 'YYYY-MM-DD',
-            locale: moment.locale('zh-cn'),
-            ignoreReadonly: true
-        });
-        $('#incomeDatetimepicker').datetimepicker({
-            format: 'YYYY-MM-DD',
-            locale: moment.locale('zh-cn'),
-            ignoreReadonly: true
-        });
-        initConsumeCategory();
-        initincomeCategory();
-        $(".rdolist").labelauty("rdolist", "rdo");
-
-        let now = new Date();
-        let month = Number(now.getMonth()) + 1;
-        let date = now.getDate();
-        if (month < 10) {
-            month = "0" + month
-        }
-        if (date < 10) {
-            date = "0" + date
-        }
-        let nowDate = now.getFullYear() + "-" + month + "-" + date;
-        $("#consumeDate").val(nowDate)
-        $("#incomeDate").val(nowDate)
-
-        $(".consumeCategoryDiv").on("click", function () {
-            //关闭模态框
-            $("#closeModal").click();
-            const consumeCategoryName = $(".rdobox.checked").find(".radiobox-content").text();
-            $("#selectedCategory").text(consumeCategoryName)
-        })
-    }
-
-    //初始化消费类别
-    function initConsumeCategory() {
-        $.ajax({
-            url: '/consume/category/getAll',
-            type: 'get',
-            cache: false,
-            processData: false,
-            async: false,//这里写true会导致选择不了,不懂为啥
-        }).done(function (res) {
-            var categorys = res.data;
-            for (var index in categorys) {
-                var category = categorys[index]
-                $("<div style='float: left;padding-left: 3px' class='consumeCategoryDiv'><input type='radio' value=" + category.id + " name='consumeCategoryId' class='rdolist'/>\n" +
-                    "<label class='rdobox'>\n" +
-                    "<span class='check-image'></span>\n" +
-                    "<span class='radiobox-content'>" + category.categoryName + "</span>\n" +
-                    " </label></div>")
-                    .appendTo("#consumeCategoryRadio");
-            }
-        }).fail(function (res) {
-
-        });
-    }
-
-    //初始化收益类别
-    function initincomeCategory() {
-        $.ajax({
-            url: '/income/category/getAll',
-            type: 'get',
-            cache: false,
-            processData: false,
-            async: true
-        }).done(function (res) {
-            const categorys = res.data;
-            for (const index in categorys) {
-                const category = categorys[index];
-                $("<option value=" + category.id + ">" + category.categoryName + "</option>").appendTo("#incomeCategoryId");
-            }
-        }).fail(function (res) {
-
-        });
-    }
-
-    function addConsumeDetail() {
-        const consumeAmount = $("#consumeAmount").val();
-        const consumeCategoryId = $("input[name='consumeCategoryId']:checked").val();
-        $.ajax({
-            url: '/consume/detail/saveOrUpdate',
-            type: 'POST',
-            cache: false,
-            data: JSON.stringify({
-                "consumeCategoryId": consumeCategoryId,
-                "consumeAmount": consumeAmount,
-                "consumeWay": $("input[name='consumeWay']:checked").val(),
-                "consumeDate": $("#consumeDate").val(),
-                "consumeComment": $("#consumeComment").val()
-            }),
-            async: false,
-            contentType: 'application/json',
-            success: function (data) {
-                layer.msg(data.message, {
-                    time: 2800
-                })
-                if (data.code == 1) {
-                    setTimeout(function () {
-                        window.location.href = "/page/index";
-                    }, 1500);
-                }
-            },
-            error: function (data) {
-                layer.msg("记录失败!", {
-                    time: 2800
-                })
-            }
-        });
-    }
-
-    function addIncomeDetail() {
-        $.ajax({
-            url: '/income/detail/saveOrUpdate',
-            type: 'POST',
-            cache: false,
-            data: JSON.stringify({
-                "incomeCategoryId": $("#incomeCategoryId").val(),
-                "incomeAmount": $("#incomeAmount").val(),
-                "incomeDate": $("#incomeDate").val(),
-                "incomeComment": $("#incomeComment").val()
-            }),
-            async: false,
-            contentType: 'application/json',
-            success: function (data) {
-                layer.msg(data.message, {
-                    time: 2800
-                })
-                if (data.code == 1) {
-                    setTimeout(function () {
-                        window.location.href = "/page/index";
-                    }, 1500);
-                }
-            },
-            error: function (data) {
-                layer.msg("记录失败!", {
-                    time: 2800
-                })
-            }
-        });
-    }
-
-    function logout() {
-        $.ajax({
-            url: '/user/logout',
-            type: 'get',
-            cache: false,
-            async: false,
-            contentType: 'application/json',
-            success: function (data) {
-                window.location.href = "/user/login"
-            },
-            error: function (data) {
-                layer.msg("退出失败", {
-                    time: 2800
-                })
-            }
-        });
-    }
-
-</script>

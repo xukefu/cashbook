@@ -41,7 +41,7 @@ public class FamilyApplyController extends BaseController {
     public Result getList(HttpServletRequest request) {
         Long familyId = getFamilyId(request);
         if (Objects.isNull(familyId)) {
-            return ResultGenerator.genFailResult("您还未创建/加入任何家庭哦");
+            return ResultGenerator.genFailResult("您还没创建/加入任何家庭哦");
         }
         String phoneNumber = getPhoneNumber(request);
         //判断身份

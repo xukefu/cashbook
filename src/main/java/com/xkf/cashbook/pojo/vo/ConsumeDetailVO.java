@@ -2,6 +2,8 @@ package com.xkf.cashbook.pojo.vo;
 
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -20,13 +22,13 @@ public class ConsumeDetailVO {
 
     private Integer consumeWay;
 
-    private Date recordDate;
+    private LocalDateTime recordDate;
 
     private Long recordBy;
 
     private Long consumeBy;
 
-    private String consumeDate;
+    private LocalDate consumeDate;
 
     private String consumeCategoryName;
 
